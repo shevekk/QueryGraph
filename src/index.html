@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>QueryGraph</title>
+    <link rel="icon" type="image/png" href="../img/icon.png" />
+  </head>
+  <body>
+    <link rel="stylesheet" href="style.css" />
+
+    <!--  -->
+    <div id="top">
+      <button name="addNode" id="addNode">Ajout noeud</button>
+      <button name="addEdge" id="addEdge">Ajout lien</button>
+      <button name="revertEdge" id="revertEdge">Inverser le sens des liens</button>
+      <button name="delete" id="delete">Supprimer la sélection</button>
+      <button name="cancelAction" id="cancelAction">Annuler l'action</button>
+      <button name="execQuery" id="execQuery">Lancer la requête</button>
+    </div>
+    <div id="center">
+      <div id="graph"></div>
+      <div id="ui"></div>
+    </div>
+    <div id="result"></div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="config.js"></script>
+    <script type="text/javascript" src="element.js"></script>
+    <script type="text/javascript" src="edge.js"></script>
+    <script type="text/javascript" src="graph.js"></script>
+    <script type="text/javascript" src="node.js"></script>
+    <script type="text/javascript" src="queryManager.js"></script>
+    <script type="text/javascript" src="resultView.js"></script>
+    <script type="text/javascript" src="uiElement.js"></script>
+    <script type="text/javascript" src="uiEdge.js"></script>
+    <script type="text/javascript" src="uiManager.js"></script>
+    <script type="text/javascript" src="uiNode.js"></script>
+    <script type="text/javascript" src="dataCollector.js"></script>
+    <script type="text/javascript" src="dataCollectorWikidata.js"></script>
+    <script type="text/javascript" src="checkDataValidity.js"></script>
+    
+    <script>
+      let main = new QueryGraph.Main();
+    </script>
+
+  </body>
+</html>

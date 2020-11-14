@@ -1,0 +1,24 @@
+﻿{
+  "endPoint": "https://query.wikidata.org/sparql",
+  "typeUri": "wdt:P31",
+  "displayLabel": true,
+  "language" : "[AUTO_LANGUAGE],fr,en",
+  "limit" : null,
+  "wikidataSearch": 
+  {
+    "nbResult": 20,
+    "language": "fr"
+  },
+  "nodeTypes": {
+    "wd:Q5" : "Personne",
+    "wd:Q515" : "Ville",
+    "wd:Q6256" : "Pays",
+    "wd:Q41176" : "Bâtiment",
+    "wd:Q33506" : "Musée",
+    "wd:Q570116" : "Attraction touristique",
+    "wd:Q4022" : "Rivière",
+    "wd:Q11424" : "Film",
+    "wd:Q571" : "Livre",
+    "wd:Q215380" : "Groupe de musique"
+  }
+}

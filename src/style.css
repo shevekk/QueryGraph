@@ -1,0 +1,149 @@
+﻿/*  */
+body
+{
+  padding: 0px;
+  margin : 0px;
+
+  height: 100%;
+  width: 100%;
+}
+
+/* Top section with buttons */
+#top
+{
+  background-color: #92b8cd;
+
+  height: 30px;
+  width: 100%;
+
+  padding-top: 8px;
+  padding-left: 5px;
+}
+
+/* Center contening graph and ui */
+#center
+{
+  padding: 0px;
+  margin : 0px;
+
+  background-color: #395f74;
+
+  height: 500px;
+  width: 100%;
+}
+
+/* Div of graph display */
+#graph
+{
+  display: inline-block;
+
+  padding: 0px;
+  margin : 0px;
+
+  background-color: #ffffff;
+
+  height: 100%;
+  width: 60%;
+}
+
+/* Div of UI */
+#ui
+{
+  display: inline-block;
+
+  padding: 0px;
+  
+  margin : 0px;
+
+  float:right;
+  right: 0px;
+
+  background-color: #eeeeee;
+
+  height: 100%;
+  width: 40%;
+
+  overflow-y: scroll;
+}
+
+/*  */
+#uiDisplayZone
+{
+  padding-top: 10px;
+  padding-left: 6px;
+}
+
+
+/* Search div of result */
+#searchDiv
+{
+  margin-left : 5px;
+}
+
+/* Search result line */
+.searchDivLine
+{
+  
+}
+
+/* Search result line in mouse hover*/
+.searchDivLine:hover
+{
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+label
+{
+  display: block; 
+}
+
+input
+{
+  width: 300px;
+}
+
+/* Div of result view */
+#result
+{
+  background-color: #f0f0f0;
+
+  border : 1px solid black;
+
+  overflow-x: scroll;
+  overflow-y: scroll;
+
+  height: 350px;
+  width: 100%;
+}
+
+/* Table result */
+#result table
+{
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+/* Table title result */
+#result th
+{
+  background-color: #d0e6f2;
+
+  border: 1px solid black;
+  padding: 3px;
+}
+
+/* Table content result */
+#result td
+{
+  background-color: #ffffff;
+
+  border: 1px solid black;
+  padding: 3px;
+}
+
+/* Reqsult message design */
+#result h3
+{
+  margin-left: 10px;
+}
