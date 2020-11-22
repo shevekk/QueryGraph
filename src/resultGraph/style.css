@@ -1,0 +1,34 @@
+﻿/* Main css */
+html
+{
+  display: inline-block;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0px;
+}
+
+/* Body css */
+body
+{
+  display: inline-block;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0px;
+}
+
+/* Graph display zone = fullcreen */
+#graph
+{
+  display: inline-block;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0px;
+
+  background-color: #eeeeee;
+}

@@ -20,6 +20,14 @@ body
   padding-left: 5px;
 }
 
+/* Top nutton align in right */
+.button_right
+{
+  float: right;
+
+  margin-right: 10px;
+}
+
 /* Center contening graph and ui */
 #center
 {
@@ -142,8 +150,14 @@ input
   padding: 3px;
 }
 
-/* Reqsult message design */
+/* Result message design */
 #result h3
 {
   margin-left: 10px;
+}
+
+/* Invisible field */
+.invisibleField
+{
+  visibility: hidden;
 }

@@ -11,13 +11,11 @@ QueryGraph.QueryManager = function()
  * @property {String}                 query                 Query string
  * @property {String}                 selectQuery           Content of the where part of the query
  * @property {String}                 whereQuery            Content of the select part of the query
- * @property {Boolean}                validQuery            True if the query is valid and can be run
  */
 QueryGraph.QueryManager.prototype.selectVars;
 QueryGraph.QueryManager.prototype.query;
 QueryGraph.QueryManager.prototype.selectQuery;
 QueryGraph.QueryManager.prototype.whereQuery;
-QueryGraph.QueryManager.prototype.validQuery;
 
 /**
  * Execute a query, parse query and send to triplestore
@@ -33,7 +31,6 @@ QueryGraph.QueryManager.prototype.exec = function(graph, callback)
   this.query = "";
   this.selectQuery = "SELECT ";
   this.whereQuery = " ";
-  this.validQuery = false;
 
   // Create request 
   for(let i = 0; i < graph.nodes.length; i++)
@@ -58,34 +55,27 @@ QueryGraph.QueryManager.prototype.exec = function(graph, callback)
 
   let queryURL = QueryGraph.Config.endPoint + "?" + "query="+encodeURI(this.query) + "&format=json";
 
-  if(this.validQuery)
-  {
-    // launch the query
-    let ajaxRequest = $.ajax({
-      url:queryURL,
-      dataType: 'json'
-    });
+  // launch the query
+  let ajaxRequest = $.ajax({
+    url:queryURL,
+    dataType: 'json'
+  });
 
-    ajaxRequest.fail(function(error)
-    {
-      // if the request fails, return to menu
-      console.log("EndPoint : " + QueryGraph.Config.endPoint);
-      console.log("Query : " + me.query);
-      alert("Echec de la récupération des données");
-      
-      callback(null, null, error.responseText);
-    });
-
-    // Send request
-    ajaxRequest.done(function(data)
-    {
-      callback(data, me.selectVars);
-    });
-  }
-  else
+  ajaxRequest.fail(function(error)
   {
-    alert("Impossible d'envoyer la requête car elle est vide");
-  }
+    // if the request fails, return to menu
+    console.log("EndPoint : " + QueryGraph.Config.endPoint);
+    console.log("Query : " + me.query);
+    alert("Echec de la récupération des données");
+    
+    callback(null, null, error.responseText);
+  });
+
+  // Send request
+  ajaxRequest.done(function(data)
+  {
+    callback(data, me.selectVars);
+  });
 };
 
 /**
@@ -97,8 +87,6 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
 {
   if(node.type == QueryGraph.Node.Type.ELEMENT)
   {
-    this.validQuery = true;
-
     let typeUri = node.elementInfos.uri;
 
     if(typeUri != "" || node.edges.length > 0 || node.reverseEdges.length > 0)
@@ -106,13 +94,17 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
       let nameVar = "?" + node.elementInfos.name;
       let name = node.elementInfos.name;
 
-      this.selectVars.push(name);
       this.selectQuery += nameVar + " ";
 
       if(QueryGraph.Config.displayLabel)
       {
-        this.selectVars.push(name + "Label");
+        this.selectVars.push({"value" : name, "label" : name + "Label"});
+        //this.selectVars.push(name + "Label");
         this.selectQuery += nameVar + "Label ";
+      }
+      else
+      {
+        this.selectVars.push({"value" : name});
       }
       
       if(typeUri != "")
@@ -179,7 +171,7 @@ QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, end
     this.whereQuery +=  startNodeVarName + " " + name + " " + endNodeVarName + " . ";
 
     // Add edge variable name to select
-    this.selectVars.push(edge.name);
+    this.selectVars.push({"value" : edge.name});
 
     this.selectQuery += name + " ";
 

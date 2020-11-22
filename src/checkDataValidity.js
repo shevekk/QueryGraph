@@ -15,12 +15,15 @@ QueryGraph.CheckDataValidity.Check = function(graph)
   let valid = true;
   let errorMessage = "";
   let namesList = [];
+  let empty = true;
 
   // Nodes
   for(let i = 0; i < graph.nodes.length; i++)
   {
     if(graph.nodes[i].type == QueryGraph.Node.Type.ELEMENT)
     {
+      empty = false;
+
       // Nodes name
       let name = graph.nodes[i].elementInfos.name;
       if(name == "")
@@ -62,6 +65,8 @@ QueryGraph.CheckDataValidity.Check = function(graph)
     }
     else if(graph.edges[i].type == QueryGraph.Edge.Type.VARIABLE)
     {
+      empty = false;
+      
       // Edges name
       let name = graph.edges[i].name;
       if(name == "")
@@ -80,6 +85,12 @@ QueryGraph.CheckDataValidity.Check = function(graph)
         namesList.push(name);
       }
     }
+  }
+
+  if(empty)
+  {
+    valid = false;
+    errorMessage = "La requête est vide";
   }
 
   // 
