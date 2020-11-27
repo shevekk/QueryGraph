@@ -52,7 +52,7 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
     if(this.baseGraph.nodes[i].type == QueryGraph.Node.Type.DATA)
     {
       nodeNumber ++;
-      me.addNode(nodeNumber, this.baseGraph.nodes[i].type, this.baseGraph.nodes[i].label, this.baseGraph.nodes[i].id, null);
+      me.addNode(nodeNumber, this.baseGraph.nodes[i].type, this.baseGraph.nodes[i].label, this.baseGraph.nodes[i].id, -1);
     }
     else if(this.baseGraph.nodes[i].type == QueryGraph.Node.Type.ELEMENT)    
     {
@@ -77,6 +77,7 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
   // Create edges
   for(let i = 0; i < this.baseGraph.edges.length; i++)
   {
+    /*
     if(this.baseGraph.edges[i].typeNodeStart == QueryGraph.Node.Type.ELEMENT && this.baseGraph.edges[i].typeNodeEnd == QueryGraph.Node.Type.ELEMENT)
     {
       me.edgesCreationBetweenNodesElements(this.baseGraph.edges[i], );
@@ -85,6 +86,8 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
     {
       me.edgesCreation(this.baseGraph.edges[i]);
     }
+    */
+    me.edgesCreation(this.baseGraph.edges[i]);
   }
 
   // Init graph 
@@ -115,11 +118,50 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
   }
 };
 
+QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphEdge)
+{
+  var me = this;
+
+  let startNodes = me.visNodes.get({
+    filter: function (item) {
+      return item.baseId == baseGraphEdge.idNodeStart;
+    }
+  });
+
+  for(let i = 0; i < startNodes.length; i++)
+  {
+    let endNodesIds = [];
+    for(let j = 0; j < startNodes[i].lineNumbers.length; j++)
+    {
+      let endNodes = me.visNodes.get({
+        filter: function (item) {
+          return (item.uri != startNodes[i].uri && item.lineNumbers.includes(startNodes[i].lineNumbers[j]) || item.lineNumbers != -1 || startNodes[i].lineNumbers != -1) && item.baseId == baseGraphEdge.idNodeEnd;
+        }
+      });
+
+      for(let k = 0; k < endNodes.length; k++)
+      {
+        if(!endNodesIds.includes(endNodes[k].id))
+        {
+          var label = me.getEdgeLabel(baseGraphEdge, startNodes[i], endNodes[k]);
+
+          if(label)
+          {
+            endNodesIds.push(endNodes[k].id);
+            me.addEdge(startNodes[i].id, endNodes[k].id, baseGraphEdge.type, label);
+          }
+        }
+      }
+    }
+  }
+};
+
 
 /**
  * Create edges between two nodes elements : Create edges for element in same data line
  * @param {Object}                     baseGraphEdge                    Edge graph object
  */
+ /*
 QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreationBetweenNodesElements = function(baseGraphEdge)
 { 
   var me = this;
@@ -152,11 +194,12 @@ QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreationBetweenNodesElements =
     }
   }
 };
-
+*/
 /**
  * Create edges between for a data node and an element node : Create edge between all data
  * @param {Object}                     baseGraphEdge                    Edge graph object
  */
+ /*
 QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphEdge)
 { 
   var me = this;
@@ -177,11 +220,15 @@ QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphE
   {
     for(let j = 0; j < endNodes.length; j++)
     {
+      if(baseGraphEdge.optional)
+      {
+
+      }
       me.addEdge(startNodes[i].id, endNodes[j].id, baseGraphEdge.type, me.getEdgeLabel(baseGraphEdge, startNodes[i], endNodes[j]));
     }
   }
 };
-
+*/
 /**
  * Get the edges label, if variable get the data line value
  * @param {Object}                     baseGraphEdge                    Edge graph object
@@ -210,7 +257,14 @@ QueryGraph.ResultGraph.ResultGraph.prototype.getEdgeLabel = function(baseGraphEd
     {
       if(me.data[j].var == baseGraphEdge.name && me.data[j].lineNumber == numLine)
       {
-        label = me.data[j].value;
+        if(me.data[j].label)
+        {
+          label = me.data[j].label;
+        }
+        else
+        {
+          label = me.data[j].value;
+        }
       }
     }
   }

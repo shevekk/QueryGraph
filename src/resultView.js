@@ -15,31 +15,38 @@ QueryGraph.ResultView.RESULT_DIV_ID = "result";
  * Init view with data to drawing
  * @param {Array}                     data                     Data result of the query
  * @param {Object[]}                  selectVars               List of selected query
+ * @param {Object}                    listEdgesLabel           Object containing edges label with as key the type of edge
  */
-QueryGraph.ResultView.prototype.displayResults = function(data, selectVars)
+QueryGraph.ResultView.prototype.displayResults = function(data, selectVars, listEdgesLabel)
 {
   let content = "";
 
-    content += "<table>";
+  content += "<table>";
 
-    // Create table header
-    content += "<tr>";
-    for(let i = 0; i < selectVars.length; i++)
+  // Create table header
+  content += "<tr>";
+  for(let i = 0; i < selectVars.length; i++)
+  {
+    content += "<th>" + selectVars[i].value + "</th>";
+
+    if(selectVars[i].label)
     {
-      content += "<th>" + selectVars[i].value + "</th>";
-
-      if(selectVars[i].label)
-      {
-        content += "<th>" + selectVars[i].label + "</th>";
-      }
+      content += "<th>" + selectVars[i].label + "</th>";
     }
-    content += "</tr>";
-
-    // Create table content
-    for(let i = 0; i < data.results.bindings.length; i++)
+    else if(QueryGraph.Config.displayLabel && selectVars[i].elementType == QueryGraph.Element.TYPE.EDGE)
     {
-      content += "<tr>";
-      for(let j = 0; j < selectVars.length; j++)
+      content += "<th>" + selectVars[i].value + "Label</th>";
+    }
+  }
+  content += "</tr>";
+
+  // Create table content
+  for(let i = 0; i < data.results.bindings.length; i++)
+  {
+    content += "<tr>";
+    for(let j = 0; j < selectVars.length; j++)
+    {
+      if(data.results.bindings[i][selectVars[j].value])
       {
         let value = data.results.bindings[i][selectVars[j].value]["value"];
 
@@ -51,12 +58,26 @@ QueryGraph.ResultView.prototype.displayResults = function(data, selectVars)
 
           content += "<td>" + value + "</td>";
         }
+        else if(QueryGraph.Config.displayLabel && selectVars[j].elementType == QueryGraph.Element.TYPE.EDGE)
+        {
+          content += "<td>" + listEdgesLabel[value] + "</td>";
+        }
       }
-      content += "</tr>";
-    }
-    content += "</table>";
+      else
+      {
+        content += "<td></td>";
 
-    $("#"+QueryGraph.ResultView.RESULT_DIV_ID).html(content);
+        if(QueryGraph.Config.displayLabel)
+        {
+          content += "<td></td>";
+        }
+      }
+    }
+    content += "</tr>";
+  }
+  content += "</table>";
+
+  $("#"+QueryGraph.ResultView.RESULT_DIV_ID).html(content);
 };
 
 /**
@@ -84,8 +105,9 @@ QueryGraph.ResultView.prototype.queryFail = function(errorReponseText)
  * @param {QueryGraph.Graph}          graph                    Graph manager
  * @param {Array}                     data                     Data result of the query
  * @param {Object[]}                  selectVars               List of selected query
+ * @param {Object}                    listEdgesLabel           Object containing edges label with as key the type of edge
  */
-QueryGraph.ResultView.prototype.sendDataToGraph = function(graph, data, selectVars)
+QueryGraph.ResultView.prototype.sendDataToGraph = function(graph, data, selectVars, listEdgesLabel)
 {
   if(data.results.bindings.length == 0)
   {
@@ -142,15 +164,22 @@ QueryGraph.ResultView.prototype.sendDataToGraph = function(graph, data, selectVa
   {
     for(let j = 0; j < selectVars.length; j++)
     {
-      let value = data.results.bindings[i][selectVars[j].value]["value"];
-      let label = "";
-
-      if(selectVars[j].label)
+      if(data.results.bindings[i][selectVars[j].value])
       {
-        label = data.results.bindings[i][selectVars[j].label]["value"];
-      }
+        let value = data.results.bindings[i][selectVars[j].value]["value"];
+        let label = "";
 
-      results.push({"var" : selectVars[j].value, "value" : value, "label" : label.replaceAll('"', "'"), "lineNumber" : i});
+        if(selectVars[j].label)
+        {
+          label = data.results.bindings[i][selectVars[j].label]["value"];
+        }
+        else if(QueryGraph.Config.displayLabel && selectVars[j].elementType == QueryGraph.Element.TYPE.EDGE)
+        {
+          label = listEdgesLabel[value];
+        }
+
+        results.push({"var" : selectVars[j].value, "value" : value, "label" : label.replaceAll('"', "'"), "lineNumber" : i});
+      }
     }
   }
   resultsJson = JSON.stringify(results); 

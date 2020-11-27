@@ -101,15 +101,31 @@ body
   cursor: pointer;
 }
 
-label
+.uiTextFieldLabel
 {
   display: block; 
 }
 
-input
+.uiTextField
 {
   width: 300px;
 }
+
+.uiSelect
+{
+
+}
+
+.uiCheckbox
+{
+
+}
+
+.uiCheckboxLabel
+{
+  display: inline-block; 
+}
+
 
 /* Div of result view */
 #result

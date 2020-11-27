@@ -50,16 +50,16 @@ QueryGraph.UINode.prototype.updateContent = function(type, node)
     content += '<div id='+QueryGraph.UIElement.DESCRIPTION_DIV_ID+'><i>Noeud représentant une donnée variable avec un type de donnée prédéfinie.</i></div>';
     content += '<br/>';
 
-    content += '<div id='+QueryGraph.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label for="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'">Type prédéfini :</label><select id="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
+    content += '<div id='+QueryGraph.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'">Type prédéfini :</label><select id="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect"></select><br></div>';
 
-    content += '<label for="'+QueryGraph.UIElement.SEARCH_HTML_ID+'">Recherche du type :</label><input type="text" id="'+QueryGraph.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UIElement.SEARCH_HTML_ID+'" value="">';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.SEARCH_HTML_ID+'">Recherche du type :</label><input type="text" id="'+QueryGraph.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UIElement.SEARCH_HTML_ID+'" class="uiSelect" value="">';
     content += '<button id="'+QueryGraph.UIElement.SEARCH_BUTTON_HTML_ID+'">OK</button><br/>';
     content += '<div id="'+QueryGraph.UIElement.SEARCH_DIV_ID+'"></div><br/>';
     content += '<br/>';
     
-    content += '<label for="'+QueryGraph.UIElement.NAME_HTML_ID+'">Nom:</label><input type="text" id="'+QueryGraph.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UIElement.NAME_HTML_ID+'" value="'+ node.elementInfos.name +'"><br>';
-    content += '<label for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label du type :</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" value="'+ node.elementInfos.label +'"><br>';
-    content += '<label for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI du type:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" value="'+ node.elementInfos.uri +'"><br>';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.NAME_HTML_ID+'">Nom:</label><input type="text" id="'+QueryGraph.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UIElement.NAME_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.name +'"><br>';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label du type :</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.label +'"><br>';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI du type:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.uri +'"><br>';
   }
   else if(type == QueryGraph.Node.Type.DATA)
   {
@@ -67,13 +67,13 @@ QueryGraph.UINode.prototype.updateContent = function(type, node)
     content += '<div id='+QueryGraph.UIElement.DESCRIPTION_DIV_ID+'><i>Noeud correspondant à une donnée fixe.</i></div>';
     content += '<br/>';
 
-    content += '<label for="'+QueryGraph.UIElement.SEARCH_HTML_ID+'">Recherche:</label><input type="text" id="'+QueryGraph.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UIElement.SEARCH_HTML_ID+'" value="">';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.SEARCH_HTML_ID+'">Recherche:</label><input type="text" id="'+QueryGraph.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UIElement.SEARCH_HTML_ID+'" class="uiSelect" value="">';
     content += '<button id="'+QueryGraph.UIElement.SEARCH_BUTTON_HTML_ID+'">OK</button><br/>';
     content += '<div id="'+QueryGraph.UIElement.SEARCH_DIV_ID+'"></div><br/>';
     content += '<br/>';
     
-    content += '<label for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label:</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" value="'+ node.dataInfos.label +'"><br>';
-    content += '<label for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" value="'+ node.dataInfos.uri +'"><br>';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label:</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ node.dataInfos.label +'"><br>';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ node.dataInfos.uri +'"><br>';
   }
 
   $("#"+QueryGraph.UIElement.CONTENT_HTML_ID).html(content);

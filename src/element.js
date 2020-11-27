@@ -1,4 +1,4 @@
-
+﻿
 QueryGraph.Element = function()
 {
 
@@ -11,6 +11,10 @@ QueryGraph.Element = function()
 QueryGraph.Element.prototype.type;
 QueryGraph.Element.prototype.id;
 
+QueryGraph.Element.TYPE = {
+  NODE: "NODE",
+  EDGE: "EDGE"
+}
 
 /**
  * Set the type of the element and init design from type

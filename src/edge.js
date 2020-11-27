@@ -20,6 +20,8 @@ QueryGraph.Edge = function(idNodeStart, idNodeEnd, nodeStart, nodeEnd)
   this.label = "";
   this.uri = "";
   this.name = "";
+
+  this.optional = false;
 };
 QueryGraph.Edge.prototype = Object.create(QueryGraph.Element.prototype);
 
@@ -31,6 +33,7 @@ QueryGraph.Edge.prototype = Object.create(QueryGraph.Element.prototype);
  * @property {Number}                              label                 Label of the edge (for FIXED)
  * @property {Number}                              uri                   URI of the edge  (for FIXE)
  * @property {Number}                              name                  Name of the edge  (for VARIABLE)
+ * @property {Boolean}                             optional              True for optional edge
  */
 QueryGraph.Edge.prototype.idNodeStart;
 QueryGraph.Edge.prototype.idNodeEnd;
@@ -41,6 +44,8 @@ QueryGraph.Edge.prototype.nodeEnd;
 QueryGraph.Edge.prototype.label;
 QueryGraph.Edge.prototype.uri;
 QueryGraph.Edge.prototype.name;
+
+QueryGraph.Edge.prototype.optional;
 
 /*
  * Types of nodes
@@ -89,6 +94,7 @@ QueryGraph.Edge.prototype.createVisEdge = function()
     from: this.idNodeStart,
     to: this.idNodeEnd,
     arrows : "to",
+    width: 3,
     label: this.name,
     color: {
       color: "#ff0000"
@@ -110,11 +116,11 @@ QueryGraph.Edge.prototype.setType = function(type, graph)
   // set design
   if(this.type == QueryGraph.Edge.Type.VARIABLE)
   {
-    graph.visEdges.update({id: this.id, color: { color : "#8499c9" }, dashes: [5, 5], width : 3, font: { strokeWidth: 2, strokeColor: "#acbde3" }});
+    graph.visEdges.update({id: this.id, color: { color : "#8499c9" }, font: { strokeWidth: 2, strokeColor: "#acbde3" }});
   }
   else if(this.type == QueryGraph.Edge.Type.FIXED)
   {
-    graph.visEdges.update({id: this.id, color: { color : "#84c994" }, dashes: [1], width : 3, font: { strokeWidth: 2, strokeColor: "#b1e3bd" }});
+    graph.visEdges.update({id: this.id, color: { color : "#84c994" }, font: { strokeWidth: 2, strokeColor: "#b1e3bd" }});
   }
 };
 
@@ -123,9 +129,10 @@ QueryGraph.Edge.prototype.setType = function(type, graph)
  * @param {String}                      label                  Label of element in triplestore
  * @param {String}                      uri                    URI of element in triplestore
  * @param {String}                      name                   Name of element in triplestore
+ * @param {Boolean}                     optional               True for optional edge
  * @param {QueryGraph.Graph}            graph                  The graphe manager
  */
-QueryGraph.Edge.prototype.setInformations = function(label, uri, name, graph)
+QueryGraph.Edge.prototype.setInformations = function(label, uri, name, optional, graph)
 {
   if(label != "")
   {
@@ -144,6 +151,16 @@ QueryGraph.Edge.prototype.setInformations = function(label, uri, name, graph)
     this.name = name;
 
     graph.visEdges.update({id: this.id, label: name});
+  }
+
+  this.optional = optional;
+  if(optional)
+  {
+    graph.visEdges.update({id: this.id, dashes: [5, 5]});
+  }
+  else
+  {
+    graph.visEdges.update({id: this.id, dashes: [1]});
   }
 };
 

@@ -48,21 +48,67 @@ QueryGraph.Main.prototype.execQuery = function(isGraph)
     {
       if(data != null)
       {
-        if(isGraph)
+        me.getEdgesLabels(data, selectVars, function(listEdgesLabel)
         {
-          me.resultView.sendDataToGraph(me.graph, data, selectVars);
-          me.resultView.displayResults(data, selectVars);
-        }
-        else
-        {
-          me.resultView.displayResults(data, selectVars);
-        }
+          if(isGraph)
+          {
+            me.resultView.sendDataToGraph(me.graph, data, selectVars, listEdgesLabel);
+            me.resultView.displayResults(data, selectVars, listEdgesLabel);
+          }
+          else
+          {
+            me.resultView.displayResults(data, selectVars, listEdgesLabel);
+          }
+        });
       }
       else
       {
         me.resultView.queryFail(errorReponseText);
       }
     });
+  }
+};
+
+/**
+ * Get edges labels from result datas
+ * @param {Array}                     data                     Data result of the query
+ * @param {Object[]}                  selectVars               List of selected query
+ * @param {Function}                  callback                 The callback with the list of edges Label in param
+ */
+QueryGraph.Main.prototype.getEdgesLabels = function(data, selectVars, callback)
+{
+  let me = this;
+
+  if(QueryGraph.Config.displayLabel)
+  {
+    let listEdgesURI = [];
+    let listEdgesLabel = {};
+    for(let j = 0; j < selectVars.length; j++)
+    {
+      if(selectVars[j].elementType == QueryGraph.Element.TYPE.EDGE)
+      {
+        for(let i = 0; i < data.results.bindings.length; i++)
+        {
+          if(data.results.bindings[i][selectVars[j].value])
+          {
+            listEdgesURI.push(data.results.bindings[i][selectVars[j].value]["value"]);
+          }
+        }
+      }
+    }
+    me.dataCollector.getEdgesLabels(listEdgesURI, function(newEdgesValues, edgesLabels)
+    {
+      for(let i = 0; i < newEdgesValues.length; i++)
+      {
+        listEdgesLabel[newEdgesValues[i]] = edgesLabels[i];
+      }
+
+      callback(listEdgesLabel);
+    });
+  }
+  else
+  {
+    callback([]);
   }
 };
 

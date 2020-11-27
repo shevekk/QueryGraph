@@ -53,11 +53,11 @@ QueryGraph.UIEdge.prototype.updateContent = function(type, edge)
     content += '<div id='+QueryGraph.UIElement.DESCRIPTION_DIV_ID+'><i>Lien dont la valeur est variable.</i></div>';
     content += '<br/>';
 
-    content += '<div id='+QueryGraph.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label for="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'">Choix du lien:</label><select id="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
+    content += '<div id='+QueryGraph.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'">Choix du lien:</label><select id="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect" name="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
     content += '<br/>';
 
-    content += '<label for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label:</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" value="'+ edge.label +'"><br>';
-    content += '<label for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" value="'+ edge.uri +'"><br>';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label:</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ edge.label +'"><br>';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ edge.uri +'"><br>';
   }
   else if(type == QueryGraph.Edge.Type.VARIABLE)
   {
@@ -65,10 +65,21 @@ QueryGraph.UIEdge.prototype.updateContent = function(type, edge)
     content += '<div id='+QueryGraph.UIElement.DESCRIPTION_DIV_ID+'><i>Lien possédant une valeur fixe.</i></div>';
     content += '<br/>';
     
-    content += '<label for="'+QueryGraph.UIElement.NAME_HTML_ID+'">Nom:</label><input type="text" id="'+QueryGraph.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UIElement.NAME_HTML_ID+'" value="'+ edge.name +'"><br>';
+    content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.NAME_HTML_ID+'">Nom:</label><input type="text" id="'+QueryGraph.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UIElement.NAME_HTML_ID+'" class="uiTextField" value="'+ edge.name +'"><br>';
   }
 
+  content += '<br/><div><input type="checkbox" id="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'" name="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'" class="uiCheckbox"><label for="optional" class="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'">Optionel</label></div>';
+
   $("#"+QueryGraph.UIElement.CONTENT_HTML_ID).html(content);
+
+  if(edge.optional)
+  {
+    $("#"+QueryGraph.UIElement.OPTIONAL_HTML_ID).prop("checked", true);
+  }
+  else
+  {
+    $("#"+QueryGraph.UIElement.OPTIONAL_HTML_ID).prop("checked", false);
+  }
 
   // Init auto choise list
   if(type == QueryGraph.Edge.Type.FIXED)
@@ -87,9 +98,20 @@ QueryGraph.UIEdge.prototype.menageChoiseList = function(edge)
 
   let nodeStart = edge.nodeStart;
 
-  if(nodeStart.type == QueryGraph.Node.Type.ELEMENT && nodeStart.elementInfos.uri != "")
+  if(nodeStart.type == QueryGraph.Node.Type.ELEMENT || nodeStart.type == QueryGraph.Node.Type.DATA)
   {
-    me.dataCollector.getEdges(nodeStart.elementInfos.uri, function(edgesValues, edgesLabels)
+    let type = "";
+    let uri = "";
+    if(nodeStart.type == QueryGraph.Node.Type.ELEMENT)
+    {
+      type = nodeStart.elementInfos.uri;
+    }
+    else if(nodeStart.type == QueryGraph.Node.Type.DATA)
+    {
+      uri = nodeStart.dataInfos.uri
+    }
+
+    me.dataCollector.getEdges(type, uri, function(edgesValues, edgesLabels)
     {
       if(edgesValues.length > 0)
       {
@@ -133,17 +155,19 @@ QueryGraph.UIEdge.prototype.setEdgeInformations = function(graph)
   let type = $("#"+QueryGraph.UIElement.TYPE_SELECT_HTML_ID).val();
   this.edge.setType(type, graph);
 
+  let optional = $("#"+QueryGraph.UIElement.OPTIONAL_HTML_ID).prop('checked');
+
   if(type == QueryGraph.Edge.Type.FIXED)
   {
     let label = $("#"+QueryGraph.UIElement.LABEL_HTML_ID).val();
     let uri = $("#"+QueryGraph.UIElement.URI_HTML_ID).val();
 
-    this.edge.setInformations(label, uri, "", graph);
+    this.edge.setInformations(label, uri, "", optional, graph);
   }
   else if(type == QueryGraph.Edge.Type.VARIABLE)
   {
     let name = $("#"+QueryGraph.UIElement.NAME_HTML_ID).val();
 
-    this.edge.setInformations("", "", name, graph);
+    this.edge.setInformations("", "", name, optional, graph);
   }
 };

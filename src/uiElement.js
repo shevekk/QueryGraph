@@ -24,6 +24,8 @@ QueryGraph.UIElement.prototype.dataCollector;
  * @property {String}             NAME_HTML_ID                   HTML ID for Name field
  * @property {String}             TYPE_SELECT_HTML_ID            HTML ID for the select of type
  * @property {String}             CONTENT_HTML_ID                HTML ID for content div
+ * @property {String}             OPTIONAL_HTML_ID               HTML ID for the optional checkbox
+ 
  */
 QueryGraph.UIElement.DESCRIPTION_DIV_ID = "descriptionDiv";
 
@@ -42,6 +44,8 @@ QueryGraph.UIElement.NAME_HTML_ID = "name";
 QueryGraph.UIElement.TYPE_SELECT_HTML_ID = "nodeType";
 
 QueryGraph.UIElement.CONTENT_HTML_ID = "uiContent";
+
+QueryGraph.UIElement.OPTIONAL_HTML_ID = "optional";
 
 /**
  * Init UI for a node

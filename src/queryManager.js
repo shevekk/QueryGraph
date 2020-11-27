@@ -98,8 +98,7 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
 
       if(QueryGraph.Config.displayLabel)
       {
-        this.selectVars.push({"value" : name, "label" : name + "Label"});
-        //this.selectVars.push(name + "Label");
+        this.selectVars.push({"value" : name, "label" : name + "Label", "elementType" : QueryGraph.Element.TYPE.NODE});
         this.selectQuery += nameVar + "Label ";
       }
       else
@@ -162,16 +161,36 @@ QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, end
   // add edge in query
   if(edge.type == QueryGraph.Edge.Type.FIXED)
   {
-    this.whereQuery +=  startNodeVarName + " " + edge.uri + " " + endNodeVarName + " . ";
+    let uri = edge.uri;
+    if(uri.startsWith("http"))
+    {
+      uri = "<" + uri + ">";
+    }
+
+    if(edge.optional)
+    {
+      this.whereQuery +=  " OPTIONAL { " + startNodeVarName + " " + uri + " " + endNodeVarName + " } . ";
+    }
+    else
+    {
+      this.whereQuery +=  startNodeVarName + " " + uri + " " + endNodeVarName + " . ";
+    }
   }
   else if(edge.type == QueryGraph.Edge.Type.VARIABLE)
   {
     let name = "?" + edge.name;
 
-    this.whereQuery +=  startNodeVarName + " " + name + " " + endNodeVarName + " . ";
+    if(edge.optional)
+    {
+      this.whereQuery +=  " OPTIONAL { " + startNodeVarName + " " + name + " " + endNodeVarName + " } . ";
+    }
+    else
+    {
+      this.whereQuery +=  startNodeVarName + " " + name + " " + endNodeVarName + " . ";
+    }
 
     // Add edge variable name to select
-    this.selectVars.push({"value" : edge.name});
+    this.selectVars.push({"value" : edge.name, "elementType" : QueryGraph.Element.TYPE.EDGE});
 
     this.selectQuery += name + " ";
 
