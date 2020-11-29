@@ -267,7 +267,7 @@ QueryGraph.DataCollectorWikidata.prototype.search = function(searchValue, callba
         {
           label = data["entities"][title]["labels"][QueryGraph.Config.wikidataSearch.language]["value"];
         }
-        if(data["entities"][title]["labels"][QueryGraph.Config.wikidataSearch.language] != undefined)
+        if(data["entities"][title]["descriptions"][QueryGraph.Config.wikidataSearch.language] != undefined)
         {
           description = data["entities"][title]["descriptions"][QueryGraph.Config.wikidataSearch.language]["value"];
         }

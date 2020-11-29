@@ -1,9 +1,16 @@
 ﻿{
   "endPoint": "https://query.wikidata.org/sparql",
   "typeUri": "wdt:P31",
+  "subclassUri": "wdt:P279",
   "displayLabel": true,
   "language" : "[AUTO_LANGUAGE],fr,en",
   "limit" : null,
+  "prefix" : 
+  {
+    "wd" : "http://www.wikidata.org/entity/",
+    "wdt" : "http://www.wikidata.org/prop/direct/",
+    "rdfs" : "www.w3.org/2000/01/rdf-schema#"
+  },
   "wikidataSearch": 
   {
     "nbResult": 20,

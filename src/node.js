@@ -48,6 +48,7 @@ QueryGraph.Node.ElementInfos = function ()
   this.label = ""; 
   this.uri = ""; 
   this.name = "";
+  this.subclass = false;
 };
 
 /*
@@ -110,13 +111,15 @@ QueryGraph.Node.prototype.setType = function(type, graph)
  * @param {String}                      label                  Label of element in triplestore
  * @param {String}                      uri                    URI of element in triplestore
  * @param {String}                      name                   Name of element in triplestore
+ * @param {Boolean}                     subclass               True for get subclass of the element
  * @param {QueryGraph.Graph}            graph                  The graphe manager
  */
-QueryGraph.Node.prototype.setElementInfos = function(label, uri, name, graph)
+QueryGraph.Node.prototype.setElementInfos = function(label, uri, name, subclass, graph)
 {
   this.elementInfos.label = label;
   this.elementInfos.uri = uri;
   this.elementInfos.name = name;
+  this.elementInfos.subclass = subclass;
 
   graph.visNodes.update({id: this.id, label: name});
 };
@@ -150,4 +153,35 @@ QueryGraph.Node.prototype.addEdge = function(edge, reverse)
   {
     this.edges.push(edge);
   }
+};
+
+/**
+ * Check if edges and reverse edges are optional
+ * @return                          True if edges are all optional
+ */
+QueryGraph.Node.prototype.edgesAreAllOptional = function()
+{
+  let optional = true;
+
+  if(this.edges.length == 0 && this.reverseEdges.length == 0)
+  {
+    optional = false;
+  }
+
+  for(let i = 0; i < this.edges.length; i++)
+  {
+    if(!this.edges[i].optional)
+    {
+      optional = false;
+    }
+  }
+  for(let i = 0; i < this.reverseEdges.length; i++)
+  {
+    if(!this.reverseEdges[i].optional)
+    {
+      optional = false;
+    }
+  }
+
+  return optional;
 };

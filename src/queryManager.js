@@ -105,10 +105,29 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
       {
         this.selectVars.push({"value" : name});
       }
+
+      // Menage optional state
+      let nodeOptional = node.edgesAreAllOptional();
+      if(nodeOptional)
+      {
+        this.whereQuery += " OPTIONAL { "
+      }
       
       if(typeUri != "")
       {
-        this.whereQuery += nameVar + " " + QueryGraph.Config.typeUri + " " + typeUri + " . ";
+        if(typeUri.startsWith("http"))
+        {
+          typeUri = "<" + typeUri + ">";
+        }
+        // 
+        if(node.elementInfos.subclass)
+        {
+          this.whereQuery += nameVar + " " + QueryGraph.Config.typeUri + "/" + QueryGraph.Config.subclassUri + "* " + typeUri + " . ";
+        }
+        else
+        {
+          this.whereQuery += nameVar + " " + QueryGraph.Config.typeUri + " " + typeUri + " . ";
+        }
       }
 
       // Add edges
@@ -117,7 +136,24 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
         let edge = node.edges[j];
         let endNode = graph.getNode(edge.idNodeEnd);
 
-        this.addEdge(edge, nameVar, endNode);
+        if(!endNode.edgesAreAllOptional())
+        {
+          this.addEdge(edge, nameVar, endNode, nodeOptional);
+        }
+      }
+
+      if(nodeOptional)
+      {
+        for(let i = 0; i < node.reverseEdges.length; i++)
+        {
+          let edge = node.reverseEdges[i];
+          let startNode = graph.getNode(edge.idNodeStart);
+          let nameVar = this.getNodeVarName(startNode);
+
+          this.addEdge(edge, nameVar, node, nodeOptional);
+        }
+
+        this.whereQuery += " } "
       }
     }
   }
@@ -130,7 +166,7 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
       let edge = node.edges[j];
       let endNode = graph.getNode(edge.idNodeEnd);
 
-      this.addEdge(edge, startNodeUri, endNode);
+      this.addEdge(edge, startNodeUri, endNode, false);
     }
   }
   else if(node.type == QueryGraph.Node.Type.FILTER)
@@ -144,19 +180,12 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
  * @param {QueryGraph.Edge}            edge                        Edge to add data to query
  * @param {String}                     startNodeVarName            Var Name of the start node
  * @param {QueryGraph.Node}            endNode                     End node
+ * @param {Boolean}                    nodeOptional                True if an optional node (no optional balise for edge)
  */
-QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, endNode)
+QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, endNode, nodeOptional)
 {
   // Init end node var name
-  let endNodeVarName = "";
-  if(endNode.type == QueryGraph.Node.Type.ELEMENT)
-  {
-    endNodeVarName = "?" + endNode.elementInfos.name;
-  }
-  else if(endNode.type == QueryGraph.Node.Type.DATA)
-  { 
-    endNodeVarName = endNode.dataInfos.uri;
-  }
+  let endNodeVarName = this.getNodeVarName(endNode);
 
   // add edge in query
   if(edge.type == QueryGraph.Edge.Type.FIXED)
@@ -167,7 +196,7 @@ QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, end
       uri = "<" + uri + ">";
     }
 
-    if(edge.optional)
+    if(edge.optional && !nodeOptional)
     {
       this.whereQuery +=  " OPTIONAL { " + startNodeVarName + " " + uri + " " + endNodeVarName + " } . ";
     }
@@ -180,7 +209,7 @@ QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, end
   {
     let name = "?" + edge.name;
 
-    if(edge.optional)
+    if(edge.optional && !nodeOptional)
     {
       this.whereQuery +=  " OPTIONAL { " + startNodeVarName + " " + name + " " + endNodeVarName + " } . ";
     }
@@ -202,4 +231,27 @@ QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, end
     }
     */
   }
+};
+
+/**
+ * Get the node var name 
+ * @param {QueryGraph.Node}            node                    The node
+ */
+QueryGraph.QueryManager.prototype.getNodeVarName = function(node)
+{
+  let varName = "";
+  if(node.type == QueryGraph.Node.Type.ELEMENT)
+  {
+    varName = "?" + node.elementInfos.name;
+  }
+  else if(node.type == QueryGraph.Node.Type.DATA)
+  { 
+    varName = node.dataInfos.uri;
+
+    if(varName.startsWith("http"))
+    {
+      varName = "<" + varName + ">";
+    }
+  }
+  return varName;
 };

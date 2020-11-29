@@ -109,6 +109,8 @@ QueryGraph.ResultView.prototype.queryFail = function(errorReponseText)
  */
 QueryGraph.ResultView.prototype.sendDataToGraph = function(graph, data, selectVars, listEdgesLabel)
 {
+  var me = this;
+
   if(data.results.bindings.length == 0)
   {
     alert("Impossible de visualiser le graphe : Aucun résultats");
@@ -127,6 +129,7 @@ QueryGraph.ResultView.prototype.sendDataToGraph = function(graph, data, selectVa
     if(graph.nodes[i].type == QueryGraph.Node.Type.DATA)
     {
       nodes[i]["label"] = graph.nodes[i].dataInfos.label;
+      nodes[i]["uri"] = me.getUri(graph.nodes[i].dataInfos.uri);
     }
     else if(graph.nodes[i].type == QueryGraph.Node.Type.ELEMENT)
     {
@@ -151,7 +154,7 @@ QueryGraph.ResultView.prototype.sendDataToGraph = function(graph, data, selectVa
     else if(graph.edges[i].type == QueryGraph.Edge.Type.FIXED)
     {
       edges[i]["label"] = graph.edges[i].label;
-      edges[i]["uri"] = graph.edges[i].uri;
+      edges[i]["uri"] = me.getUri(graph.edges[i].uri);
     }
   }
   // Init json graph
@@ -210,3 +213,20 @@ QueryGraph.ResultView.prototype.sendDataToGraph = function(graph, data, selectVa
 
   mapForm.submit();
 };
+
+
+QueryGraph.ResultView.prototype.getUri = function(uri)
+{
+ if(!uri.startsWith("http"))
+  {
+    for (const key in QueryGraph.Config.prefix)
+    {
+      if(uri.split(':')[0] == key)
+      {
+        uri = QueryGraph.Config.prefix[key] + uri.split(':')[1];  
+      }
+    }
+  }
+
+  return uri;
+}

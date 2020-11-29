@@ -60,6 +60,8 @@ QueryGraph.UINode.prototype.updateContent = function(type, node)
     content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.NAME_HTML_ID+'">Nom:</label><input type="text" id="'+QueryGraph.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UIElement.NAME_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.name +'"><br>';
     content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label du type :</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.label +'"><br>';
     content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI du type:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.uri +'"><br>';
+  
+    content += '<br/><div><input type="checkbox" id="'+QueryGraph.UIElement.SUBCLASS_HTML_ID+'" name="'+QueryGraph.UIElement.SUBCLASS_HTML_ID+'" class="uiCheckbox"><label for="'+QueryGraph.UIElement.SUBCLASS_HTML_ID+'">Récupérer sous classes</label></div>';
   }
   else if(type == QueryGraph.Node.Type.DATA)
   {
@@ -76,17 +78,37 @@ QueryGraph.UINode.prototype.updateContent = function(type, node)
     content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ node.dataInfos.uri +'"><br>';
   }
 
+  content += '<br/><a href="" id="'+QueryGraph.UIElement.WEB_LINK_HTML_ID+'" target="_blank">Lien vers la page</a>';
+
   $("#"+QueryGraph.UIElement.CONTENT_HTML_ID).html(content);
 
   if(type == QueryGraph.Node.Type.DATA)
   {
+    me.getWebLink(node.dataInfos.uri);
+
     me.menageSearch(type);
   }
   else if(type == QueryGraph.Node.Type.ELEMENT)
   {
+    me.getWebLink(node.elementInfos.uri);
+
     me.menageChoiseList();
     me.menageSearch(type);
+
+    if(node.elementInfos.subclass)
+    {
+      $("#"+QueryGraph.UIElement.SUBCLASS_HTML_ID).prop("checked", true);
+    }
+    else
+    {
+      $("#"+QueryGraph.UIElement.SUBCLASS_HTML_ID).prop("checked", false);
+    }
   }
+
+  // Menage web link
+  $("#"+QueryGraph.UIElement.URI_HTML_ID).change(function() { 
+      me.getWebLink($("#"+QueryGraph.UIElement.URI_HTML_ID).val()); 
+  });
 };
 
 /**
@@ -138,8 +160,14 @@ QueryGraph.UINode.prototype.menageSearch = function(type)
       // Menage click in search line : select an element
       $('.'+QueryGraph.UIElement.SEARCH_DIV_LINE_CLASS).click(function()
       {
+        let uri = $(this).attr("uri");
+
         $("#"+QueryGraph.UIElement.LABEL_HTML_ID).val($(this).attr("label")); 
-        $("#"+QueryGraph.UIElement.URI_HTML_ID).val($(this).attr("uri")); 
+        $("#"+QueryGraph.UIElement.URI_HTML_ID).val(uri); 
+
+        me.getWebLink(uri);
+
+        $("#" + QueryGraph.UIElement.SEARCH_DIV_ID).html("");
       });
       
     }
@@ -178,12 +206,14 @@ QueryGraph.UINode.prototype.menageChoiseList = function()
 
     $('#'+QueryGraph.UIElement.LABEL_HTML_ID).val(label);
     $('#'+QueryGraph.UIElement.URI_HTML_ID).val(val);
+
+    me.getWebLink(val);
   });
 }
 
 /**
  * Set informations from form to the node
- * @property {QueryGraph.Graph}                     graph                 The graph manager
+ * @param {QueryGraph.Graph}                     graph                 The graph manager
  */
 QueryGraph.UINode.prototype.setNodeInformations = function(graph)
 {
@@ -197,8 +227,9 @@ QueryGraph.UINode.prototype.setNodeInformations = function(graph)
     let label = $("#"+QueryGraph.UIElement.LABEL_HTML_ID).val();
     let uri = $("#"+QueryGraph.UIElement.URI_HTML_ID).val();
     let name = $("#"+QueryGraph.UIElement.NAME_HTML_ID).val();
+    let subclass = $("#"+QueryGraph.UIElement.SUBCLASS_HTML_ID).prop('checked');
 
-    this.node.setElementInfos(label, uri, name, graph);
+    this.node.setElementInfos(label, uri, name, subclass, graph);
   }
   else if(type == QueryGraph.Node.Type.DATA)
   {

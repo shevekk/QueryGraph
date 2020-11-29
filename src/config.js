@@ -9,11 +9,13 @@ QueryGraph.Config = function()
 /*
  * @property {String}           endPoint            The SPARQL EndPoint adresse
  * @property {String}           typeUri             URI of the type 
+ * @property {String}           subclassUri         URI of the subclass 
  * @property {Boolean}          displayLabel        True if label is display
  * @property {String}           language            Language of the request (for labels)
  * @property {Number}           limit               Limit of result (null for no limit)
  * @property {Object}           wikidataSearch      Wikidata search options
  * @property {Object}           nodeTypes           List of possible node type
+ * @property {Object}           prefix              The prefix of triplestore
  */
 QueryGraph.Config.endPoint;
 QueryGraph.Config.typeUri;
@@ -22,6 +24,8 @@ QueryGraph.Config.language;
 QueryGraph.Config.limit;
 QueryGraph.Config.wikidataSearch;
 QueryGraph.Config.nodeTypes;
+QueryGraph.Config.prefix;
+QueryGraph.Config.subclassUri;
 
 /**
  * Load config informations
@@ -40,6 +44,8 @@ QueryGraph.Config.load = function(fileName, callback)
     QueryGraph.Config.limit = content.limit;
     QueryGraph.Config.wikidataSearch = content.wikidataSearch;
     QueryGraph.Config.nodeTypes = content.nodeTypes;
+    QueryGraph.Config.prefix = content.prefix;
+    QueryGraph.Config.subclassUri = content.subclassUri;
 
     callback();
   })

@@ -24,8 +24,9 @@ QueryGraph.UIElement.prototype.dataCollector;
  * @property {String}             NAME_HTML_ID                   HTML ID for Name field
  * @property {String}             TYPE_SELECT_HTML_ID            HTML ID for the select of type
  * @property {String}             CONTENT_HTML_ID                HTML ID for content div
- * @property {String}             OPTIONAL_HTML_ID               HTML ID for the optional checkbox
- 
+ * @property {String}             OPTIONAL_HTML_ID               HTML ID for the optional checkbox 
+ * @property {String}             WEB_LINK_HTML_ID               HTML ID for web link
+ * @property {String}             SUBCLASS_HTML_ID               HTML ID for get sub class of node (checkbox)
  */
 QueryGraph.UIElement.DESCRIPTION_DIV_ID = "descriptionDiv";
 
@@ -46,6 +47,11 @@ QueryGraph.UIElement.TYPE_SELECT_HTML_ID = "nodeType";
 QueryGraph.UIElement.CONTENT_HTML_ID = "uiContent";
 
 QueryGraph.UIElement.OPTIONAL_HTML_ID = "optional";
+QueryGraph.UIElement.SUBCLASS_HTML_ID = "subclass";
+
+QueryGraph.UIElement.WEB_LINK_HTML_ID = "webLink";
+
+
 
 /**
  * Init UI for a node
@@ -90,4 +96,34 @@ QueryGraph.UIElement.prototype.init = function(html, nodeOrEdge, dataCollector)
     let type = $( this ).val();
     me.updateContent(type, nodeOrEdge);
   });
+};
+
+/**
+ * Init UI for a node
+ * @param {String}                  uri                The element URI
+ */
+QueryGraph.UIElement.prototype.getWebLink = function(uri)
+{
+  let me = this;
+
+  if(!uri.startsWith("http"))
+  {
+    for (const key in QueryGraph.Config.prefix)
+    {
+      if(uri.split(':')[0] == key)
+      {
+        uri = QueryGraph.Config.prefix[key] + uri.split(':')[1];  
+      }
+    }
+  }
+
+  if(uri)
+  {
+    $('#' + QueryGraph.UIElement.WEB_LINK_HTML_ID).attr("href", uri);
+    $('#' + QueryGraph.UIElement.WEB_LINK_HTML_ID).css("visibility", "visible");
+  }
+  else
+  {
+    $('#' + QueryGraph.UIElement.WEB_LINK_HTML_ID).css("visibility", "hidden");
+  }
 };

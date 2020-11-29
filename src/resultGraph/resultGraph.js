@@ -52,7 +52,7 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
     if(this.baseGraph.nodes[i].type == QueryGraph.Node.Type.DATA)
     {
       nodeNumber ++;
-      me.addNode(nodeNumber, this.baseGraph.nodes[i].type, this.baseGraph.nodes[i].label, this.baseGraph.nodes[i].id, -1);
+      me.addNode(nodeNumber, this.baseGraph.nodes[i].type, this.baseGraph.nodes[i].label, this.baseGraph.nodes[i].id, -1, this.baseGraph.nodes[i].uri);
     }
     else if(this.baseGraph.nodes[i].type == QueryGraph.Node.Type.ELEMENT)    
     {
@@ -77,16 +77,6 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
   // Create edges
   for(let i = 0; i < this.baseGraph.edges.length; i++)
   {
-    /*
-    if(this.baseGraph.edges[i].typeNodeStart == QueryGraph.Node.Type.ELEMENT && this.baseGraph.edges[i].typeNodeEnd == QueryGraph.Node.Type.ELEMENT)
-    {
-      me.edgesCreationBetweenNodesElements(this.baseGraph.edges[i], );
-    }
-    else
-    {
-      me.edgesCreation(this.baseGraph.edges[i]);
-    }
-    */
     me.edgesCreation(this.baseGraph.edges[i]);
   }
 
@@ -116,8 +106,25 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
   {
     me.visEdges.update({id: ids[i], label: me.visEdges.get(ids[i]).label});
   }
+
+  // Double click --> Open URI in 
+  me.network.on("doubleClick", function(data)
+  {
+    if(data.nodes.length > 0)
+    {
+      window.open(me.visNodes.get(data.nodes[0]).uri);
+    }
+    else if(data.edges.length > 0)
+    {
+      window.open(me.visEdges.get(data.edges[0]).uri);
+    }
+  });
 };
 
+/**
+ * Create edges for a baseGraphEdge
+ * @param {Object}                     baseGraphEdge                    Edge graph object
+ */
 QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphEdge)
 {
   var me = this;
@@ -135,7 +142,7 @@ QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphE
     {
       let endNodes = me.visNodes.get({
         filter: function (item) {
-          return (item.uri != startNodes[i].uri && item.lineNumbers.includes(startNodes[i].lineNumbers[j]) || item.lineNumbers != -1 || startNodes[i].lineNumbers != -1) && item.baseId == baseGraphEdge.idNodeEnd;
+          return (item.uri != startNodes[i].uri && item.lineNumbers.includes(startNodes[i].lineNumbers[j]) || item.lineNumbers.includes(-1) || startNodes[i].lineNumbers.includes(-1)) && item.baseId == baseGraphEdge.idNodeEnd;
         }
       });
 
@@ -143,12 +150,12 @@ QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphE
       {
         if(!endNodesIds.includes(endNodes[k].id))
         {
-          var label = me.getEdgeLabel(baseGraphEdge, startNodes[i], endNodes[k]);
+          var data = me.getEdgeLabelAndUri(baseGraphEdge, startNodes[i], endNodes[k]);
 
-          if(label)
+          if(data.uri)
           {
             endNodesIds.push(endNodes[k].id);
-            me.addEdge(startNodes[i].id, endNodes[k].id, baseGraphEdge.type, label);
+            me.addEdge(startNodes[i].id, endNodes[k].id, baseGraphEdge.type, data.uri, data.label);
           }
         }
       }
@@ -156,90 +163,19 @@ QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphE
   }
 };
 
-
-/**
- * Create edges between two nodes elements : Create edges for element in same data line
- * @param {Object}                     baseGraphEdge                    Edge graph object
- */
- /*
-QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreationBetweenNodesElements = function(baseGraphEdge)
-{ 
-  var me = this;
-
-  let startNodes = me.visNodes.get({
-    filter: function (item) {
-      return item.baseId == baseGraphEdge.idNodeStart;
-    }
-  });
-
-  for(let i = 0; i < startNodes.length; i++)
-  {
-    let endNodesIds = [];
-    for(let j = 0; j < startNodes[i].lineNumbers.length; j++)
-    {
-      let endNodes = me.visNodes.get({
-        filter: function (item) {
-          return item.uri != startNodes[i].uri && item.lineNumbers.includes(startNodes[i].lineNumbers[j]);
-        }
-      });
-
-      for(let k = 0; k < endNodes.length; k++)
-      {
-        if(!endNodesIds.includes(endNodes[k].id))
-        {
-          endNodesIds.push(endNodes[k].id);
-          me.addEdge(startNodes[i].id, endNodes[k].id, baseGraphEdge.type, me.getEdgeLabel(baseGraphEdge, startNodes[i], endNodes[k]));
-        }
-      }
-    }
-  }
-};
-*/
-/**
- * Create edges between for a data node and an element node : Create edge between all data
- * @param {Object}                     baseGraphEdge                    Edge graph object
- */
- /*
-QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphEdge)
-{ 
-  var me = this;
-
-  let startNodes = this.visNodes.get({
-    filter: function (item) {
-      return item.baseId == baseGraphEdge.idNodeStart;
-    }
-  });
-
-  let endNodes = this.visNodes.get({
-    filter: function (item) {
-      return item.baseId == baseGraphEdge.idNodeEnd;
-    }
-  });
-
-  for(let i = 0; i < startNodes.length; i++)
-  {
-    for(let j = 0; j < endNodes.length; j++)
-    {
-      if(baseGraphEdge.optional)
-      {
-
-      }
-      me.addEdge(startNodes[i].id, endNodes[j].id, baseGraphEdge.type, me.getEdgeLabel(baseGraphEdge, startNodes[i], endNodes[j]));
-    }
-  }
-};
-*/
 /**
  * Get the edges label, if variable get the data line value
  * @param {Object}                     baseGraphEdge                    Edge graph object
  * @param {Object}                     startNode                        VisNode Object
  * @param {Object}                     endNode                          VisNode Object
+ * return {Object}                                                      Data with label and uri
  */
-QueryGraph.ResultGraph.ResultGraph.prototype.getEdgeLabel = function(baseGraphEdge, startNode, endNode)
+QueryGraph.ResultGraph.ResultGraph.prototype.getEdgeLabelAndUri = function(baseGraphEdge, startNode, endNode)
 {
-  var me = this;
+  let me = this;
 
- let label = "";
+  let label = "";
+  let uri = "";
 
   if(baseGraphEdge.type == QueryGraph.Edge.Type.VARIABLE)
   {
@@ -257,6 +193,8 @@ QueryGraph.ResultGraph.ResultGraph.prototype.getEdgeLabel = function(baseGraphEd
     {
       if(me.data[j].var == baseGraphEdge.name && me.data[j].lineNumber == numLine)
       {
+        uri = me.data[j].value;
+
         if(me.data[j].label)
         {
           label = me.data[j].label;
@@ -271,9 +209,14 @@ QueryGraph.ResultGraph.ResultGraph.prototype.getEdgeLabel = function(baseGraphEd
   else if(baseGraphEdge.type == QueryGraph.Edge.Type.FIXED)
   {
     label = baseGraphEdge.label;
+    uri = baseGraphEdge.uri;
   }
 
-  return label;
+  let data = {};
+  data.label = label;
+  data.uri = uri;
+
+  return data;
 };
 
 /**
@@ -335,9 +278,10 @@ QueryGraph.ResultGraph.ResultGraph.prototype.addNode = function(id, type, label,
  * @param {Number}                       idNodeStart               Id of the start node
  * @param {Number}                       idNodeEnd                 Id of the end node
  * @param {QueryGraph.Edge.Type}         type                      Type of the edge 
+ * @param {String}                       uri                       URI of the edge
  * @param {String}                       label                     Label of the edge
  */ 
-QueryGraph.ResultGraph.ResultGraph.prototype.addEdge = function(idNodeStart, idNodeEnd, type, label)
+QueryGraph.ResultGraph.ResultGraph.prototype.addEdge = function(idNodeStart, idNodeEnd, type, uri, label)
 { 
   let id = "";
   let number = 0;
@@ -359,6 +303,7 @@ QueryGraph.ResultGraph.ResultGraph.prototype.addEdge = function(idNodeStart, idN
     to: idNodeEnd,
     arrows : "to",
     label: label,
+    uri: uri,
     color: {
       color: "#ff0000"
     }

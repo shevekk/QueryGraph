@@ -58,6 +58,8 @@ QueryGraph.UIEdge.prototype.updateContent = function(type, edge)
 
     content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label:</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ edge.label +'"><br>';
     content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.URI_HTML_ID+'">URI:</label><input type="text" id="'+QueryGraph.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ edge.uri +'"><br>';
+  
+    content += '<a href="" id="'+QueryGraph.UIElement.WEB_LINK_HTML_ID+'" target="_blank">Lien vers la page</a>';
   }
   else if(type == QueryGraph.Edge.Type.VARIABLE)
   {
@@ -68,7 +70,7 @@ QueryGraph.UIEdge.prototype.updateContent = function(type, edge)
     content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.NAME_HTML_ID+'">Nom:</label><input type="text" id="'+QueryGraph.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UIElement.NAME_HTML_ID+'" class="uiTextField" value="'+ edge.name +'"><br>';
   }
 
-  content += '<br/><div><input type="checkbox" id="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'" name="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'" class="uiCheckbox"><label for="optional" class="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'">Optionel</label></div>';
+  content += '<br/><div><input type="checkbox" id="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'" name="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'" class="uiCheckbox"><label for="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'" class="'+QueryGraph.UIElement.OPTIONAL_HTML_ID+'">Optionel</label></div>';
 
   $("#"+QueryGraph.UIElement.CONTENT_HTML_ID).html(content);
 
@@ -85,6 +87,12 @@ QueryGraph.UIEdge.prototype.updateContent = function(type, edge)
   if(type == QueryGraph.Edge.Type.FIXED)
   {
     me.menageChoiseList(edge);
+
+    // Menage web link
+    me.getWebLink(edge.uri);
+    $("#"+QueryGraph.UIElement.URI_HTML_ID).change(function() { 
+      me.getWebLink($("#"+QueryGraph.UIElement.URI_HTML_ID).val()); 
+    });
   }
 };
 
@@ -139,6 +147,7 @@ QueryGraph.UIEdge.prototype.menageChoiseList = function(edge)
     let label = $( '#'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID + ' option:selected' ).text();
     let val = $( this ).val();
 
+    me.getWebLink(val);
     $('#'+QueryGraph.UIElement.LABEL_HTML_ID).val(label);
     $('#'+QueryGraph.UIElement.URI_HTML_ID).val(val);
   });
