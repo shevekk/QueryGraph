@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="style.css" />
 
     <!--  -->
+    <div id="loadBar">
+      <label for="loadingSelect">Requêtes sauvegardées : </label><select id="loadingSelect" name="loadingSelect"></select>
+      <button name="loadDataButton" id="loadDataButton">Charger</button>
+      <button name="saveDataButton" id="saveDataButton">Sauvegarder</button>
+    </div>
+
     <div id="top">
       <button name="addNode" id="addNode">Ajout noeud</button>
       <button name="addEdge" id="addEdge">Ajout lien</button>
@@ -42,6 +48,9 @@
     <script type="text/javascript" src="dataCollector.js"></script>
     <script type="text/javascript" src="dataCollectorWikidata.js"></script>
     <script type="text/javascript" src="checkDataValidity.js"></script>
+
+    <script type="text/javascript" src="data/loadManager.js"></script>
+    <script type="text/javascript" src="data/saveManager.js"></script>
     
     <script>
       let main = new QueryGraph.Main();

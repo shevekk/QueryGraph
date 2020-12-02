@@ -50,10 +50,10 @@ QueryGraph.UIEdge.prototype.updateContent = function(type, edge)
   if(type == QueryGraph.Edge.Type.FIXED)
   {
     content += '<br/>';
-    content += '<div id='+QueryGraph.UIElement.DESCRIPTION_DIV_ID+'><i>Lien dont la valeur est variable.</i></div>';
+    content += '<div id="'+QueryGraph.UIElement.DESCRIPTION_DIV_ID+'"><i>Lien dont la valeur est variable.</i></div>';
     content += '<br/>';
 
-    content += '<div id='+QueryGraph.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'">Choix du lien:</label><select id="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect" name="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
+    content += '<div id="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_DIV_ID+'"><label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'">Choix du lien:</label><select id="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect" name="'+QueryGraph.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
     content += '<br/>';
 
     content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UIElement.LABEL_HTML_ID+'">Label:</label><input type="text" id="'+QueryGraph.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ edge.label +'"><br>';

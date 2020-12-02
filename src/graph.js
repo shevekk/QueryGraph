@@ -258,10 +258,18 @@ QueryGraph.Graph.prototype.addNode = function(x, y)
  * @param {QueryGraph.Node}         nodeStart            Start node
  * @param {QueryGraph.Node}         nodeEnd              End node
  */
-QueryGraph.Graph.prototype.addEdge = function(idNodeStart, idNodeEnd, nodeStart, nodeEnd)
+QueryGraph.Graph.prototype.addEdge = function(idNodeStart, idNodeEnd, nodeStart, nodeEnd, id)
 {
   let newEdge = new QueryGraph.Edge(idNodeStart, idNodeEnd, nodeStart, nodeEnd);
-  newEdge.initId(this);
+
+  if(id)
+  {
+    newEdge.id = id;
+  }
+  else
+  {
+    newEdge.initId(this);
+  }
 
   this.visEdges.add([newEdge.createVisEdge()]);
 
@@ -387,3 +395,102 @@ QueryGraph.Graph.prototype.deleteEdge = function(edgeId)
     }
   }
 };
+
+/**
+ * Export the graph to a json object
+ * @return {String}                      Json string export
+ */
+QueryGraph.Graph.prototype.toJson = function()
+{
+  var me = this;
+  
+  var data = {};
+  data["nodes"] = [];
+  data["edges"] = [];
+
+  for(let i = 0; i < me.nodes.length; i++)
+  {
+    data["nodes"].push({});
+    data["nodes"][i]["type"] = me.nodes[i].type;
+    data["nodes"][i]["id"] = me.nodes[i].id;
+    data["nodes"][i]["elementInfos"] = me.nodes[i].elementInfos;
+    data["nodes"][i]["dataInfos"] = me.nodes[i].dataInfos;
+  }
+  for(let i = 0; i < me.edges.length; i++)
+  {
+    data["edges"].push({});
+    data["edges"][i]["id"] = me.edges[i].id;
+    data["edges"][i]["idNodeStart"] = me.edges[i].idNodeStart;
+    data["edges"][i]["idNodeEnd"] = me.edges[i].idNodeEnd;
+    data["edges"][i]["type"] = me.edges[i].type;
+    data["edges"][i]["label"] = me.edges[i].label;
+    data["edges"][i]["uri"] = me.edges[i].uri;
+    data["edges"][i]["name"] = me.edges[i].name;
+    data["edges"][i]["optional"] = me.edges[i].optional;
+  }
+
+  return JSON.stringify(data);
+}
+
+/**
+ * Import graph data from a saved query
+ * @param {Object}            data          Graph data export object
+ */
+QueryGraph.Graph.prototype.fromJson = function(data)
+{
+  var me = this;
+  // 
+  me.clearGraph();
+
+  for(let i = 0; i < data["nodes"].length; i++)
+  {
+    me.addNode(0, 0);
+
+    me.nodes[i].id = data["nodes"][i]["id"];
+    me.nodes[i].setType(data["nodes"][i]["type"], me);
+    me.nodes[i].elementInfos = data["nodes"][i]["elementInfos"];
+    me.nodes[i].dataInfos = data["nodes"][i]["dataInfos"];
+
+    if(me.nodes[i].type == QueryGraph.Node.Type.ELEMENT)
+    {
+      me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].elementInfos.name});
+    }
+    else if(me.nodes[i].type == QueryGraph.Node.Type.DATA)
+    {
+      me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].dataInfos.label});
+    }
+  }
+  for(let i = 0; i < data["edges"].length; i++)
+  {
+    let idNodeStart = data["edges"][i]["idNodeStart"];
+    let idNodeEnd = data["edges"][i]["idNodeEnd"];
+    let nodeStart = me.getNode(idNodeStart);
+    let nodeEnd = me.getNode(idNodeEnd);
+
+    me.addEdge(idNodeStart, idNodeEnd, nodeStart, nodeEnd, data["edges"][i]["id"]);
+
+    //me.edges[i].id = data["edges"][i]["id"];
+    me.edges[i].setType(data["edges"][i]["type"], me);
+    me.edges[i].setInformations(data["edges"][i]["label"], data["edges"][i]["uri"], data["edges"][i]["name"], data["edges"][i]["optional"], me);
+  }
+}
+
+/**
+ * Clear graph nodes and edges
+ */
+QueryGraph.Graph.prototype.clearGraph = function()
+{
+  var me = this;
+
+  for(var i = 0; i < me.nodes.length; i++)
+  {
+    me.visNodes.remove(me.nodes[i].id);
+  }
+  for(var i = 0; i < me.edges.length; i++)
+  {
+    me.visEdges.remove(me.edges[i].id);
+  }
+
+  me.nodes = [];
+  me.edges = [];
+}

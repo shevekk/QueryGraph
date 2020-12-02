@@ -136,7 +136,7 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
         let edge = node.edges[j];
         let endNode = graph.getNode(edge.idNodeEnd);
 
-        if(!endNode.edgesAreAllOptional())
+        if(!endNode.edgesAreAllOptional() || endNode.type == QueryGraph.Node.Type.DATA)
         {
           this.addEdge(edge, nameVar, endNode, nodeOptional);
         }

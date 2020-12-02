@@ -26,6 +26,7 @@ QueryGraph.Edge = function(idNodeStart, idNodeEnd, nodeStart, nodeEnd)
 QueryGraph.Edge.prototype = Object.create(QueryGraph.Element.prototype);
 
 /*
+ * @property {Number}                              id                    Id of the edge
  * @property {Number}                              idNodeStart           Id of the start node
  * @property {Number}                              idNodeEnd             Id of the end node
  * @property {QueryGraph.Node}                     nodeStart             Start node
@@ -35,6 +36,8 @@ QueryGraph.Edge.prototype = Object.create(QueryGraph.Element.prototype);
  * @property {Number}                              name                  Name of the edge  (for VARIABLE)
  * @property {Boolean}                             optional              True for optional edge
  */
+QueryGraph.Edge.prototype.id;
+
 QueryGraph.Edge.prototype.idNodeStart;
 QueryGraph.Edge.prototype.idNodeEnd;
 
@@ -138,7 +141,10 @@ QueryGraph.Edge.prototype.setInformations = function(label, uri, name, optional,
   {
     this.label = label;
 
-    graph.visEdges.update({id: this.id, label: label});
+    if(this.type == QueryGraph.Edge.Type.FIXED)
+    {
+      graph.visEdges.update({id: this.id, label: label});
+    }
   }
 
   if(uri != "")
@@ -150,7 +156,10 @@ QueryGraph.Edge.prototype.setInformations = function(label, uri, name, optional,
   {
     this.name = name;
 
-    graph.visEdges.update({id: this.id, label: name});
+    if(this.type == QueryGraph.Edge.Type.VARIABLE)
+    {
+      graph.visEdges.update({id: this.id, label: name});
+    }
   }
 
   this.optional = optional;

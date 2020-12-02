@@ -177,3 +177,17 @@ body
 {
   visibility: hidden;
 }
+
+/* Loading zone */
+#loadBar
+{
+  display: inline-block;
+
+  padding : 5px;
+}
+
+/* Loading zone button */
+#loadBar button
+{
+  display: inline-block;
+}

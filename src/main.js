@@ -16,7 +16,11 @@ QueryGraph.Main = function()
     me.queryManager = new QueryGraph.QueryManager();
     me.resultView = new QueryGraph.ResultView();
     me.dataCollector = new QueryGraph.DataCollectorWikidata();
+    me.loadManager = new QueryGraph.Data.LoadManager();
+    me.saveManager = new QueryGraph.Data.SaveManager();
 
+    me.loadManager.init(me.graph);
+    me.saveManager.init(me.graph, me.loadManager);
     me.uiManager.init(me.graph, me.dataCollector);
     me.graph.init(me.uiManager);
 
@@ -120,14 +124,18 @@ QueryGraph.Main.EXEC_QUERY_HTML_ID = "execQuery";
 QueryGraph.Main.EXEC_QUERY_GRAPH_HTML_ID = "execQueryGraph";
 
 /**
- * @property {QueryGraph.Graph}                  graph                  The graph manager
- * @property {QueryGraph.UIManager}              uiManager              UI Manager
- * @property {QueryGraph.QueryManager}           queryManager           The query manager
- * @property {QueryGraph.UIManager}              resultView             The result view
- * @property {QueryGraph.DataCollector}          dataCollector          The data collector
+ * @property {QueryGraph.Graph}                    graph                  The graph manager
+ * @property {QueryGraph.UIManager}                uiManager              UI Manager
+ * @property {QueryGraph.QueryManager}             queryManager           The query manager
+ * @property {QueryGraph.UIManager}                resultView             The result view
+ * @property {QueryGraph.DataCollector}            dataCollector          The data collector
+ * @property {QueryGraph.Data.LoadManager}         loadManager            Data loading manager
+ * @property {QueryGraph.Data.SaveManager}         saveManager            Data save manager
  */
 QueryGraph.Main.prototype.graph;
 QueryGraph.Main.prototype.uiManager;
 QueryGraph.Main.prototype.queryManager;
 QueryGraph.Main.prototype.resultView;
 QueryGraph.Main.prototype.dataCollector;
+QueryGraph.Main.prototype.loadManager;
+QueryGraph.Main.prototype.saveManager;

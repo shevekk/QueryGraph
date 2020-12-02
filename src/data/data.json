@@ -1,0 +1,14 @@
+﻿{
+  "parents_paris": {
+    "title" : "Parents nées à Paris",
+    "data" : {"nodes":[{"type":"Element","id":1,"elementInfos":{"label":"Personne","uri":"wd:Q5","name":"Personne","subclass":false},"dataInfos":{"label":"","uri":""}},{"type":"Element","id":2,"elementInfos":{"label":"Personne","uri":"wd:Q5","name":"Mère","subclass":false},"dataInfos":{"label":"","uri":""}},{"type":"Element","id":3,"elementInfos":{"label":"Personne","uri":"wd:Q5","name":"Père","subclass":false},"dataInfos":{"label":"","uri":""}},{"type":"Data","id":4,"elementInfos":{"label":"","uri":"","name":"Noeud4","subclass":false},"dataInfos":{"label":"Paris","uri":"wd:Q90"}}],"edges":[{"id":"1_2_1","idNodeStart":1,"idNodeEnd":2,"type":"Fixed","label":"mère","uri":"wdt:P25","name":"1_2_1","optional":false},{"id":"1_3_1","idNodeStart":1,"idNodeEnd":3,"type":"Fixed","label":"père","uri":"wdt:P22","name":"1_3_1","optional":false},{"id":"3_4_1","idNodeStart":3,"idNodeEnd":4,"type":"Fixed","label":"lieu de naissance","uri":"wdt:P19","name":"3_4_1","optional":false},{"id":"2_4_1","idNodeStart":2,"idNodeEnd":4,"type":"Fixed","label":"lieu de naissance","uri":"wdt:P19","name":"2_4_1","optional":false}]}
+  },
+  "naissance_brienne": {
+    "title" : "Lien avec Paris pour personnes nées à Brienne",
+    "data" : {"nodes":[{"type":"Element","id":1,"elementInfos":{"label":"Personne","uri":"wd:Q5","name":"Noeud1","subclass":false},"dataInfos":{"label":"","uri":""}},{"type":"Data","id":2,"elementInfos":{"label":"","uri":"","name":"Noeud2","subclass":false},"dataInfos":{"label":"Paris","uri":"wd:Q90"}},{"type":"Data","id":3,"elementInfos":{"label":"","uri":"","name":"Noeud3","subclass":false},"dataInfos":{"label":"Brienne-le-Château","uri":"wd:Q498869"}}],"edges":[{"id":"1_3_1","idNodeStart":1,"idNodeEnd":3,"type":"Fixed","label":"lieu de naissance","uri":"wdt:P19","name":"1_3_1","optional":false},{"id":"1_2_1","idNodeStart":1,"idNodeEnd":2,"type":"Variable","label":"","uri":"","name":"1_2_1","optional":true}]}
+  },
+  "fondateur_musee_france": {
+    "title" : "Fondateur de musée en France",
+    "data" : {"nodes":[{"type":"Element","id":1,"elementInfos":{"label":"Personne","uri":"wd:Q5","name":"Fondateur","subclass":false},"dataInfos":{"label":"","uri":""}},{"type":"Data","id":2,"elementInfos":{"label":"","uri":"","name":"Noeud2","subclass":false},"dataInfos":{"label":"France","uri":"wd:Q142"}},{"type":"Element","id":3,"elementInfos":{"label":"Musée","uri":"wd:Q33506","name":"Musée","subclass":false},"dataInfos":{"label":"","uri":""}}],"edges":[{"id":"1_3_1","idNodeStart":3,"idNodeEnd":1,"type":"Fixed","label":"fondateur","uri":"wdt:P112","name":"1_3_1","optional":false},{"id":"3_2_1","idNodeStart":3,"idNodeEnd":2,"type":"Fixed","label":"pays","uri":"wdt:P17","name":"3_2_1","optional":false}]}
+  }
+}
