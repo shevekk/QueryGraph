@@ -20,6 +20,12 @@ QueryGraph.CheckDataValidity.Check = function(graph)
   // Nodes
   for(let i = 0; i < graph.nodes.length; i++)
   {
+    if(graph.nodes[i].edges.length == 0 && graph.nodes[i].reverseEdges.length == 0)
+    {
+      valid = false;
+      errorMessage = "L'un de vos noeuds n'est lié à aucun autre noeuds";
+    }
+
     if(graph.nodes[i].type == QueryGraph.Node.Type.ELEMENT)
     {
       empty = false;
@@ -30,6 +36,11 @@ QueryGraph.CheckDataValidity.Check = function(graph)
       {
         valid = false;
         errorMessage = "Le nom d'un de vos noeuds est vide";
+      }
+      else if(name.indexOf(' ') >= 0)
+      {
+        valid = false;
+        errorMessage = "Le nom d'une de vos noeuds contient un espace";
       }
       else
       {
@@ -47,7 +58,7 @@ QueryGraph.CheckDataValidity.Check = function(graph)
       if(graph.nodes[i].dataInfos.uri == "")
       {
         valid = false;
-        errorMessage = "l'URI d'un de vos noeud est vide";
+        errorMessage = "L'URI d'un de vos noeud est vide";
       }
     }
   }
@@ -55,12 +66,12 @@ QueryGraph.CheckDataValidity.Check = function(graph)
   // Edges
   for(let i = 0; i < graph.edges.length; i++)
   {
-    if(graph.edges[i].type == QueryGraph.Edge.Type.FIXE)
+    if(graph.edges[i].type == QueryGraph.Edge.Type.FIXED)
     {
       if(graph.edges[i].uri == "")
       {
         valid = false;
-        errorMessage = "l'URI d'un de vos liens est vide";
+        errorMessage = "L'URI d'un de vos liens fixe est vide";
       }
     }
     else if(graph.edges[i].type == QueryGraph.Edge.Type.VARIABLE)
@@ -73,6 +84,11 @@ QueryGraph.CheckDataValidity.Check = function(graph)
       {
         valid = false;
         errorMessage = "Le nom d'un de vos liens est vide";
+      }
+      else if(name.indexOf(' ') >= 0)
+      {
+        valid = false;
+        errorMessage = "Le nom d'un de vos liens contient un espace";
       }
       else
       {

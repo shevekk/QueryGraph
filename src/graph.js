@@ -88,7 +88,7 @@ QueryGraph.Graph.prototype.menageTopBouttonEvent = function()
   let me = this;
 
   /* Action of add a node */
-  $("#addNode").click(function() 
+  $("#"+QueryGraph.UI.TopUI.ADD_NODE_BUTTON_HTML_ID).click(function() 
   {
     $("#graph").css("cursor", "crosshair");
 
@@ -96,7 +96,7 @@ QueryGraph.Graph.prototype.menageTopBouttonEvent = function()
   });
 
   /* Action of add a edge */
-  $("#addEdge").click(function() 
+  $("#"+QueryGraph.UI.TopUI.ADD_EDGE_BUTTON_HTML_ID).click(function() 
   {
     $("#graph").css("cursor", "crosshair");
 
@@ -104,7 +104,7 @@ QueryGraph.Graph.prototype.menageTopBouttonEvent = function()
   });
 
   /* Action of delete the selection */
-  $("#delete").click(function() 
+  $("#"+QueryGraph.UI.TopUI.DELETE_BUTTON_HTML_ID).click(function() 
   {
     if(me.selectedNode)
     {
@@ -127,7 +127,7 @@ QueryGraph.Graph.prototype.menageTopBouttonEvent = function()
   });
 
   /* Action of delete the selection */
-  $("#revertEdge").click(function() 
+  $("#"+QueryGraph.UI.TopUI.REVERT_EDGE_BUTTON_HTML_ID).click(function() 
   {
     if(me.selectedEdge)
     {
@@ -140,7 +140,7 @@ QueryGraph.Graph.prototype.menageTopBouttonEvent = function()
   });
 
   /* Cancel the current action */
-  $("#cancelAction").click(function() 
+  $("#"+QueryGraph.UI.TopUI.CANCEL_ACTION_BUTTON_HTML_ID).click(function() 
   {
     $("#graph").css("cursor", "auto");
 

@@ -48,6 +48,7 @@ QueryGraph.QueryManager.prototype.exec = function(graph, callback)
 
   this.query += this.selectQuery + " WHERE { " + this.whereQuery + " }";
 
+  // Add limit
   if(QueryGraph.Config.limit != null)
   {
     this.query += " LIMIT " + QueryGraph.Config.limit;
@@ -89,76 +90,77 @@ QueryGraph.QueryManager.prototype.addNode = function(graph, node)
   {
     let typeUri = node.elementInfos.uri;
 
-    if(typeUri != "" || node.edges.length > 0 || node.reverseEdges.length > 0)
+    let nameVar = "?" + node.elementInfos.name;
+    let name = node.elementInfos.name;
+
+    // Add node to select with its label optionnaly
+    this.selectQuery += nameVar + " ";
+    if(QueryGraph.Config.displayLabel)
     {
-      let nameVar = "?" + node.elementInfos.name;
-      let name = node.elementInfos.name;
+      this.selectVars.push({"value" : name, "label" : name + "Label", "elementType" : QueryGraph.Element.TYPE.NODE});
+      this.selectQuery += nameVar + "Label ";
+    }
+    else
+    {
+      this.selectVars.push({"value" : name});
+    }
 
-      this.selectQuery += nameVar + " ";
-
-      if(QueryGraph.Config.displayLabel)
+    // Menage optional state
+    let nodeOptional = node.edgesAreAllOptional();
+    if(nodeOptional)
+    {
+      this.whereQuery += " OPTIONAL { "
+    }
+    
+    if(typeUri != "")
+    {
+      // Menage http element
+      if(typeUri.startsWith("http"))
       {
-        this.selectVars.push({"value" : name, "label" : name + "Label", "elementType" : QueryGraph.Element.TYPE.NODE});
-        this.selectQuery += nameVar + "Label ";
+        typeUri = "<" + typeUri + ">";
+      }
+
+      // Create query line with the optional recovery of the subclass 
+      if(node.elementInfos.subclass)
+      {
+        this.whereQuery += nameVar + " " + QueryGraph.Config.typeUri + "/" + QueryGraph.Config.subclassUri + "* " + typeUri + " . ";
       }
       else
       {
-        this.selectVars.push({"value" : name});
+        this.whereQuery += nameVar + " " + QueryGraph.Config.typeUri + " " + typeUri + " . ";
       }
+    }
 
-      // Menage optional state
-      let nodeOptional = node.edgesAreAllOptional();
-      if(nodeOptional)
+    // Add edges if the end node edges are not all optional (optional node)
+    for(let j = 0; j < node.edges.length; j++)
+    {
+      let edge = node.edges[j];
+      let endNode = graph.getNode(edge.idNodeEnd);
+
+      if(!endNode.edgesAreAllOptional() || endNode.type == QueryGraph.Node.Type.DATA)
       {
-        this.whereQuery += " OPTIONAL { "
+        this.addEdge(edge, nameVar, endNode, nodeOptional);
       }
-      
-      if(typeUri != "")
+    }
+
+    // For optional node add revert edges
+    if(nodeOptional)
+    {
+      for(let i = 0; i < node.reverseEdges.length; i++)
       {
-        if(typeUri.startsWith("http"))
-        {
-          typeUri = "<" + typeUri + ">";
-        }
-        // 
-        if(node.elementInfos.subclass)
-        {
-          this.whereQuery += nameVar + " " + QueryGraph.Config.typeUri + "/" + QueryGraph.Config.subclassUri + "* " + typeUri + " . ";
-        }
-        else
-        {
-          this.whereQuery += nameVar + " " + QueryGraph.Config.typeUri + " " + typeUri + " . ";
-        }
+        let edge = node.reverseEdges[i];
+        let startNode = graph.getNode(edge.idNodeStart);
+        let nameVar = this.getNodeVarName(startNode);
+
+        this.addEdge(edge, nameVar, node, nodeOptional);
       }
 
-      // Add edges
-      for(let j = 0; j < node.edges.length; j++)
-      {
-        let edge = node.edges[j];
-        let endNode = graph.getNode(edge.idNodeEnd);
-
-        if(!endNode.edgesAreAllOptional() || endNode.type == QueryGraph.Node.Type.DATA)
-        {
-          this.addEdge(edge, nameVar, endNode, nodeOptional);
-        }
-      }
-
-      if(nodeOptional)
-      {
-        for(let i = 0; i < node.reverseEdges.length; i++)
-        {
-          let edge = node.reverseEdges[i];
-          let startNode = graph.getNode(edge.idNodeStart);
-          let nameVar = this.getNodeVarName(startNode);
-
-          this.addEdge(edge, nameVar, node, nodeOptional);
-        }
-
-        this.whereQuery += " } "
-      }
+      this.whereQuery += " } "
     }
   }
   else if(node.type == QueryGraph.Node.Type.DATA)
   {
+    // For data nodes, create edges with other nodes
     let startNodeUri = node.dataInfos.uri;
 
     for(let j = 0; j < node.edges.length; j++)
@@ -196,6 +198,7 @@ QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, end
       uri = "<" + uri + ">";
     }
 
+    // Create query line for optional and not optional
     if(edge.optional && !nodeOptional)
     {
       this.whereQuery +=  " OPTIONAL { " + startNodeVarName + " " + uri + " " + endNodeVarName + " } . ";
@@ -209,6 +212,7 @@ QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, end
   {
     let name = "?" + edge.name;
 
+    // Cretae query lien for for optional and not optional
     if(edge.optional && !nodeOptional)
     {
       this.whereQuery +=  " OPTIONAL { " + startNodeVarName + " " + name + " " + endNodeVarName + " } . ";
@@ -220,22 +224,14 @@ QueryGraph.QueryManager.prototype.addEdge = function(edge, startNodeVarName, end
 
     // Add edge variable name to select
     this.selectVars.push({"value" : edge.name, "elementType" : QueryGraph.Element.TYPE.EDGE});
-
     this.selectQuery += name + " ";
-
-    /*
-    if(QueryGraph.Config.displayLabel)
-    {
-      this.selectVars.push(edge.name + "Label");
-      this.selectQuery += name + "Label ";
-    }
-    */
   }
 };
 
 /**
- * Get the node var name 
+ * Get the node var name by type
  * @param {QueryGraph.Node}            node                    The node
+ * @return                                                     The node var name
  */
 QueryGraph.QueryManager.prototype.getNodeVarName = function(node)
 {

@@ -54,7 +54,10 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
       nodeNumber ++;
       me.addNode(nodeNumber, this.baseGraph.nodes[i].type, this.baseGraph.nodes[i].label, this.baseGraph.nodes[i].id, -1, this.baseGraph.nodes[i].uri);
     }
-    else if(this.baseGraph.nodes[i].type == QueryGraph.Node.Type.ELEMENT)    
+  }
+  for(let i = 0; i < this.baseGraph.nodes.length; i++)
+  {
+    if(this.baseGraph.nodes[i].type == QueryGraph.Node.Type.ELEMENT)    
     {
       for(let j = 0; j < this.data.length; j++)
       {
@@ -90,11 +93,12 @@ QueryGraph.ResultGraph.ResultGraph.prototype.draw = function()
     physics : {
       enabled: true,
       stabilization: false,
-      barnesHut : {}
-    },
-    edges:
-    {
-      label : "test"
+      barnesHut : {
+        gravitationalConstant : -3000,
+        centralGravity : 0.25,
+        springLength : 95,
+        springConstant : 0.025
+      }
     }
   };
 
@@ -131,31 +135,45 @@ QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphE
 
   let startNodes = me.visNodes.get({
     filter: function (item) {
-      return item.baseId == baseGraphEdge.idNodeStart;
+      return item.baseIds[baseGraphEdge.idNodeStart] != undefined;
     }
   });
 
   for(let i = 0; i < startNodes.length; i++)
   {
     let endNodesIds = [];
-    for(let j = 0; j < startNodes[i].lineNumbers.length; j++)
+
+    let startNodesLineNumbers = [];
+    for (const key in startNodes[i].baseIds)
+    {
+      startNodesLineNumbers = startNodesLineNumbers.concat(startNodes[i].baseIds[key]);
+    }
+
+    for(let j = 0; j < startNodesLineNumbers.length; j++)
     {
       let endNodes = me.visNodes.get({
         filter: function (item) {
-          return (item.uri != startNodes[i].uri && item.lineNumbers.includes(startNodes[i].lineNumbers[j]) || item.lineNumbers.includes(-1) || startNodes[i].lineNumbers.includes(-1)) && item.baseId == baseGraphEdge.idNodeEnd;
+
+          let itemLineNumbers = [];
+          for (const key in item.baseIds)
+          {
+            itemLineNumbers = itemLineNumbers.concat(item.baseIds[key]);
+          }
+
+          return (item.uri != startNodes[i].uri && itemLineNumbers.includes(startNodesLineNumbers[j]) || itemLineNumbers.includes(-1) || startNodesLineNumbers[j] == -1) 
+          && item.baseIds[baseGraphEdge.idNodeEnd] != undefined;
         }
       });
-
       for(let k = 0; k < endNodes.length; k++)
       {
         if(!endNodesIds.includes(endNodes[k].id))
         {
-          var data = me.getEdgeLabelAndUri(baseGraphEdge, startNodes[i], endNodes[k]);
+          let data = me.getEdgeLabelAndUri(baseGraphEdge, startNodes[i], endNodes[k]);
 
-          if(data.uri)
+          for(let l = 0; l < data.uri.length; l++)
           {
             endNodesIds.push(endNodes[k].id);
-            me.addEdge(startNodes[i].id, endNodes[k].id, baseGraphEdge.type, data.uri, data.label);
+            me.addEdge(startNodes[i].id, endNodes[k].id, baseGraphEdge.type, data.uri[l], data.labels[l]);
           }
         }
       }
@@ -168,7 +186,7 @@ QueryGraph.ResultGraph.ResultGraph.prototype.edgesCreation = function(baseGraphE
  * @param {Object}                     baseGraphEdge                    Edge graph object
  * @param {Object}                     startNode                        VisNode Object
  * @param {Object}                     endNode                          VisNode Object
- * return {Object}                                                      Data with label and uri
+ * return {Object}                                                      Data with array of label and uri
  */
 QueryGraph.ResultGraph.ResultGraph.prototype.getEdgeLabelAndUri = function(baseGraphEdge, startNode, endNode)
 {
@@ -177,44 +195,67 @@ QueryGraph.ResultGraph.ResultGraph.prototype.getEdgeLabelAndUri = function(baseG
   let label = "";
   let uri = "";
 
+  let data = {};
+  data.labels = [];
+  data.uri = [];
+
   if(baseGraphEdge.type == QueryGraph.Edge.Type.VARIABLE)
   {
-    let numLine = -1;
-    if(startNode.type == QueryGraph.Node.Type.ELEMENT)
+    let numLines = [];
+
+    if(startNode.baseIds[baseGraphEdge.idNodeStart] != undefined && endNode.baseIds[baseGraphEdge.idNodeEnd] != undefined)
     {
-      numLine = startNode.lineNumbers[0];
-    }
-    else if(endNode.type == QueryGraph.Node.Type.ELEMENT)
-    {
-      numLine = endNode.lineNumbers[0];
+      let startLines = startNode.baseIds[baseGraphEdge.idNodeStart];
+      let endLines = endNode.baseIds[baseGraphEdge.idNodeEnd];
+
+      if(startLines[0] == -1)
+      {
+        numLines.push(endLines[0]);
+      }
+      else if(endLines[0] == -1)
+      {
+        numLines.push(startLines[0]);
+      }
+      else
+      {
+        for(let i = 0; i < startLines.length; i++)
+        {
+          for(let j = 0; j < endLines.length; j++)
+          {
+            if(startLines[i] == endLines[j] || startLines[i] == -1 || endLines[j] == -1)
+            {
+              numLines.push(startLines[i]);
+            }
+          }
+        }
+      }
     }
 
     for(let j = 0; j < me.data.length; j++)
     {
-      if(me.data[j].var == baseGraphEdge.name && me.data[j].lineNumber == numLine)
+      if(me.data[j].var == baseGraphEdge.name && numLines.includes(me.data[j].lineNumber))
       {
-        uri = me.data[j].value;
-
-        if(me.data[j].label)
+        if(!data.uri.includes(me.data[j].value))
         {
-          label = me.data[j].label;
-        }
-        else
-        {
-          label = me.data[j].value;
+          data.uri.push(me.data[j].value);
+          
+          if(me.data[j].label)
+          {
+            data.labels.push(me.data[j].label);
+          }
+          else
+          {
+            data.labels.push(me.data[j].value);
+          }
         }
       }
     }
   }
   else if(baseGraphEdge.type == QueryGraph.Edge.Type.FIXED)
   {
-    label = baseGraphEdge.label;
-    uri = baseGraphEdge.uri;
+    data.labels.push(baseGraphEdge.label);
+    data.uri.push(baseGraphEdge.uri);
   }
-
-  let data = {};
-  data.label = label;
-  data.uri = uri;
 
   return data;
 };
@@ -243,14 +284,14 @@ QueryGraph.ResultGraph.ResultGraph.prototype.addNode = function(id, type, label,
       label: label,
       size : 10,
       shape: "dot",
-      baseId: baseId,
+      baseIds: [],
       uri: uri,
       type: type,
-      lineNumbers: [lineNumber],
       color: {
         border: "#000000",
       }
     };
+    node.baseIds[baseId] = [lineNumber];
     this.visNodes.add(node);
 
     if(type == QueryGraph.Node.Type.DATA)
@@ -264,12 +305,30 @@ QueryGraph.ResultGraph.ResultGraph.prototype.addNode = function(id, type, label,
   }
   else
   {
+    /*
+    let baseIds = items[0].baseIds;
+    if(!baseIds.includes(baseId))
+    {
+      baseIds.push(baseId);
+    }
+
     let lineNumbers = items[0].lineNumbers;
     lineNumbers.push(lineNumber);
+    */
+    let baseIds = items[0].baseIds;
+    if(!baseIds[baseId])
+    {
+      baseIds[baseId] = [lineNumber];
+    }
+    else
+    {
+      let lineNumbers = baseIds[baseId].lineNumbers;
+      baseIds[baseId].push(lineNumber);
+    }
 
     id = items[0].id;
 
-    this.visNodes.update({id, lineNumbers : lineNumbers});
+    this.visNodes.update({id, baseIds: baseIds});
   }
 };
 
@@ -313,10 +372,10 @@ QueryGraph.ResultGraph.ResultGraph.prototype.addEdge = function(idNodeStart, idN
 
   if(type == QueryGraph.Edge.Type.VARIABLE)
   {
-    this.visEdges.update({id: id, color: { color : "#8499c9" }, dashes: [5, 5], width : 3, font: { strokeWidth: 2, strokeColor: "#acbde3" }});
+    this.visEdges.update({id: id, color: { color : "#8499c9" }, width : 3, font: { strokeWidth: 2, strokeColor: "#acbde3" }});
   }
   else if(type == QueryGraph.Edge.Type.FIXED)
   {
-    this.visEdges.update({id: id, color: { color : "#84c994" }, dashes: [1], width : 3, font: { strokeWidth: 2, strokeColor: "#b1e3bd" }});
+    this.visEdges.update({id: id, color: { color : "#84c994" }, width : 3, font: { strokeWidth: 2, strokeColor: "#b1e3bd" }});
   }
 }

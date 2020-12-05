@@ -12,7 +12,7 @@ QueryGraph.UIElement = function()
 QueryGraph.UIElement.prototype.dataCollector;
 
 /**
- * @property {String}             DESCRIPTION_DIV_ID             HTML ID Of DIV fro description or element
+ * @property {String}             DESCRIPTION_DIV_ID             HTML ID of DIV for description or element
  * @property {String}             LIST_ELEMENT_HTML_ID           HTML ID for list of elements
  * @property {String}             LIST_ELEMENT_HTML_DIV_ID       HTML ID for the div of list of elements
  * @property {String}             SEARCH_HTML_ID                 HTML ID for search element

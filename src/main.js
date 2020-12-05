@@ -24,12 +24,12 @@ QueryGraph.Main = function()
     me.uiManager.init(me.graph, me.dataCollector);
     me.graph.init(me.uiManager);
 
-    $("#"+QueryGraph.Main.EXEC_QUERY_HTML_ID).click(function() 
+    $("#"+QueryGraph.UI.TopUI.EXEC_QUERY_BUTTON_HTML_ID).click(function() 
     {
       me.execQuery(false);
     });
 
-    $("#"+QueryGraph.Main.EXEC_QUERY_GRAPH_HTML_ID).click(function() 
+    $("#"+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID).click(function() 
     {
       me.execQuery(true);
     });
@@ -43,6 +43,8 @@ QueryGraph.Main = function()
 QueryGraph.Main.prototype.execQuery = function(isGraph)
 {
   let me = this;
+
+  me.graph.uiManager.save();
 
   if(QueryGraph.CheckDataValidity.Check(me.graph))
   {
@@ -115,13 +117,6 @@ QueryGraph.Main.prototype.getEdgesLabels = function(data, selectVars, callback)
     callback([]);
   }
 };
-
-/**
- * @property {String}             EXEC_QUERY_HTML_ID                HTML ID for button to execute a query
- * @property {String}             EXEC_QUERY_GRAPH_HTML_ID          HTML ID for button to execute a query with graph representation
- */
-QueryGraph.Main.EXEC_QUERY_HTML_ID = "execQuery";
-QueryGraph.Main.EXEC_QUERY_GRAPH_HTML_ID = "execQueryGraph";
 
 /**
  * @property {QueryGraph.Graph}                    graph                  The graph manager
