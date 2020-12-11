@@ -1,0 +1,247 @@
+﻿
+if (typeof QueryGraph.UI == 'undefined') {
+  QueryGraph.UI = {};
+}
+
+/**
+ * Class for ui node
+ */
+QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
+{
+  constructor() 
+  {
+    super();
+    /**
+     * @param {QueryGraph.Data.Node}                     node                 The selected node
+     */
+    this.node;
+  }
+
+  /*
+   * Get types list
+   * @return {String[]}                 The list of types
+   */
+  getType()
+  {
+    let types = {};
+    types[QueryGraph.Data.NodeType.ELEMENT] = "Element"
+    types[QueryGraph.Data.NodeType.DATA] = "Données"
+
+    return types;
+  }
+
+  /*
+   * Update selected node
+   * @param {QueryGraph.Data.Node}                      node              The selected node
+   */
+  getSelectElement(node)
+  {
+    this.node = node;
+  }
+
+  /**
+   * Update params contenent by type of node
+   * @param {QueryGraph.Data.NodeType}                 type              The type of the node
+   * @param {QueryGraph.Data.Node}                      node              The selected node
+   */
+  updateContent(type, node)
+  {
+    let me = this;
+    let content = "";
+
+    if(type == QueryGraph.Data.NodeType.ELEMENT)
+    {
+      content += '<br/>';
+      content += '<div id='+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'><i>Noeud représentant une donnée variable avec un type de donnée prédéfinie.</i></div>';
+      content += '<br/>';
+
+      content += '<div id='+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">Type prédéfini :</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect"></select><br></div>';
+
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'">Recherche du type :</label><input type="text" id="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" class="uiSelect" value="">';
+      content += '<button id="'+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID+'">OK</button><br/>';
+      content += '<div id="'+QueryGraph.UI.UIElement.SEARCH_DIV_ID+'"></div><br/>';
+      content += '<br/>';
+      
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'">Nom:</label><input type="text" id="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.name +'"><br>';
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">Label du type :</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.label +'"><br>';
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">URI du type:</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ node.elementInfos.uri +'"><br>';
+    
+      content += '<br/><div><input type="checkbox" id="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'" class="uiCheckbox"><label for="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'">Récupérer sous classes</label></div>';
+    }
+    else if(type == QueryGraph.Data.NodeType.DATA)
+    {
+      content += '<br/>';
+      content += '<div id='+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'><i>Noeud correspondant à une donnée fixe.</i></div>';
+      content += '<br/>';
+
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'">Recherche:</label><input type="text" id="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" class="uiSelect" value="">';
+      content += '<button id="'+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID+'">OK</button><br/>';
+      content += '<div id="'+QueryGraph.UI.UIElement.SEARCH_DIV_ID+'"></div><br/>';
+      content += '<br/>';
+      
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">Label:</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ node.dataInfos.label +'"><br>';
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">URI:</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ node.dataInfos.uri +'"><br>';
+    }
+
+    content += '<br/><a href="" id="'+QueryGraph.UI.UIElement.WEB_LINK_HTML_ID+'" target="_blank">Lien vers la page</a>';
+
+    $("#"+QueryGraph.UI.UIElement.CONTENT_HTML_ID).html(content);
+
+    if(type == QueryGraph.Data.NodeType.DATA)
+    {
+      me.getWebLink(node.dataInfos.uri);
+
+      me.menageSearch(type);
+    }
+    else if(type == QueryGraph.Data.NodeType.ELEMENT)
+    {
+      me.getWebLink(node.elementInfos.uri);
+
+      me.menageChoiseList();
+      me.menageSearch(type);
+
+      if(node.elementInfos.subclass)
+      {
+        $("#"+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID).prop("checked", true);
+      }
+      else
+      {
+        $("#"+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID).prop("checked", false);
+      }
+    }
+
+    // Menage web link
+    $("#"+QueryGraph.UI.UIElement.URI_HTML_ID).change(function() { 
+        me.getWebLink($("#"+QueryGraph.UI.UIElement.URI_HTML_ID).val()); 
+    });
+  }
+
+  /**
+   * Menage action in the search toolbar
+   * @param {QueryGraph.Data.NodeType}                 type              The type of the node
+   */
+  menageSearch(type)
+  {
+    let me = this;
+
+    $("#"+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID).click(function() 
+    {
+      $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).html("");
+
+      let searchValue = $("#"+QueryGraph.UI.UIElement.SEARCH_HTML_ID).val();
+
+      if(type == QueryGraph.Data.NodeType.DATA)
+      {
+        me.dataCollector.getNodesTypes(searchValue, function(results)
+        {
+          displaySearchResult(results);
+        });
+      }
+      else if(type == QueryGraph.Data.NodeType.ELEMENT)
+      {
+        me.dataCollector.getNodesData(searchValue, function(results)
+        {
+          displaySearchResult(results);
+        });
+      }
+
+      /**
+       * Display search result
+       * @param {Object}                 results              Object of result
+       */
+      function displaySearchResult(results)
+      {
+        for (const key in results)
+        {
+          let label = results[key].label;
+          let description = results[key].description;
+          let uri = results[key].uri;
+
+          let content = "<div class='" + QueryGraph.UI.UIElement.SEARCH_DIV_LINE_CLASS + "' uri='"+uri+"' label='"+label+"'><b>" + label + " (" + key + ")</b> : " + description + "<br/></div>";
+
+          $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).prepend(content);
+        }
+
+        // Menage click in search line : select an element
+        $('.'+QueryGraph.UI.UIElement.SEARCH_DIV_LINE_CLASS).click(function()
+        {
+          let uri = $(this).attr("uri");
+
+          $("#"+QueryGraph.UI.UIElement.LABEL_HTML_ID).val($(this).attr("label")); 
+          $("#"+QueryGraph.UI.UIElement.URI_HTML_ID).val(uri); 
+
+          me.getWebLink(uri);
+
+          $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).html("");
+        });
+        
+      }
+    });
+  }
+
+  /**
+   * Menage choise type in list
+   */
+  menageChoiseList()
+  {
+    let me = this;
+
+    me.dataCollector.getNodesTypesList(function(nodesValues, nodesLabels)
+    {
+      if(nodesValues.length > 0)
+      {
+        $('#'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID).append(new Option("", ""))
+
+        for(let i = 0; i < nodesValues.length; i++)
+        {
+          $('#'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID).append(new Option(nodesLabels[i], nodesValues[i]))
+        }
+      }
+      else
+      {
+        $('#'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID).hide();
+      }
+    });
+
+    // Choise a element --> Update label and URI fields
+    $('#'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID).change(function() 
+    {
+      let label = $( '#'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID + ' option:selected' ).text();
+      let val = $( this ).val();
+
+      $('#'+QueryGraph.UI.UIElement.LABEL_HTML_ID).val(label);
+      $('#'+QueryGraph.UI.UIElement.URI_HTML_ID).val(val);
+
+      me.getWebLink(val);
+    });
+  }
+
+  /**
+   * Set informations from form to the node
+   * @param {QueryGraph.Data.Graph}                     graph                 The graph manager
+   */
+  setNodeInformations(graph)
+  {
+    let elements = {};
+
+    let type = $("#"+QueryGraph.UI.UIElement.TYPE_SELECT_HTML_ID).val();
+    this.node.setType(type, graph);
+
+    if(type == QueryGraph.Data.NodeType.ELEMENT)
+    {
+      let label = $("#"+QueryGraph.UI.UIElement.LABEL_HTML_ID).val();
+      let uri = $("#"+QueryGraph.UI.UIElement.URI_HTML_ID).val();
+      let name = $("#"+QueryGraph.UI.UIElement.NAME_HTML_ID).val();
+      let subclass = $("#"+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID).prop('checked');
+
+      this.node.setElementInfos(label, uri, name, subclass, graph);
+    }
+    else if(type == QueryGraph.Data.NodeType.DATA)
+    {
+      let label = $("#"+QueryGraph.UI.UIElement.LABEL_HTML_ID).val();
+      let uri = $("#"+QueryGraph.UI.UIElement.URI_HTML_ID).val();
+
+      this.node.setDataInfos(label, uri, graph);
+    }
+  }
+}

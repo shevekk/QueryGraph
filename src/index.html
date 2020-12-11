@@ -34,28 +34,34 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
 
     <script type="text/javascript" src="main.js"></script>
-    <script type="text/javascript" src="config.js"></script>
-    <script type="text/javascript" src="element.js"></script>
-    <script type="text/javascript" src="edge.js"></script>
-    <script type="text/javascript" src="graph.js"></script>
-    <script type="text/javascript" src="node.js"></script>
-    <script type="text/javascript" src="queryManager.js"></script>
-    <script type="text/javascript" src="resultView.js"></script>
-    <script type="text/javascript" src="uiElement.js"></script>
-    <script type="text/javascript" src="uiEdge.js"></script>
-    <script type="text/javascript" src="uiManager.js"></script>
-    <script type="text/javascript" src="uiNode.js"></script>
-    <script type="text/javascript" src="dataCollector.js"></script>
-    <script type="text/javascript" src="dataCollectorWikidata.js"></script>
-    <script type="text/javascript" src="checkDataValidity.js"></script>
 
+    <script type="text/javascript" src="config/config.js"></script>
+
+    <script type="text/javascript" src="data/element.js"></script>
+    <script type="text/javascript" src="data/edge.js"></script>
+    <script type="text/javascript" src="data/graph.js"></script>
+    <script type="text/javascript" src="data/node.js"></script>
     <script type="text/javascript" src="data/loadManager.js"></script>
     <script type="text/javascript" src="data/saveManager.js"></script>
+    <script type="text/javascript" src="data/nodeType.js"></script>
+    <script type="text/javascript" src="data/edgeType.js"></script>
+    <script type="text/javascript" src="data/elementType.js"></script>
 
+    <script type="text/javascript" src="query/queryManager.js"></script>
+    <script type="text/javascript" src="query/resultView.js"></script>
+    <script type="text/javascript" src="query/dataCollector.js"></script>
+    <script type="text/javascript" src="query/dataCollectorWikidata.js"></script>
+    <script type="text/javascript" src="query/checkDataValidity.js"></script>
+
+    <script type="text/javascript" src="ui/uiElement.js"></script>
+    <script type="text/javascript" src="ui/uiEdge.js"></script>
+    <script type="text/javascript" src="ui/uiManager.js"></script>
+    <script type="text/javascript" src="ui/uiNode.js"></script>
     <script type="text/javascript" src="ui/topUI.js"></script>
-    
+ 
     <script>
       let main = new QueryGraph.Main();
+      main.init();
     </script>
 
   </body>
