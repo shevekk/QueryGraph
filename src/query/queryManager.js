@@ -45,6 +45,8 @@ QueryGraph.Query.QueryManager = class QueryManager
       me.addNode(graph, node);
     }
 
+    this.whereQuery += me.addFilters(graph);
+
     // Add language label management
     if(QueryGraph.Config.Config.displayLabel)
     {
@@ -86,7 +88,7 @@ QueryGraph.Query.QueryManager = class QueryManager
 
   /**
    * Add a node data to a query
-   * @param {QueryGraph.Data.Graph}           graph                 The graphe manager
+   * @param {QueryGraph.Data.Graph}           graph                 The graph manager
    * @param {QueryGraph.Data.Node}            node                  Node to add data to query
    */
   addNode(graph, node)
@@ -176,10 +178,6 @@ QueryGraph.Query.QueryManager = class QueryManager
         this.addEdge(edge, startNodeUri, endNode, false);
       }
     }
-    else if(node.type == QueryGraph.Data.NodeType.FILTER)
-    {
-
-    }
   }
 
   /**
@@ -236,11 +234,12 @@ QueryGraph.Query.QueryManager = class QueryManager
   /**
    * Get the node var name by type
    * @param {QueryGraph.Data.Node}            node                    The node
-   * @return                                                     The node var name
+   * @return {String}                                                 The node var name
    */
   getNodeVarName(node)
   {
     let varName = "";
+
     if(node.type == QueryGraph.Data.NodeType.ELEMENT)
     {
       varName = "?" + node.elementInfos.name;
@@ -254,6 +253,114 @@ QueryGraph.Query.QueryManager = class QueryManager
         varName = "<" + varName + ">";
       }
     }
+    else if(node.type == QueryGraph.Data.NodeType.FILTER)
+    {
+      varName = "?filter" + node.id;
+    }
+
     return varName;
+  }
+
+  /**
+   * Create the filter query string form filter nodes data
+   * @param {QueryGraph.Data.Graph}            graphe                 The graph manager
+   * @return {String}                                                 The filter query string
+   */
+  addFilters(graph)
+  {
+    let filterStr = '';
+    
+    for(let i = 0; i < graph.nodes.length; i++)
+    {
+      if(graph.nodes[i].type == QueryGraph.Data.NodeType.FILTER)
+      {
+        let filterContentStr = '';
+        let varName = this.getNodeVarName(graph.nodes[i]);
+
+        if(graph.nodes[i].filterInfos.operator == QueryGraph.Data.NodeFilterOperator.CONTAINS || graph.nodes[i].filterInfos.operator == QueryGraph.Data.NodeFilterOperator.STRSTARTS || graph.nodes[i].filterInfos.operator == QueryGraph.Data.NodeFilterOperator.STRENDS)
+        {
+          // Manage CONTAINS, STRSTARTS and STRENDS Filters
+          let value = graph.nodes[i].filterInfos.value;
+          if(!value.startsWith('"'))
+          {
+            value = '"' + value + '"';
+          }
+
+          if(graph.nodes[i].filterInfos.operator == QueryGraph.Data.NodeFilterOperator.CONTAINS)
+          {
+            filterContentStr += "CONTAINS(" + varName + ", " + value + ")";
+          }
+          else if(graph.nodes[i].filterInfos.operator == QueryGraph.Data.NodeFilterOperator.STRSTARTS)
+          {
+            filterContentStr += "STRSTARTS(" + varName + ", " + value + ")";
+          }
+          else if(graph.nodes[i].filterInfos.operator == QueryGraph.Data.NodeFilterOperator.STRENDS)
+          {
+            filterContentStr += "STRENDS(" + varName + ", " + value + ")";
+          }
+        }
+        else
+        {
+          // Other filters
+          if(graph.nodes[i].filterInfos.valueType == QueryGraph.Data.NodeFilterValueType.TEXT)
+          {
+            filterContentStr = 'STR(' + varName + ')';
+          }
+          else
+          {
+            filterContentStr = varName;
+          }
+
+          if(graph.nodes[i].filterInfos.operator == QueryGraph.Data.NodeFilterOperator.IN)
+          {
+            // Manage IN operator for number or string
+            let values = graph.nodes[i].filterInfos.value.split(', ').join(',').split(',')
+
+            filterContentStr += " IN(";
+            for(let j = 0; j < values.length; j++)
+            {
+              if(graph.nodes[i].filterInfos.valueType == QueryGraph.Data.NodeFilterValueType.TEXT && !values[j].startsWith('"'))
+              {
+                filterContentStr += '"' + values[j]+ '"';
+              }
+              else
+              {
+                filterContentStr += '' + values[j]+ '';
+              }
+
+              if(j < values.length-1)
+              {
+                filterContentStr += ","
+              }
+            }
+
+            filterContentStr += ")";
+          }
+          else
+          {
+            // Menage =, >, >=, <, <= operators
+            filterContentStr += " " + graph.nodes[i].filterInfos.operator + " ";
+            
+            if(graph.nodes[i].filterInfos.valueType != QueryGraph.Data.NodeFilterValueType.NUMBER && !graph.nodes[i].filterInfos.value.startsWith('"'))
+            {
+              filterContentStr += '"' + graph.nodes[i].filterInfos.value + '"';
+            }
+            else
+            {
+              filterContentStr += graph.nodes[i].filterInfos.value;
+            }
+
+            if(graph.nodes[i].filterInfos.valueType == QueryGraph.Data.NodeFilterValueType.DATE)
+            {
+              filterContentStr += "^^xsd:dateTime";
+            }
+          }
+        }
+
+        filterStr += " FILTER(" + filterContentStr + ") . ";
+      }
+    }
+
+    return filterStr;
   }
 }

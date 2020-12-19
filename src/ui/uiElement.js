@@ -31,6 +31,13 @@ QueryGraph.UI.UIElement = class UIElement
    * @property {String}             OPTIONAL_HTML_ID               HTML ID for the optional checkbox 
    * @property {String}             WEB_LINK_HTML_ID               HTML ID for web link
    * @property {String}             SUBCLASS_HTML_ID               HTML ID for get sub class of node (checkbox)
+   * @property {String}             VALUE_HTML_ID                  HTML ID for value input
+   * @property {String}             OPERATORS_HTML_ID              HTML ID for operators input
+   * @property {String}             VALUE_TYPE_HTML_ID             HTML ID for value type select input
+   * @property {String}             TEXT_FIELD_LABEL_CLASS         HTML CLASS for label of textfield
+   * @property {String}             TEXT_FIELD_CLASS               HTML CLASS for textfield
+   * @property {String}             CHECKBOX_CLASS                 HTML CLASS for checkbox
+   * @property {String}             SELECT_CLASS                   HTML CLASS for select
    */
   static DESCRIPTION_DIV_ID = "descriptionDiv";
 
@@ -55,12 +62,20 @@ QueryGraph.UI.UIElement = class UIElement
 
   static WEB_LINK_HTML_ID = "webLink";
 
+  static VALUE_HTML_ID = "valueInput";
+  static OPERATORS_HTML_ID = "operatorsInput";
+  static VALUE_TYPE_HTML_ID = "valueTypeInput";
+
+  static TEXT_FIELD_LABEL_CLASS = "uiTextFieldLabel";
+  static TEXT_FIELD_CLASS = "uiTextField";
+  static CHECKBOX_CLASS = "uiCheckbox";
+  static SELECT_CLASS = "uiSelect";
 
   /**
    * Init UI for a node
-   * @param {JQuery Element}                  html                JQuery element of the UI
+   * @param {JQuery Element}                       html                JQuery element of the UI
    * @param {QueryGraph.Data.Element}              nodeOrEdge          The selected node or edge
-   * @param {QueryGraph.Query.DataCollector}        dataCollector       The data collector
+   * @param {QueryGraph.Query.DataCollector}       dataCollector       The data collector
    */
   init(html, nodeOrEdge, dataCollector)
   {
@@ -69,7 +84,7 @@ QueryGraph.UI.UIElement = class UIElement
     me.dataCollector = dataCollector;
 
     me.getSelectElement(nodeOrEdge);
-    let types = me.getType();
+    let types = me.getTypes(nodeOrEdge);
 
     let content = '<div id="uiDisplayZone">';
 
@@ -100,36 +115,34 @@ QueryGraph.UI.UIElement = class UIElement
       me.updateContent(type, nodeOrEdge);
     });
   }
-}
 
-;
-
-/**
- * Init UI for a node
- * @param {String}                  uri                The element URI
- */
-QueryGraph.UI.UIElement.prototype.getWebLink = function(uri)
-{
-  let me = this;
-
-  if(!uri.startsWith("http"))
+  /**
+   * Init UI for a node
+   * @param {String}                  uri                The element URI
+   */
+  getWebLink(uri)
   {
-    for (const key in QueryGraph.Config.Config.prefix)
+    let me = this;
+
+    if(!uri.startsWith("http"))
     {
-      if(uri.split(':')[0] == key)
+      for (const key in QueryGraph.Config.Config.prefix)
       {
-        uri = QueryGraph.Config.Config.prefix[key] + uri.split(':')[1];  
+        if(uri.split(':')[0] == key)
+        {
+          uri = QueryGraph.Config.Config.prefix[key] + uri.split(':')[1];  
+        }
       }
     }
-  }
 
-  if(uri)
-  {
-    $('#' + QueryGraph.UI.UIElement.WEB_LINK_HTML_ID).attr("href", uri);
-    $('#' + QueryGraph.UI.UIElement.WEB_LINK_HTML_ID).css("visibility", "visible");
+    if(uri)
+    {
+      $('#' + QueryGraph.UI.UIElement.WEB_LINK_HTML_ID).attr("href", uri);
+      $('#' + QueryGraph.UI.UIElement.WEB_LINK_HTML_ID).css("visibility", "visible");
+    }
+    else
+    {
+      $('#' + QueryGraph.UI.UIElement.WEB_LINK_HTML_ID).css("visibility", "hidden");
+    }
   }
-  else
-  {
-    $('#' + QueryGraph.UI.UIElement.WEB_LINK_HTML_ID).css("visibility", "hidden");
-  }
-};
+}

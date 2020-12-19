@@ -129,39 +129,45 @@ QueryGraph.Query.ResultView = class ResultView
     var edges = []; 
     for(let i = 0; i < graph.nodes.length; i++)
     {
-      nodes.push({});
-      nodes[i]["id"] = graph.nodes[i].id;
-      nodes[i]["type"] = graph.nodes[i].type;
-      
-      if(graph.nodes[i].type == QueryGraph.Data.NodeType.DATA)
+      if(graph.nodes[i].type != QueryGraph.Data.NodeType.FILTER)
       {
-        nodes[i]["label"] = graph.nodes[i].dataInfos.label;
-        nodes[i]["uri"] = me.getUri(graph.nodes[i].dataInfos.uri);
-      }
-      else if(graph.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
-      {
-        nodes[i]["name"] = graph.nodes[i].elementInfos.name;
+        nodes.push({});
+        nodes[i]["id"] = graph.nodes[i].id;
+        nodes[i]["type"] = graph.nodes[i].type;
+        
+        if(graph.nodes[i].type == QueryGraph.Data.NodeType.DATA)
+        {
+          nodes[i]["label"] = graph.nodes[i].dataInfos.label;
+          nodes[i]["uri"] = me.getUri(graph.nodes[i].dataInfos.uri);
+        }
+        else if(graph.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
+        {
+          nodes[i]["name"] = graph.nodes[i].elementInfos.name;
+        }
       }
     }
 
     // Get graph edges
     for(let i = 0; i < graph.edges.length; i++)
     {
-      edges.push({});
-      edges[i]["type"] = graph.edges[i].type;
-      edges[i]["idNodeStart"] = graph.edges[i].idNodeStart;
-      edges[i]["idNodeEnd"] = graph.edges[i].idNodeEnd;
-      edges[i]["typeNodeStart"] = graph.edges[i].nodeStart.type;
-      edges[i]["typeNodeEnd"] = graph.edges[i].nodeEnd.type;
+      if(graph.edges[i].nodeStart.type != QueryGraph.Data.NodeType.FILTER && graph.edges[i].nodeEnd.type != QueryGraph.Data.NodeType.FILTER)
+      {
+        edges.push({});
+        edges[i]["type"] = graph.edges[i].type;
+        edges[i]["idNodeStart"] = graph.edges[i].idNodeStart;
+        edges[i]["idNodeEnd"] = graph.edges[i].idNodeEnd;
+        edges[i]["typeNodeStart"] = graph.edges[i].nodeStart.type;
+        edges[i]["typeNodeEnd"] = graph.edges[i].nodeEnd.type;
 
-      if(graph.edges[i].type == QueryGraph.Data.EdgeType.VARIABLE)
-      {
-        edges[i]["name"] = graph.edges[i].name;
-      }
-      else if(graph.edges[i].type == QueryGraph.Data.EdgeType.FIXED)
-      {
-        edges[i]["label"] = graph.edges[i].label;
-        edges[i]["uri"] = me.getUri(graph.edges[i].uri);
+        if(graph.edges[i].type == QueryGraph.Data.EdgeType.VARIABLE)
+        {
+          edges[i]["name"] = graph.edges[i].name;
+        }
+        else if(graph.edges[i].type == QueryGraph.Data.EdgeType.FIXED)
+        {
+          edges[i]["label"] = graph.edges[i].label;
+          edges[i]["uri"] = me.getUri(graph.edges[i].uri);
+        }
       }
     }
     // Init json graph

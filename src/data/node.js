@@ -28,12 +28,11 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
     this.elementInfos = new QueryGraph.Data.NodeElementInfos();
     this.elementInfos.name = "Noeud" + this.id;
     this.dataInfos = new QueryGraph.Data.NodeDataInfos();
+    this.filterInfos = new QueryGraph.Data.NodeFilterInfos();
 
     this.edges = [];
     this.reverseEdges = [];
   }
-
-
 
   /**
    * Create the visnetwork node content
@@ -60,7 +59,7 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
   /**
    * Set the type of the node and init design from type
    * @param {QueryGraph.Data.NodeType}                  type                   New type of the node
-   * @param {QueryGraph.Data.Graph}                      graph                  The graphe manager
+   * @param {QueryGraph.Data.Graph}                     graph                  The graphe manager
    */
   setType(type, graph)
   {
@@ -69,25 +68,40 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
     // set design
     if(this.type == QueryGraph.Data.NodeType.DATA)
     {
-      graph.visNodes.update({id: this.id, color: { background : "#e99290", border : "#ba4e4b" }, shape: "dot", size: 15, shape: "diamond", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#e99290" }});
+      graph.visNodes.update({id: this.id, color: { background: "#e99290", border: "#ba4e4b" }, shape: "dot", size: 15, shape: "diamond", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#e99290" }});
     }
     else if(this.type == QueryGraph.Data.NodeType.ELEMENT)
     {
-      graph.visNodes.update({id: this.id, color: { background : "#a9d1db", border : "#418597" }, size: 11, shape: "dot", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#a9d1db" }});
+      graph.visNodes.update({id: this.id, color: { background: "#a9d1db", border: "#418597" }, size: 11, shape: "dot", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#a9d1db" }});
     }
     else if(this.type == QueryGraph.Data.NodeType.FILTER)
     {
-      graph.visNodes.update({id: this.id, color: { background : "#0000FF" }});
+      graph.visNodes.update({id: this.id, color: { background: "#ffe782", border: "#d3b843" }, size: 12, shape: "triangle", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#ffe782" }});
+
+      // Reverse edges
+      for(let i = 0; i < this.edges.length; i++)
+      {
+        this.edges[i].reverse(graph);
+        i--;
+      }
+      // Set reserse edges type to FIXED
+      for(let i = 0; i < this.reverseEdges.length; i++)
+      {
+        if(this.reverseEdges[i].type != QueryGraph.Data.EdgeType.FIXED)
+        {
+          this.reverseEdges[i].setType(QueryGraph.Data.EdgeType.FIXED, graph);
+        }
+      }
     }
   }
 
   /**
    * Set elements informations
-   * @param {String}                      label                  Label of element in triplestore
-   * @param {String}                      uri                    URI of element in triplestore
-   * @param {String}                      name                   Name of element in triplestore
-   * @param {Boolean}                     subclass               True for get subclass of the element
-   * @param {QueryGraph.Data.Graph}            graph                  The graphe manager
+   * @param {String}                         label                  Label of element in triplestore
+   * @param {String}                         uri                    URI of element in triplestore
+   * @param {String}                         name                   Name of element in triplestore
+   * @param {Boolean}                        subclass               True for get subclass of the element
+   * @param {QueryGraph.Data.Graph}          graph                  The graphe manager
    */
   setElementInfos(label, uri, name, subclass, graph)
   {
@@ -101,9 +115,9 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
 
   /**
    * Set data informations
-   * @param {String}                      label                  Label of element in triplestore
-   * @param {String}                      uri                    URI of element in triplestore
-   * @param {QueryGraph.Data.Graph}            graph                  The graphe manager
+   * @param {String}                        label                  Label of element in triplestore
+   * @param {String}                        uri                    URI of element in triplestore
+   * @param {QueryGraph.Data.Graph}         graph                  The graphe manager
    */
   setDataInfos(label, uri, graph)
   {
@@ -111,6 +125,22 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
     this.dataInfos.uri = uri;
 
     graph.visNodes.update({id: this.id, label: label});
+  }
+
+  /**
+   * Set data informations
+   * @param {QueryGraph.Data.NodeFilterOperator}          operator               Operator of the filter
+   * @param {QueryGraph.Data.NodeFilterValueType}         valueType              Type of the value
+   * @param {String}                                      value                  Value(s) of the filter
+   * @param {QueryGraph.Data.Graph}                       graph                  The graphe manager
+   */
+  setFilterInfos(operator, valueType, value, graph)
+  {
+    this.filterInfos.operator = operator;
+    this.filterInfos.valueType = valueType;
+    this.filterInfos.value = value;
+
+    graph.visNodes.update({id: this.id, label: operator + " " + value});
   }
 
   /**
@@ -164,6 +194,8 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
 
 /**
  * Class for menage a node
+ * @property {String}                        label                  Label of element in triplestore
+ * @property {String}                        uri                    URI of element in triplestore
  */
 QueryGraph.Data.NodeDataInfos = class NodeDataInfos
 {
@@ -176,6 +208,10 @@ QueryGraph.Data.NodeDataInfos = class NodeDataInfos
 
 /*
  * Information of elements node
+ * @property {String}                         label                  Label of element in triplestore
+ * @property {String}                         uri                    URI of element in triplestore
+ * @property {String}                         name                   Name of element in triplestore
+ * @property {Boolean}                        subclass               True for get subclass of the element
  */
 QueryGraph.Data.NodeElementInfos = class NodeElementInfos
 {
@@ -186,4 +222,46 @@ QueryGraph.Data.NodeElementInfos = class NodeElementInfos
     this.name = "";
     this.subclass = false;
   }
+}
+
+/*
+ * Information of filter node
+ * @property {QueryGraph.Data.NodeFilterOperator}           operator               Operator of the filter
+ * @property {QueryGraph.Data.NodeFilterValueType}          valueType              Type of the value
+ * @property {String}                                       value                  Value(s) of the filter
+ */
+QueryGraph.Data.NodeFilterInfos = class NodeFilterInfos
+{
+  constructor()
+  {
+    this.operator = QueryGraph.Data.NodeFilterOperator.EQUAL; 
+    this.valueType = QueryGraph.Data.NodeFilterValueType.NUMBER;
+    this.value = "";
+  }
+}
+
+/*
+ * Filter node operators
+ */
+QueryGraph.Data.NodeFilterOperator = 
+{
+  EQUAL: "=",
+  SUPERIOR: ">",
+  INFERIOR: "<",
+  SUPERIOR_OR_EQUAL: ">=",
+  INFERIOR_OR_EQUAL: "<=",
+  IN: "IN",
+  CONTAINS: "CONTAINS",
+  STRSTARTS: "STRSTARTS",
+  STRENDS: "STRENDS"
+}
+
+/*
+ * Value type of filter node
+ */
+QueryGraph.Data.NodeFilterValueType = 
+{
+  NUMBER: "NUMBER",
+  TEXT: "TEXT",
+  DATE: "DATE",
 }

@@ -2,7 +2,6 @@
   QueryGraph.Data = {};
 }
 
-
 /*
  * Types of nodes
  */

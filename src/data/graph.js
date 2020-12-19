@@ -121,12 +121,19 @@ QueryGraph.Data.Graph = class Graph
       }
     });
 
-    /* Action of delete the selection */
+    /* Action of reverse selected edge */
     $("#"+QueryGraph.UI.TopUI.REVERT_EDGE_BUTTON_HTML_ID).click(function() 
     {
       if(me.selectedEdge)
       {
-        me.selectedEdge.reverse(me);
+        if(me.selectedEdge.nodeEnd.type != QueryGraph.Data.NodeType.FILTER)
+        {
+          me.selectedEdge.reverse(me);
+        }
+        else
+        {
+          alert("Action impossible : impossible d'inverser le sens pour les noeuds de type Filtre");
+        }
       }
       else
       {
@@ -169,7 +176,15 @@ QueryGraph.Data.Graph = class Graph
             }
             else
             {
-              me.addEdge(me.selectedNode.id, data.nodes[0], me.selectedNode, endNode);
+              if(me.selectedNode.type != QueryGraph.Data.NodeType.FILTER || endNode.type == QueryGraph.Data.NodeType.FILTER)
+              {
+                me.addEdge(me.selectedNode.id, data.nodes[0], me.selectedNode, endNode);
+              }
+              else
+              {
+                // If start node tpye is FILTER, reverses the direction and set type to FIXED
+                me.addEdge(data.nodes[0], me.selectedNode.id, endNode, me.selectedNode, null, QueryGraph.Data.EdgeType.FIXED);
+              }
             }
             
             me.action = null;
@@ -247,37 +262,15 @@ QueryGraph.Data.Graph = class Graph
   }
 
   /**
-   * Add a new node
-   * @param {String}               x                The X node position
-   * @param {String}               y                The Y node position
-   */
-  addNode(x, y)
-  {
-    // Get free id
-    let id = 1;
-    if(this.nodes.length > 0)
-    {
-      id = this.nodes[this.nodes.length - 1].id + 1;
-    }
-    
-    // Create the node
-    let newNode = new QueryGraph.Data.Node(id);
-
-    this.visNodes.add([newNode.createVisNode(x, y)]);
-
-    newNode.setType(QueryGraph.Data.NodeType.ELEMENT, this);
-
-    this.nodes.push(newNode);
-  }
-
-  /**
    * Add a new edge
-   * @param {Number}                  idNodeStart          Id of the start node
-   * @param {Number}                  idNodeEnd            Id of the end node
-   * @param {QueryGraph.Data.Node}         nodeStart            Start node
-   * @param {QueryGraph.Data.Node}         nodeEnd              End node
+   * @param {Number}                          idNodeStart          Id of the start node
+   * @param {Number}                          idNodeEnd            Id of the end node
+   * @param {QueryGraph.Data.Node}            nodeStart            Start node
+   * @param {QueryGraph.Data.Node}            nodeEnd              End node
+   * @param {Number}                          id                   Id of the edge (optional)
+   * @param {QueryGraph.Data.EdgeType}        type                 Type of the edges (optional)
    */
-  addEdge(idNodeStart, idNodeEnd, nodeStart, nodeEnd, id)
+  addEdge(idNodeStart, idNodeEnd, nodeStart, nodeEnd, id, type)
   {
     let newEdge = new QueryGraph.Data.Edge(idNodeStart, idNodeEnd, nodeStart, nodeEnd);
 
@@ -300,7 +293,14 @@ QueryGraph.Data.Graph = class Graph
     let endNode = this.getNode(idNodeEnd);
     endNode.addEdge(newEdge, true);
 
-    newEdge.setType(QueryGraph.Data.EdgeType.VARIABLE, this);
+    if(type)
+    {
+      newEdge.setType(type, this);
+    }
+    else
+    {
+      newEdge.setType(QueryGraph.Data.EdgeType.VARIABLE, this);
+    }
   }
 
   /**
@@ -434,6 +434,7 @@ QueryGraph.Data.Graph = class Graph
       data["nodes"][i]["id"] = me.nodes[i].id;
       data["nodes"][i]["elementInfos"] = me.nodes[i].elementInfos;
       data["nodes"][i]["dataInfos"] = me.nodes[i].dataInfos;
+      data["nodes"][i]["filterInfos"] = me.nodes[i].filterInfos;
     }
     for(let i = 0; i < me.edges.length; i++)
     {
@@ -458,7 +459,7 @@ QueryGraph.Data.Graph = class Graph
   fromJson(data)
   {
     var me = this;
-    // 
+    
     me.clearGraph();
 
     for(let i = 0; i < data["nodes"].length; i++)
@@ -470,6 +471,11 @@ QueryGraph.Data.Graph = class Graph
       me.nodes[i].elementInfos = data["nodes"][i]["elementInfos"];
       me.nodes[i].dataInfos = data["nodes"][i]["dataInfos"];
 
+      if(data["nodes"][i]["filterInfos"] != undefined)
+      {
+        me.nodes[i].filterInfos = data["nodes"][i]["filterInfos"];
+      }
+
       if(me.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
       {
         me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].elementInfos.name});
@@ -477,6 +483,10 @@ QueryGraph.Data.Graph = class Graph
       else if(me.nodes[i].type == QueryGraph.Data.NodeType.DATA)
       {
         me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].dataInfos.label});
+      }
+      else if(me.nodes[i].type == QueryGraph.Data.NodeType.FILTER)
+      {
+        me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].filterInfos.operator + " " + me.nodes[i].filterInfos.value});
       }
     }
     for(let i = 0; i < data["edges"].length; i++)
@@ -488,7 +498,6 @@ QueryGraph.Data.Graph = class Graph
 
       me.addEdge(idNodeStart, idNodeEnd, nodeStart, nodeEnd, data["edges"][i]["id"]);
 
-      //me.edges[i].id = data["edges"][i]["id"];
       me.edges[i].setType(data["edges"][i]["type"], me);
       me.edges[i].setInformations(data["edges"][i]["label"], data["edges"][i]["uri"], data["edges"][i]["name"], data["edges"][i]["optional"], me);
     }

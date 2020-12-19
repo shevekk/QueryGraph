@@ -18,13 +18,19 @@ QueryGraph.UI.UIEdge = class UIEdge extends QueryGraph.UI.UIElement
 
   /*
    * Get types list
+   * @param {QueryGraph.Data.Edge}      edge                   The selected edge
    * @return {String[]}                 The list of types
    */
-  getType()
+  getTypes(edge)
   {
     let types = {};
-    types[QueryGraph.Data.EdgeType.VARIABLE] = "Variable"
-    types[QueryGraph.Data.EdgeType.FIXED] = "Fixe"
+    
+    if(edge.nodeStart.type != QueryGraph.Data.NodeType.FILTER && edge.nodeEnd.type != QueryGraph.Data.NodeType.FILTER)
+    {
+      types[QueryGraph.Data.EdgeType.VARIABLE] = "Variable";
+    }
+
+    types[QueryGraph.Data.EdgeType.FIXED] = "Fixe";
 
     return types;
   }

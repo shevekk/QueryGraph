@@ -63,6 +63,14 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
           errorMessage = "L'URI d'un de vos noeud est vide";
         }
       }
+      else if(graph.nodes[i].type == QueryGraph.Data.NodeType.FILTER)
+      {
+        if(graph.nodes[i].filterInfos.value == "")
+        {
+          valid = false;
+          errorMessage = "L'un de vos noeuds filtre possède une valeur vide";
+        }
+      }
     }
 
     // Edges
@@ -74,6 +82,16 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
         {
           valid = false;
           errorMessage = "L'URI d'un de vos liens fixe est vide";
+        }
+        if(graph.edges[i].nodeStart.type == QueryGraph.Data.NodeType.FILTER && graph.edges[i].nodeEnd.type == QueryGraph.Data.NodeType.FILTER)
+        {
+          valid = false;
+          errorMessage = "Impossible de liés deux noeuds de type Filter";
+        }
+        if(graph.edges[i].nodeStart.type == QueryGraph.Data.NodeType.DATA && graph.edges[i].nodeEnd.type == QueryGraph.Data.NodeType.FILTER)
+        {
+          valid = false;
+          errorMessage = "Impossible de liés un noeud de type Donnée à un noeuds de type Filter";
         }
       }
       else if(graph.edges[i].type == QueryGraph.Data.EdgeType.VARIABLE)
@@ -101,6 +119,12 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
           }
           
           namesList.push(name);
+        }
+
+        if(graph.edges[i].nodeStart.type == QueryGraph.Data.NodeType.FILTER || graph.edges[i].nodeEnd.type == QueryGraph.Data.NodeType.FILTER)
+        {
+          valid = false;
+          errorMessage = "Les liens avec un filtre doivent être de type fixe";
         }
       }
     }
