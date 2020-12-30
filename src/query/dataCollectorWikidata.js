@@ -24,7 +24,7 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
       query = 'SELECT ?link ?linkLabel ';
       query += 'WHERE { ';
       query += ' '+linkedNodeType+' wdt:P1963 ?link ';
-      query += ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.language+'". } ';
+      query += ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.getQueryLanguage()+'". } ';
       query += '}';
     }
     else if(linkedNodeUri != "")
@@ -146,22 +146,22 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
       queryURL += "&origin=*";
       queryURL += "&props=labels"; // Get labels
       queryURL += "&ids=" + idsStr;          
-      queryURL += "&format=json"; 
-      queryURL += "&languages=" + QueryGraph.Config.Config.wikidataSearch.language;
+      queryURL += "&format=json";
+      queryURL += "&languages=" + QueryGraph.Config.Config.getSearchLanguage();
 
       me.launchQuery(queryURL, function(data)
       {
         edgesLabelsArrays[num] = [];
         for(let i = 0; i < idsList.length; i++)
         {
-          if(data["entities"][idsList[i]] != undefined && data["entities"][idsList[i]]["labels"][QueryGraph.Config.Config.wikidataSearch.language] != undefined)
+          if(data["entities"][idsList[i]] != undefined && data["entities"][idsList[i]]["labels"][QueryGraph.Config.Config.getSearchLanguage()] != undefined)
           {
-            let label = data["entities"][idsList[i]]["labels"][QueryGraph.Config.Config.wikidataSearch.language]["value"];
+            let label = data["entities"][idsList[i]]["labels"][QueryGraph.Config.Config.getSearchLanguage()]["value"];
             edgesLabelsArrays[num].push(label);
           }
           else
           {
-            edgesLabelsArrays[num].push(label);
+            edgesLabelsArrays[num].push("");
           }
         }
 
@@ -188,9 +188,9 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
     let keysList = [];
     let valuesList = [];
 
-    for (const key in QueryGraph.Config.Config.nodeTypes)
+    for (const key in QueryGraph.Config.Config.getNodeTypes())
     {
-      let value = QueryGraph.Config.Config.nodeTypes[key];
+      let value = QueryGraph.Config.Config.getNodeTypes()[key];
 
       valuesList.push(value);
       keysList.push(key);
@@ -261,7 +261,7 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
         queryURL += "&props=labels|descriptions"; // Get labels and descriptions
         queryURL += "&ids="  + title;             // 
         queryURL += "&format=json"; 
-        queryURL += "&languages=" + QueryGraph.Config.Config.wikidataSearch.language;
+        queryURL += "&languages=" + QueryGraph.Config.Config.getSearchLanguage();
 
         me.launchQuery(queryURL, function(data)
         {
@@ -270,13 +270,13 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
           let label = "";
           let description = "";
           
-          if(data["entities"][title]["labels"][QueryGraph.Config.Config.wikidataSearch.language] != undefined)
+          if(data["entities"][title]["labels"][QueryGraph.Config.Config.getSearchLanguage()] != undefined)
           {
-            label = data["entities"][title]["labels"][QueryGraph.Config.Config.wikidataSearch.language]["value"];
+            label = data["entities"][title]["labels"][QueryGraph.Config.Config.getSearchLanguage()]["value"];
           }
-          if(data["entities"][title]["descriptions"][QueryGraph.Config.Config.wikidataSearch.language] != undefined)
+          if(data["entities"][title]["descriptions"][QueryGraph.Config.Config.getSearchLanguage()] != undefined)
           {
-            description = data["entities"][title]["descriptions"][QueryGraph.Config.Config.wikidataSearch.language]["value"];
+            description = data["entities"][title]["descriptions"][QueryGraph.Config.Config.getSearchLanguage()]["value"];
           }
           
           result[title] = {};

@@ -27,10 +27,10 @@ QueryGraph.UI.UIEdge = class UIEdge extends QueryGraph.UI.UIElement
     
     if(edge.nodeStart.type != QueryGraph.Data.NodeType.FILTER && edge.nodeEnd.type != QueryGraph.Data.NodeType.FILTER)
     {
-      types[QueryGraph.Data.EdgeType.VARIABLE] = "Variable";
+      types[QueryGraph.Data.EdgeType.VARIABLE] = QueryGraph.Dictionary.Dictionary.get("EDGE_TYPE_VARIABLE");
     }
 
-    types[QueryGraph.Data.EdgeType.FIXED] = "Fixe";
+    types[QueryGraph.Data.EdgeType.FIXED] = QueryGraph.Dictionary.Dictionary.get("EDGE_TYPE_FIXED");
 
     return types;
   }
@@ -58,27 +58,27 @@ QueryGraph.UI.UIEdge = class UIEdge extends QueryGraph.UI.UIElement
     if(type == QueryGraph.Data.EdgeType.FIXED)
     {
       content += '<br/>';
-      content += '<div id="'+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'"><i>Lien dont la valeur est variable.</i></div>';
+      content += '<div id="'+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'"><i>'+QueryGraph.Dictionary.Dictionary.get("EDGE_TYPE_FIXED_DESC")+'</i></div>';
       content += '<br/>';
 
-      content += '<div id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'"><label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">Choix du lien:</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
+      content += '<div id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'"><label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_CHOISE")+'</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
       content += '<br/>';
 
-      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">Label:</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ edge.label +'"><br>';
-      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">URI:</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ edge.uri +'"><br>';
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_LABEL")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ edge.label +'"><br>';
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_URI")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ edge.uri +'"><br>';
     
-      content += '<a href="" id="'+QueryGraph.UI.UIElement.WEB_LINK_HTML_ID+'" target="_blank">Lien vers la page</a>';
+      content += '<a href="" id="'+QueryGraph.UI.UIElement.WEB_LINK_HTML_ID+'" target="_blank">'+QueryGraph.Dictionary.Dictionary.get("LINK_TO_WEB_PAGE")+'</a>';
     }
     else if(type == QueryGraph.Data.EdgeType.VARIABLE)
     {
       content += '<br/>';
-      content += '<div id='+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'><i>Lien possédant une valeur fixe.</i></div>';
+      content += '<div id='+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'><i>'+QueryGraph.Dictionary.Dictionary.get("EDGE_TYPE_VARIABLE_DESC")+'</i></div>';
       content += '<br/>';
       
-      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'">Nom:</label><input type="text" id="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'" class="uiTextField" value="'+ edge.name +'"><br>';
+      content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_NAME")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'" class="uiTextField" value="'+ edge.name +'"><br>';
     }
 
-    content += '<br/><div><input type="checkbox" id="'+QueryGraph.UI.UIElement.OPTIONAL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.OPTIONAL_HTML_ID+'" class="uiCheckbox"><label for="'+QueryGraph.UI.UIElement.OPTIONAL_HTML_ID+'" class="'+QueryGraph.UI.UIElement.OPTIONAL_HTML_ID+'">Optionel</label></div>';
+    content += '<br/><div><input type="checkbox" id="'+QueryGraph.UI.UIElement.OPTIONAL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.OPTIONAL_HTML_ID+'" class="uiCheckbox"><label for="'+QueryGraph.UI.UIElement.OPTIONAL_HTML_ID+'" class="'+QueryGraph.UI.UIElement.OPTIONAL_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_OPTIONAL")+'</label></div>';
 
     $("#"+QueryGraph.UI.UIElement.CONTENT_HTML_ID).html(content);
 

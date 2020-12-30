@@ -16,11 +16,14 @@ QueryGraph.Data.LoadManager = class LoadManager
   }
 
   /**
+   * @property {String}             LOAD_BAR_DIV_HTML_ID            HTML ID of the loading bar div containing select and buttons
    * @property {String}             LOAD_BUTTON_HTML_ID             Button of loading
    * @property {String}             LOAD_SELECT_HTML_ID             Loading select
    */
+  static LOAD_BAR_DIV_HTML_ID = "loadingBar";
   static LOAD_BUTTON_HTML_ID = "loadDataButton";
   static LOAD_SELECT_HTML_ID = "loadingSelect";
+  
 
   /**
    * Init the Loading actions, load select content and menage load button action
@@ -28,9 +31,10 @@ QueryGraph.Data.LoadManager = class LoadManager
    */
   init(graph)
   {
-    let me = this; 
+    let me = this;
 
-    this.load();
+    me.initHtml();
+    me.load();
 
     // menage load button action
     $("#" + QueryGraph.Data.LoadManager.LOAD_BUTTON_HTML_ID).click(function()
@@ -54,6 +58,19 @@ QueryGraph.Data.LoadManager = class LoadManager
   }
 
   /**
+  * Init the html content of loading bar (loading select, load button, save button)
+  */
+  initHtml()
+  {
+
+    let content = '<label for="loadingSelect">'+QueryGraph.Dictionary.Dictionary.get("LOADING_QUERY_SAVED_TEXT")+'</label><select id="loadingSelect" name="loadingSelect"></select>';
+    content += '<button name="loadDataButton" id="loadDataButton" title="'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_NAME")+'</button>';
+    content += '<button name="saveDataButton" id="saveDataButton" title="'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_NAME")+'</button>';
+
+    $("#" + QueryGraph.Data.LoadManager.LOAD_BAR_DIV_HTML_ID).html(content);
+  }
+
+  /**
    * Load select content from data file and localstorage
    */
   load()
@@ -70,7 +87,10 @@ QueryGraph.Data.LoadManager = class LoadManager
       // Get data in the json 
       for (const key in content)
       {
-        $("#" + QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID).append(new Option(content[key].title, key));
+        if(content[key].lang == QueryGraph.Config.Config.lang)
+        {
+          $("#" + QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID).append(new Option(content[key].title, key));
+        }      
       }
 
       // Get local saves

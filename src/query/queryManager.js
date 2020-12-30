@@ -50,7 +50,7 @@ QueryGraph.Query.QueryManager = class QueryManager
     // Add language label management
     if(QueryGraph.Config.Config.displayLabel)
     {
-      this.whereQuery += ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.language+'". }';
+      this.whereQuery += ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.getQueryLanguage()+'". }';
     }
 
     this.query += this.selectQuery + " WHERE { " + this.whereQuery + " }";
@@ -75,6 +75,14 @@ QueryGraph.Query.QueryManager = class QueryManager
       console.log("EndPoint : " + QueryGraph.Config.Config.endPoint);
       console.log("Query : " + me.query);
       alert("Echec de la récupération des données");
+
+      // call log script
+      let ajaxRequest = $.ajax({
+        url:"log/log.php",
+        dataType: 'json',
+        method: "POST",
+        data: { query: me.query, lang: QueryGraph.Config.Config.lang, endPoint: QueryGraph.Config.Config.endPoint, state: "FAIL" }
+      });
       
       callback(null, null, error.responseText);
     });
@@ -82,6 +90,14 @@ QueryGraph.Query.QueryManager = class QueryManager
     // Send request
     ajaxRequest.done(function(data)
     {
+      // call log script
+      let ajaxRequest = $.ajax({
+        url:"log/log.php",
+        dataType: 'json',
+        method: "POST",
+        data: { query: me.query, lang: QueryGraph.Config.Config.lang, endPoint: QueryGraph.Config.Config.endPoint, state: "OK" }
+      });
+
       callback(data, me.selectVars);
     });
   }

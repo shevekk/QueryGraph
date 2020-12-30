@@ -10,13 +10,14 @@ QueryGraph.Main = class Main
   constructor() 
   {
     /**
-     * @property {QueryGraph.Data.Graph}                    graph                  The graph manager
-     * @property {QueryGraph.UI.UIManager}                uiManager              UI Manager
-     * @property {QueryGraph.Query.QueryManager}       queryManager           The query manager
-     * @property {QueryGraph.UI.UIManager}                resultView             The result view
-     * @property {QueryGraph.Query.DataCollector}      dataCollector          The data collector
-     * @property {QueryGraph.Data.LoadManager}         loadManager            Data loading manager
-     * @property {QueryGraph.Data.SaveManager}         saveManager            Data save manager
+     * @property {QueryGraph.Data.Graph}                 graph                  The graph manager
+     * @property {QueryGraph.UI.UIManager}               uiManager              UI Manager
+     * @property {QueryGraph.Query.QueryManager}         queryManager           The query manager
+     * @property {QueryGraph.UI.UIManager}               resultView             The result view
+     * @property {QueryGraph.Query.DataCollector}        dataCollector          The data collector
+     * @property {QueryGraph.Data.LoadManager}           loadManager            Data loading manager
+     * @property {QueryGraph.Data.SaveManager}           saveManager            Data save manager
+     * @property {QueryGraph.UI.TopUI}                   topUi                  The Top UI Manager
      */
     this.graph;
     this.uiManager;
@@ -27,34 +28,74 @@ QueryGraph.Main = class Main
     this.saveManager;
   }
 
+  /**
+   * get params in the address bar
+   * return {String[]}             Array of params get in address bar 
+   */
+  getParams()
+  {
+    // Get ars values of address bar
+    var args = location.search.substr(1).split(/&/);
+    var argsValues = [];
+
+    for(var i =0; i < args.length; i++)
+    {
+      var tmp = args[i].split(/=/);
+      if (tmp[0] != "") {
+          argsValues[decodeURIComponent(tmp[0])] = decodeURIComponent(tmp.slice(1).join("").replace("+", " "));
+      }
+    }
+
+    return argsValues;
+  }
+
+  /**
+   * Init Query Graph
+   */
   init()
   {
     let me = this;
 
+    // Get lang information
+    let params = me.getParams();
+    if(params["lang"] != undefined && (params["lang"] != "fr" || params["lang"] != "en"))
+    {
+      QueryGraph.Config.Config.setLang(params["lang"]);
+    }
+    
+    // Init
     QueryGraph.Config.Config.load("config/config.json", function()
     {
-      me.uiManager = new QueryGraph.UI.UIManager();
-      me.graph = new QueryGraph.Data.Graph();
-      me.queryManager = new QueryGraph.Query.QueryManager();
-      me.resultView = new QueryGraph.Query.ResultView();
-      me.dataCollector = new QueryGraph.Query.DataCollectorWikidata();
-      me.loadManager = new QueryGraph.Data.LoadManager();
-      me.saveManager = new QueryGraph.Data.SaveManager();
-
-      me.loadManager.init(me.graph);
-      me.saveManager.init(me.graph, me.loadManager);
-      me.uiManager.init(me.graph, me.dataCollector);
-      me.graph.init(me.uiManager);
-
-      $("#"+QueryGraph.UI.TopUI.EXEC_QUERY_BUTTON_HTML_ID).click(function() 
+      QueryGraph.Dictionary.Dictionary.load(QueryGraph.Config.Config.lang, function()
       {
-        me.execQuery(false);
-      });
+        QueryGraph.UI.TopIconsBar.init();
 
-      $("#"+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID).click(function() 
-      {
-        me.execQuery(true);
-      });
+        me.topUi = new QueryGraph.UI.TopUI();
+        me.topUi.init();
+
+        me.uiManager = new QueryGraph.UI.UIManager();
+        me.graph = new QueryGraph.Data.Graph();
+        me.queryManager = new QueryGraph.Query.QueryManager();
+        me.resultView = new QueryGraph.Query.ResultView();
+        me.dataCollector = new QueryGraph.Query.DataCollectorWikidata();
+        me.loadManager = new QueryGraph.Data.LoadManager();
+        me.saveManager = new QueryGraph.Data.SaveManager();
+
+        me.loadManager.init(me.graph);
+        me.saveManager.init(me.graph, me.loadManager);
+        me.uiManager.init(me.graph, me.dataCollector);
+        me.graph.init(me.uiManager);
+
+        $("#"+QueryGraph.UI.TopUI.EXEC_QUERY_BUTTON_HTML_ID).click(function() 
+        {
+          me.execQuery(false);
+        });
+
+        $("#"+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID).click(function() 
+        {
+          me.execQuery(true);
+        });
+      });       
     });
   }
 

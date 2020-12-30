@@ -100,7 +100,7 @@ QueryGraph.UI.UIElement = class UIElement
     content += '<div id="'+QueryGraph.UI.UIElement.CONTENT_HTML_ID+'"></div>';
     content += "<br/>";
 
-    content += '<button id="'+QueryGraph.UI.UIManager.OK_BUTTON_HTML_ID+'">OK</button>';
+    content += '<button id="'+QueryGraph.UI.UIManager.OK_BUTTON_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("OK_BUTTON_NAME")+'</button>';
 
     content += '</div>';
 

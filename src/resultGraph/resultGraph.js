@@ -141,23 +141,14 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
     for(let i = 0; i < startNodes.length; i++)
     {
       let endNodesIds = [];
-
-      let startNodesLineNumbers = [];
-      for (const key in startNodes[i].baseIds)
-      {
-        startNodesLineNumbers = startNodesLineNumbers.concat(startNodes[i].baseIds[key]);
-      }
+      let startNodesLineNumbers = startNodesLineNumbers.concat(startNodes[i].baseIds[baseGraphEdge.idNodeStart]);
 
       for(let j = 0; j < startNodesLineNumbers.length; j++)
       {
         let endNodes = me.visNodes.get({
           filter: function (item) {
 
-            let itemLineNumbers = [];
-            for (const key in item.baseIds)
-            {
-              itemLineNumbers = itemLineNumbers.concat(item.baseIds[key]);
-            }
+            let itemLineNumbers = itemLineNumbers.concat(item.baseIds[baseGraphEdge.idNodeEnd]);
 
             return (item.uri != startNodes[i].uri && itemLineNumbers.includes(startNodesLineNumbers[j]) || itemLineNumbers.includes(-1) || startNodesLineNumbers[j] == -1) 
             && item.baseIds[baseGraphEdge.idNodeEnd] != undefined;
@@ -207,24 +198,13 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
         let startLines = startNode.baseIds[baseGraphEdge.idNodeStart];
         let endLines = endNode.baseIds[baseGraphEdge.idNodeEnd];
 
-        if(startLines[0] == -1)
+        for(let i = 0; i < startLines.length; i++)
         {
-          numLines.push(endLines[0]);
-        }
-        else if(endLines[0] == -1)
-        {
-          numLines.push(startLines[0]);
-        }
-        else
-        {
-          for(let i = 0; i < startLines.length; i++)
+          for(let j = 0; j < endLines.length; j++)
           {
-            for(let j = 0; j < endLines.length; j++)
+            if(startLines[i] == endLines[j] || startLines[i] == -1 || endLines[j] == -1)
             {
-              if(startLines[i] == endLines[j] || startLines[i] == -1 || endLines[j] == -1)
-              {
-                numLines.push(startLines[i]);
-              }
+              numLines.push(startLines[i]);
             }
           }
         }
@@ -262,7 +242,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
   /**
    * Add a new node, if node with is URI already exist, update lines Numbers
    * @param {Number}                       id                      Number of the node
-   * @param {QueryGraph.Data.NodeType}         type                    Type of the node 
+   * @param {QueryGraph.Data.NodeType}     type                    Type of the node 
    * @param {String}                       label                   Label of the node
    * @param {String}                       baseId                  Id of the base graph matching the node
    * @param {Number}                       lineNumber              The line number

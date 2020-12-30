@@ -1,9 +1,18 @@
 ﻿{
+  "homePage" : "http://dataexplorer.hd.free.fr/",
   "endPoint": "https://query.wikidata.org/sparql",
+  "defaultLanguage": "en",
+  "selectLang" : {
+    "fr": "img/fr.png",
+    "en": "img/en.png"
+  },
   "typeUri": "wdt:P31",
   "subclassUri": "wdt:P279",
   "displayLabel": true,
-  "language" : "[AUTO_LANGUAGE],fr,en",
+  "queryLanguage" : {
+    "fr": "[AUTO_LANGUAGE],fr,en",
+    "en": "en"
+  },
   "limit" : null,
   "prefix" : 
   {
@@ -14,18 +23,42 @@
   "wikidataSearch": 
   {
     "nbResult": 20,
-    "language": "fr"
+    "language": {
+      "en": "en",
+      "fr": "fr"
+    }
   },
   "nodeTypes": {
-    "wd:Q5" : "Personne",
-    "wd:Q515" : "Ville",
-    "wd:Q6256" : "Pays",
-    "wd:Q41176" : "Bâtiment",
-    "wd:Q33506" : "Musée",
-    "wd:Q570116" : "Attraction touristique",
-    "wd:Q4022" : "Rivière",
-    "wd:Q11424" : "Film",
-    "wd:Q571" : "Livre",
-    "wd:Q215380" : "Groupe de musique"
+    "fr": {
+      "wd:Q5" : "Personne",
+      "wd:Q515" : "Ville",
+      "wd:Q6256" : "Pays",
+      "wd:Q41176" : "Bâtiment",
+      "wd:Q33506" : "Musée",
+      "wd:Q570116" : "Attraction touristique",
+      "wd:Q4022" : "Rivière",
+      "wd:Q11424" : "Film",
+      "wd:Q571" : "Livre",
+      "wd:Q215380" : "Groupe de musique"
+    },
+    "en": {
+      "wd:Q5" : "Person",
+      "wd:Q515" : "City",
+      "wd:Q6256" : "Country",
+      "wd:Q41176" : "Building",
+      "wd:Q33506" : "Museum",
+      "wd:Q570116" : "Tourist attraction",
+      "wd:Q4022" : "River",
+      "wd:Q11424" : "Film",
+      "wd:Q571" : "Book",
+      "wd:Q215380" : "Musical group"
+    }
+  },
+  "infos" : 
+  {
+    "baseContactUrl": "infos/contact_",
+    "baseContactExtension": ".html",
+    "baseHelpUrl" : "infos/help_",
+    "baseHelpExtension": ".pdf"
   }
 }

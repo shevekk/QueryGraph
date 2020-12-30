@@ -8,6 +8,70 @@ body
   width: 100%;
 }
 
+/* Loading zone */
+#loadingBar
+{
+  display: inline-block;
+
+  padding : 5px;
+}
+
+/* Loading zone button */
+#loadingBar button
+{
+  display: inline-block;
+
+  margin-left : 5px;
+}
+
+/* Icon bar (home, ...) */
+#iconBar
+{
+  display: inline-block;
+
+  float: right;
+
+  margin-right: 5px;
+}
+
+/* Top icon (home, ...) */
+.topIcon
+{
+  width: 25px;
+  height: 25px;
+
+  padding-right: 4px; 
+  padding-left: 4px;
+  padding-top: 2px; 
+  padding-bottom: 2px; 
+
+  border-radius: 5px;
+}
+
+.topIcon:hover
+{
+  background-color: #bbbbbb;
+}
+
+/* Top icon for flag lang */
+.topLangIcon
+{
+  width: 25px;
+  height: 17px;
+
+  padding-right: 4px; 
+  padding-left: 4px;
+  padding-top: 6px; 
+  padding-bottom: 6px; 
+
+  border-radius: 5px;
+}
+
+.topLangIcon:hover
+{
+  background-color: #bbbbbb;
+}
+
 /* Top section with buttons */
 #top
 {
@@ -17,16 +81,45 @@ body
   width: 100%;
 
   padding-top: 8px;
-  padding-left: 5px;
 }
 
-/* Top nutton align in right */
-.button_right
+.top_button_left
+{
+  margin-left : 5px;
+
+  background-color: #f2f2f2;
+  border : 1px solid;
+  border-radius: 3px;
+
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.top_button_left:hover
+{
+  background-color: #e7e7e7;
+}
+
+/* Top button align in right */
+.top_button_right
 {
   float: right;
 
-  margin-right: 10px;
+  margin-right: 5px; 
+
+  background-color: #f2f2f2;
+  border : 1px solid;
+  border-radius: 3px;
+
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
+
+.top_button_right:hover
+{
+  background-color: #e7e7e7;
+}
+
 
 /* Center contening graph and ui */
 #center
@@ -176,18 +269,4 @@ body
 .invisibleField
 {
   visibility: hidden;
-}
-
-/* Loading zone */
-#loadBar
-{
-  display: inline-block;
-
-  padding : 5px;
-}
-
-/* Loading zone button */
-#loadBar button
-{
-  display: inline-block;
 }

@@ -85,6 +85,8 @@ QueryGraph.Data.Graph = class Graph
     /* Action of add a node */
     $("#"+QueryGraph.UI.TopUI.ADD_NODE_BUTTON_HTML_ID).click(function() 
     {
+      QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_NODE_BUTTON_HTML_ID, true);
+      QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_EDGE_BUTTON_HTML_ID, false);
       $("#graph").css("cursor", "crosshair");
 
       me.action = QueryGraph.Data.GraphAction.ADD_NODE;
@@ -93,6 +95,8 @@ QueryGraph.Data.Graph = class Graph
     /* Action of add a edge */
     $("#"+QueryGraph.UI.TopUI.ADD_EDGE_BUTTON_HTML_ID).click(function() 
     {
+      QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_NODE_BUTTON_HTML_ID, false);
+      QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_EDGE_BUTTON_HTML_ID, true);
       $("#graph").css("cursor", "crosshair");
 
       me.action = QueryGraph.Data.GraphAction.ADD_EDGE;
@@ -144,6 +148,8 @@ QueryGraph.Data.Graph = class Graph
     /* Cancel the current action */
     $("#"+QueryGraph.UI.TopUI.CANCEL_ACTION_BUTTON_HTML_ID).click(function() 
     {
+      QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_NODE_BUTTON_HTML_ID, false);
+      QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_EDGE_BUTTON_HTML_ID, false);
       $("#graph").css("cursor", "auto");
 
       me.action = null;
@@ -189,7 +195,8 @@ QueryGraph.Data.Graph = class Graph
             
             me.action = null;
 
-            $("#graph").css("cursor", "auto");        
+            $("#graph").css("cursor", "auto");  
+            QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_EDGE_BUTTON_HTML_ID, false);      
           }
         }
         else
@@ -203,6 +210,7 @@ QueryGraph.Data.Graph = class Graph
         me.addNode(data.pointer.canvas.x, data.pointer.canvas.y);
 
         $("#graph").css("cursor", "auto");
+        QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_NODE_BUTTON_HTML_ID, false);
 
         me.action = null;
       }
