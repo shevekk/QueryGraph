@@ -37,6 +37,7 @@
   "NODE_GET_SUBCLASS": "Récupérer sous classes",
 
   "NODE_TYPE_DATA_DESC": "Noeud correspondant à une donnée fixe.",
+  "NODE_PREDEFINED_VALUES": "Valeurs prédéfinies :",
   "NODE_SEARCH_TYPE": "Recherche :",
   "NODE_LABEL": "Label :",
   "NODE_URI": "URI :",
@@ -72,5 +73,8 @@
   "EDGE_NAME": "Nom : ",
   "EDGE_OPTIONAL": "Optionel",
 
-  "CHANGE_LANG_VALIDATION": "La page va être rechargée, toutes les données non sauvegardées seront perdues. Êtes-vous sûr ?"
+  "CHANGE_LANG_VALIDATION": "La page va être rechargée, toutes les données non sauvegardées seront perdues. Êtes-vous sûr ?",
+
+  "GRAPH_TOO_MANY_DATA_START": "La création du graphe va être longue car il y a ",
+  "GRAPH_TOO_MANY_DATA_END": " ligne de résultats. Etes-vous sûr de vouloir charger le graph ?"
  }

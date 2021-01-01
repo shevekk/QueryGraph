@@ -19,14 +19,20 @@
     <script type="text/javascript" src="../data/nodeType.js"></script>
     <script type="text/javascript" src="../data/edgeType.js"></script>
 
+    <script type="text/javascript" src="../dictionary/dictionary.js"></script>
+
     <script>
       // Get data from php
-      let graphJson = '<?=$_POST['graph']?>'; // That's for a string
-      let dataJson = '<?=str_replace("'","\'",$_POST['data']);?>'; // That's for a string
+      let graphJson = '<?=$_POST['graph']?>'; 
+      let dataJson = '<?=str_replace("'","\'",$_POST['data']);?>'; 
+      let lang = '<?=$_POST['lang']?>'; 
 
       // Display graph
-      let graph = new QueryGraph.ResultGraph.ResultGraph(graphJson, dataJson);
-      graph.draw();
+      QueryGraph.Dictionary.Dictionary.load(lang, "../", function()
+      {
+        let graph = new QueryGraph.ResultGraph.ResultGraph(graphJson, dataJson);
+        graph.draw();
+      });
     </script>
 
   </body>

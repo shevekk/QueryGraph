@@ -22,6 +22,7 @@ QueryGraph.Config.Config = class Config
    * @property {Object}           lang                The QueryGraph language defaultLanguage
    * @property {Object}           selectLang          The language selector (icon)
    * @property {Object}           infos               The infos with contact and help urls
+   * @property {Object}           nodeTypes           List of possible node data
    */
   static homePage;
   static endPoint;
@@ -36,6 +37,8 @@ QueryGraph.Config.Config = class Config
   static lang;
   static selectLang;
   static infos;
+  static nodeData;
+
 
   constructor() 
   {
@@ -74,6 +77,7 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.defaultLanguage = content.defaultLanguage;
       QueryGraph.Config.Config.selectLang = content.selectLang;
       QueryGraph.Config.Config.infos = content.infos;
+      QueryGraph.Config.Config.nodeData = content.nodeData;
 
       if(QueryGraph.Config.Config.lang == null)
       {
@@ -117,6 +121,15 @@ QueryGraph.Config.Config = class Config
   static getNodeTypes()
   {
     return QueryGraph.Config.Config.nodeTypes[QueryGraph.Config.Config.lang];
+  }
+
+  /**
+   * Get the Node predefined data
+   * @return {String}                  The language
+   */
+  static getNodePredefinedDatas()
+  {
+    return QueryGraph.Config.Config.nodeData[QueryGraph.Config.Config.lang];
   }
 
   /**

@@ -24,8 +24,10 @@ QueryGraph.Query.DataCollector = class DataCollector
 
   /**
    * Get the list of types of nodes
+   * @param {String}           nodeType             Type of the node
+   * @param {Function}         callback             Callback with values keys list and values list in params
    */
-  getNodesTypesList()
+  getNodesPredefinedValues()
   {
 
   };

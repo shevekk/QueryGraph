@@ -37,6 +37,7 @@
   "NODE_GET_SUBCLASS": "Retrieve subclasses",
 
   "NODE_TYPE_DATA_DESC": "Node corresponding to a fixed data.",
+  "NODE_PREDEFINED_VALUES": "Predefined values :",
   "NODE_SEARCH_TYPE": "Search :",
   "NODE_LABEL": "Label :",
   "NODE_URI": "URI :",
@@ -72,5 +73,8 @@
   "EDGE_NAME": "Name : ",
   "EDGE_OPTIONAL": "Optional",
 
-  "CHANGE_LANG_VALIDATION": "The page will be reloaded, all unsaved data will be lost. Are you sure?"
+  "CHANGE_LANG_VALIDATION": "The page will be reloaded, all unsaved data will be lost. Are you sure?",
+
+  "GRAPH_TOO_MANY_DATA_START": "The creation of the graph will be long because there are ",
+  "GRAPH_TOO_MANY_DATA_END": " lines of results. Are you sure you want to load the graph?"
  }

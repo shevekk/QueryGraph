@@ -41,7 +41,13 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
 
     if(me.data.length >= 500)
     {
-      alert("La création du graphe va être longue car il y a " + me.data.length + " ligne de résultats.");
+      var confimation = confirm(QueryGraph.Dictionary.Dictionary.get("GRAPH_TOO_MANY_DATA_START") + me.data.length + QueryGraph.Dictionary.Dictionary.get("GRAPH_TOO_MANY_DATA_END"));
+
+      // If user Cancel action -> Close window
+      if(!confimation)
+      {
+        close();
+      }
     }
 
     // Create nodes
@@ -115,11 +121,17 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
     {
       if(data.nodes.length > 0)
       {
-        window.open(me.visNodes.get(data.nodes[0]).uri);
+        if(me.visNodes.get(data.nodes[0]).uri.startsWith("http"))
+        {
+          window.open(me.visNodes.get(data.nodes[0]).uri);
+        }
       }
       else if(data.edges.length > 0)
       {
-        window.open(me.visEdges.get(data.edges[0]).uri);
+        if(me.visEdges.get(data.edges[0]).uri.startsWith("http"))
+        {
+          window.open(me.visEdges.get(data.edges[0]).uri);
+        }
       }
     });
   }
@@ -141,14 +153,17 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
     for(let i = 0; i < startNodes.length; i++)
     {
       let endNodesIds = [];
-      let startNodesLineNumbers = startNodesLineNumbers.concat(startNodes[i].baseIds[baseGraphEdge.idNodeStart]);
+
+      let startNodesLineNumbers = [];
+      startNodesLineNumbers = startNodesLineNumbers.concat(startNodes[i].baseIds[baseGraphEdge.idNodeStart]);
 
       for(let j = 0; j < startNodesLineNumbers.length; j++)
       {
         let endNodes = me.visNodes.get({
           filter: function (item) {
 
-            let itemLineNumbers = itemLineNumbers.concat(item.baseIds[baseGraphEdge.idNodeEnd]);
+            let itemLineNumbers = [];
+            itemLineNumbers = itemLineNumbers.concat(item.baseIds[baseGraphEdge.idNodeEnd]);
 
             return (item.uri != startNodes[i].uri && itemLineNumbers.includes(startNodesLineNumbers[j]) || itemLineNumbers.includes(-1) || startNodesLineNumbers[j] == -1) 
             && item.baseIds[baseGraphEdge.idNodeEnd] != undefined;

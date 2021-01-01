@@ -15,11 +15,12 @@ QueryGraph.Dictionary.Dictionary = class Dictionary
   /**
    * Load dictionary for the selected language 
    * @param {String}           language          The target language
+   * @param {String}           path              The path 
    * @param {Function}         callback          The callback
    */
-  static load(language, callback)
+  static load(language, path, callback)
   {
-    let fileName = "dictionary/dictionary_" + language + ".json"
+    let fileName = path + "dictionary/dictionary_" + language + ".json"
 
     let jqxhr = $.getJSON(fileName, null)
     .done(function(content)

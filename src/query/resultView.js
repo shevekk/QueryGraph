@@ -38,7 +38,24 @@ QueryGraph.Query.ResultView = class ResultView
 
       if(selectVars[i].label)
       {
-        content += "<th>" + selectVars[i].label + "</th>";
+        // If result type are all literal don't get label
+        let allLiteral = true;
+        for(let j = 0; j < data.results.bindings.length; j++)
+        {
+          if(data.results.bindings[j][selectVars[i].value]["type"] != "literal")
+          {
+            allLiteral = false;
+          }
+        }
+
+        if(!allLiteral)
+        {
+          content += "<th>" + selectVars[i].label + "</th>";
+        }
+        else
+        {
+          selectVars[i].allLiteral = true;
+        }
       }
       else if(QueryGraph.Config.Config.displayLabel && selectVars[i].elementType == QueryGraph.Data.ElementType.EDGE)
       {
@@ -56,18 +73,33 @@ QueryGraph.Query.ResultView = class ResultView
         if(data.results.bindings[i][selectVars[j].value])
         {
           let value = data.results.bindings[i][selectVars[j].value]["value"];
+          let type = data.results.bindings[i][selectVars[j].value]["type"];
 
           content += "<td>" + value + "</td>";
 
-          if(selectVars[j].label)
+          if(selectVars[j].label && !selectVars[j].allLiteral)
           {
             value = data.results.bindings[i][selectVars[j].label]["value"];
 
-            content += "<td>" + value + "</td>";
+            if(type == "literal")
+            {
+              content += "<td></td>";
+            }
+            else
+            {
+              content += "<td>" + value + "</td>";
+            }
           }
           else if(QueryGraph.Config.Config.displayLabel && selectVars[j].elementType == QueryGraph.Data.ElementType.EDGE)
           {
-            content += "<td>" + listEdgesLabel[value] + "</td>";
+            if(listEdgesLabel[value] != undefined)
+            {
+              content += "<td>" + listEdgesLabel[value] + "</td>";
+            }
+            else
+            {
+              content += "<td></td>";
+            }
           }
         }
         else
@@ -132,17 +164,17 @@ QueryGraph.Query.ResultView = class ResultView
       if(graph.nodes[i].type != QueryGraph.Data.NodeType.FILTER)
       {
         nodes.push({});
-        nodes[i]["id"] = graph.nodes[i].id;
-        nodes[i]["type"] = graph.nodes[i].type;
+        nodes[nodes.length - 1]["id"] = graph.nodes[i].id;
+        nodes[nodes.length - 1]["type"] = graph.nodes[i].type;
         
         if(graph.nodes[i].type == QueryGraph.Data.NodeType.DATA)
         {
-          nodes[i]["label"] = graph.nodes[i].dataInfos.label;
-          nodes[i]["uri"] = me.getUri(graph.nodes[i].dataInfos.uri);
+          nodes[nodes.length - 1]["label"] = graph.nodes[i].dataInfos.label;
+          nodes[nodes.length - 1]["uri"] = me.getUri(graph.nodes[i].dataInfos.uri);
         }
         else if(graph.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
         {
-          nodes[i]["name"] = graph.nodes[i].elementInfos.name;
+          nodes[nodes.length - 1]["name"] = graph.nodes[i].elementInfos.name;
         }
       }
     }
@@ -153,20 +185,20 @@ QueryGraph.Query.ResultView = class ResultView
       if(graph.edges[i].nodeStart.type != QueryGraph.Data.NodeType.FILTER && graph.edges[i].nodeEnd.type != QueryGraph.Data.NodeType.FILTER)
       {
         edges.push({});
-        edges[i]["type"] = graph.edges[i].type;
-        edges[i]["idNodeStart"] = graph.edges[i].idNodeStart;
-        edges[i]["idNodeEnd"] = graph.edges[i].idNodeEnd;
-        edges[i]["typeNodeStart"] = graph.edges[i].nodeStart.type;
-        edges[i]["typeNodeEnd"] = graph.edges[i].nodeEnd.type;
+        edges[edges.length - 1]["type"] = graph.edges[i].type;
+        edges[edges.length - 1]["idNodeStart"] = graph.edges[i].idNodeStart;
+        edges[edges.length - 1]["idNodeEnd"] = graph.edges[i].idNodeEnd;
+        edges[edges.length - 1]["typeNodeStart"] = graph.edges[i].nodeStart.type;
+        edges[edges.length - 1]["typeNodeEnd"] = graph.edges[i].nodeEnd.type;
 
         if(graph.edges[i].type == QueryGraph.Data.EdgeType.VARIABLE)
         {
-          edges[i]["name"] = graph.edges[i].name;
+          edges[edges.length - 1]["name"] = graph.edges[i].name;
         }
         else if(graph.edges[i].type == QueryGraph.Data.EdgeType.FIXED)
         {
-          edges[i]["label"] = graph.edges[i].label;
-          edges[i]["uri"] = me.getUri(graph.edges[i].uri);
+          edges[edges.length - 1]["label"] = graph.edges[i].label;
+          edges[edges.length - 1]["uri"] = me.getUri(graph.edges[i].uri);
         }
       }
     }
@@ -194,7 +226,15 @@ QueryGraph.Query.ResultView = class ResultView
             label = listEdgesLabel[value];
           }
 
-          results.push({"var" : selectVars[j].value, "value" : value, "label" : label.replaceAll('"', "'"), "lineNumber" : i});
+          if(label == undefined)
+          {
+            results.push({"var" : selectVars[j].value, "value" : value.replaceAll('"', "'"), "label" : "", "lineNumber" : i});
+          }
+          else
+          {
+            results.push({"var" : selectVars[j].value, "value" : value.replaceAll('"', "'"), "label" : label.replaceAll('"', "'"), "lineNumber" : i});
+          }
+          
         }
       }
     }
@@ -221,6 +261,13 @@ QueryGraph.Query.ResultView = class ResultView
     resultsJsonInput.value = resultsJson.replaceAll("'", "\'");
     resultsJsonInput.className = 'invisibleField';
     mapForm.appendChild(resultsJsonInput);
+
+    var resultsJsonLang = document.createElement("input");
+    resultsJsonLang.type = "text";
+    resultsJsonLang.name = "lang";
+    resultsJsonLang.value = QueryGraph.Config.Config.lang;
+    resultsJsonLang.className = 'invisibleField';
+    mapForm.appendChild(resultsJsonLang);
 
     document.body.appendChild(mapForm);
 

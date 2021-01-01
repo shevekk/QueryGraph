@@ -66,7 +66,7 @@ QueryGraph.Main = class Main
     // Init
     QueryGraph.Config.Config.load("config/config.json", function()
     {
-      QueryGraph.Dictionary.Dictionary.load(QueryGraph.Config.Config.lang, function()
+      QueryGraph.Dictionary.Dictionary.load(QueryGraph.Config.Config.lang, "", function()
       {
         QueryGraph.UI.TopIconsBar.init();
 

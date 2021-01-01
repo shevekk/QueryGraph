@@ -129,7 +129,7 @@ body
 
   background-color: #395f74;
 
-  height: 500px;
+  height: 500px; 
   width: 100%;
 }
 
@@ -269,4 +269,37 @@ body
 .invisibleField
 {
   visibility: hidden;
+}
+
+/* Small Screen Design */
+@media(max-height:800px) 
+{
+    body 
+    {
+      font-size: 15px;
+    }
+
+    #center
+    {
+      height: 400px;
+    }
+
+    #result
+    {
+      height: 300px;
+    }
+}
+
+/* Big Screen Design */
+@media(min-height:1050px) 
+{
+    #center
+    {
+      height: 550px;
+    }
+
+    #result
+    {
+      height: 400px;
+    }
 }

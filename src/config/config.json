@@ -54,6 +54,26 @@
       "wd:Q215380" : "Musical group"
     }
   },
+  "nodeData": {
+    "fr": {
+      "wd:Q90": "Paris",
+      "wd:Q3392": "Nil",
+      "wd:Q517": "Napoléon Ier",
+      "wd:Q142": "France",
+      "wd:Q937857": "Joueur de football",
+      "wd:Q191954": "Président de la République française",
+      "wd:Q2277": "Empire romain"
+    },
+    "en": {
+      "wd:Q90" : "Paris",
+      "wd:Q3392" : "Nile",
+      "wd:Q517": "Napoléon",
+      "wd:Q142": "France",
+      "wd:Q937857": "Association football player",
+      "wd:Q191954": "President of the French Republic",
+      "wd:Q2277": "Roman Empire"
+    }
+  },
   "infos" : 
   {
     "baseContactUrl": "infos/contact_",

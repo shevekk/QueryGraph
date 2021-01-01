@@ -76,6 +76,8 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       content += '<div id='+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'><i>'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_DATA_DESC")+'</i></div>';
       content += '<br/>';
 
+      content += '<div id='+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_PREDEFINED_VALUES")+'</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'"></select><br></div>';
+
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_SEARCH_TYPE")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'" value="">';
       content += '<button id="'+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("OK_BUTTON_NAME")+'</button><br/>';
       content += '<div id="'+QueryGraph.UI.UIElement.SEARCH_DIV_ID+'"></div><br/>';
@@ -113,13 +115,14 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
     {
       me.getWebLink(node.dataInfos.uri);
 
+      me.menageChoiseList(type);
       me.menageSearch(type);
     }
     else if(type == QueryGraph.Data.NodeType.ELEMENT)
     {
       me.getWebLink(node.elementInfos.uri);
 
-      me.menageChoiseList();
+      me.menageChoiseList(type);
       me.menageSearch(type);
 
       if(node.elementInfos.subclass)
@@ -218,11 +221,11 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
   /**
    * Menage choise type in list
    */
-  menageChoiseList()
+  menageChoiseList(type)
   {
     let me = this;
 
-    me.dataCollector.getNodesTypesList(function(nodesValues, nodesLabels)
+    me.dataCollector.getNodesPredefinedValues(type, function(nodesValues, nodesLabels)
     {
       if(nodesValues.length > 0)
       {

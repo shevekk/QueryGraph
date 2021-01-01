@@ -181,16 +181,27 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
 
   /**
    * Get the list of types of nodes
+   * @param {String}           nodeType             Type of the node
    * @param {Function}         callback             Callback with values keys list and values list in params
    */
-  getNodesTypesList(callback)
+  getNodesPredefinedValues(nodeType, callback)
   {
     let keysList = [];
     let valuesList = [];
+    let baseList = [];
 
-    for (const key in QueryGraph.Config.Config.getNodeTypes())
+    if(nodeType == QueryGraph.Data.NodeType.ELEMENT)
     {
-      let value = QueryGraph.Config.Config.getNodeTypes()[key];
+      baseList = QueryGraph.Config.Config.getNodeTypes();
+    }
+    else if(nodeType == QueryGraph.Data.NodeType.DATA)
+    {
+      baseList = QueryGraph.Config.Config.getNodePredefinedDatas();
+    }
+
+    for (const key in baseList)
+    {
+      let value = baseList[key];
 
       valuesList.push(value);
       keysList.push(key);
