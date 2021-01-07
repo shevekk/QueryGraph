@@ -76,5 +76,9 @@
   "CHANGE_LANG_VALIDATION": "La page va être rechargée, toutes les données non sauvegardées seront perdues. Êtes-vous sûr ?",
 
   "GRAPH_TOO_MANY_DATA_START": "La création du graphe va être longue car il y a ",
-  "GRAPH_TOO_MANY_DATA_END": " ligne de résultats. Etes-vous sûr de vouloir charger le graph ?"
+  "GRAPH_TOO_MANY_DATA_END": " ligne de résultats. Etes-vous sûr de vouloir charger le graph ?",
+
+  "QUERY_IN_PROGRESS" :"Requête en cours d'exécution",
+  "QUERY_FAIL" :"Echec de la requête",
+  "DRAW_GRAPH_IMPOSSIBLE_NO_RESULTS" :"Impossible de visualiser le graphe : Aucun résultats"
  }

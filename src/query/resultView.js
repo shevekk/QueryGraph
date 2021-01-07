@@ -124,7 +124,7 @@ QueryGraph.Query.ResultView = class ResultView
    */
   queryProgress()
   {
-    $("#"+QueryGraph.Query.ResultView.RESULT_DIV_ID).html("<h3>Requête en cours d'exécution</h3>");
+    $("#"+QueryGraph.Query.ResultView.RESULT_DIV_ID).html("<h3>"+QueryGraph.Dictionary.Dictionary.get("QUERY_IN_PROGRESS")+"</h3>");
   }
 
   /**
@@ -133,7 +133,7 @@ QueryGraph.Query.ResultView = class ResultView
    */
   queryFail(errorReponseText)
   {
-    let content = "<h3>Echec de la requête</h3>";
+    let content = "<h3>"+QueryGraph.Dictionary.Dictionary.get("QUERY_FAIL")+"</h3>";
     //content += "<p>" + errorReponseText + "</p>";
 
     $("#"+QueryGraph.Query.ResultView.RESULT_DIV_ID).html(content);
@@ -152,7 +152,7 @@ QueryGraph.Query.ResultView = class ResultView
 
     if(data.results.bindings.length == 0)
     {
-      alert("Impossible de visualiser le graphe : Aucun résultats");
+      alert(QueryGraph.Dictionary.Dictionary.get("DRAW_GRAPH_IMPOSSIBLE_NO_RESULTS"));
       return;
     }
 
@@ -241,7 +241,12 @@ QueryGraph.Query.ResultView = class ResultView
     let resultsJson = JSON.stringify(results); 
 
     // Create hidden form for transmit data
+    //let url = window.location.href.split("?")[0];
     let url = window.location.href.split("?")[0];
+    if(url.includes("index.html"))
+    {
+      url = url.replace("index.html","");
+    }
     
     var mapForm = document.createElement("form");
     mapForm.target = "Map";

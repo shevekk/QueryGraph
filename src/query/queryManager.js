@@ -74,7 +74,8 @@ QueryGraph.Query.QueryManager = class QueryManager
       // if the request fails, return to menu
       console.log("EndPoint : " + QueryGraph.Config.Config.endPoint);
       console.log("Query : " + me.query);
-      alert("Echec de la récupération des données");
+
+      alert(QueryGraph.Dictionary.Dictionary.get("QUERY_FAIL"));
 
       // call log script
       let ajaxRequest = $.ajax({

@@ -76,5 +76,9 @@
   "CHANGE_LANG_VALIDATION": "The page will be reloaded, all unsaved data will be lost. Are you sure?",
 
   "GRAPH_TOO_MANY_DATA_START": "The creation of the graph will be long because there are ",
-  "GRAPH_TOO_MANY_DATA_END": " lines of results. Are you sure you want to load the graph?"
+  "GRAPH_TOO_MANY_DATA_END": " lines of results. Are you sure you want to load the graph?",
+
+  "QUERY_IN_PROGRESS" :"Query in progress",
+  "QUERY_FAIL" :"Query failure",
+  "DRAW_GRAPH_IMPOSSIBLE_NO_RESULTS" :"Unable to view the graph: No results"
  }
