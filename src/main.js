@@ -62,9 +62,16 @@ QueryGraph.Main = class Main
     {
       QueryGraph.Config.Config.setLang(params["lang"]);
     }
+
+    // Get config parameter
+    let config = QueryGraph.Config.Config.defaultConfigFileURL;
+    if(params["config"] != undefined)
+    {
+      config = "config/" + params["config"] + ".json";
+    }
     
     // Init
-    QueryGraph.Config.Config.load("config/config.json", function()
+    QueryGraph.Config.Config.load(config, function()
     {
       QueryGraph.Dictionary.Dictionary.load(QueryGraph.Config.Config.lang, "", function()
       {
@@ -77,9 +84,21 @@ QueryGraph.Main = class Main
         me.graph = new QueryGraph.Data.Graph();
         me.queryManager = new QueryGraph.Query.QueryManager();
         me.resultView = new QueryGraph.Query.ResultView();
-        me.dataCollector = new QueryGraph.Query.DataCollectorWikidata();
         me.loadManager = new QueryGraph.Data.LoadManager();
         me.saveManager = new QueryGraph.Data.SaveManager();
+
+        if(QueryGraph.Config.Config.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
+        {
+          me.dataCollector = new QueryGraph.Query.DataCollectorWikidata();
+        }
+        else if(QueryGraph.Config.Config.tripleStore == QueryGraph.Config.TripleStoreType.DATA_BNF)
+        {
+          me.dataCollector = new QueryGraph.Query.DataCollectorBNF();
+        }
+        else
+        {
+          me.dataCollector = new QueryGraph.Query.DataCollector();
+        }
 
         me.loadManager.init(me.graph);
         me.saveManager.init(me.graph, me.loadManager);

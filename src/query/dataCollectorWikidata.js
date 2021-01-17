@@ -180,37 +180,6 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
   }
 
   /**
-   * Get the list of types of nodes
-   * @param {String}           nodeType             Type of the node
-   * @param {Function}         callback             Callback with values keys list and values list in params
-   */
-  getNodesPredefinedValues(nodeType, callback)
-  {
-    let keysList = [];
-    let valuesList = [];
-    let baseList = [];
-
-    if(nodeType == QueryGraph.Data.NodeType.ELEMENT)
-    {
-      baseList = QueryGraph.Config.Config.getNodeTypes();
-    }
-    else if(nodeType == QueryGraph.Data.NodeType.DATA)
-    {
-      baseList = QueryGraph.Config.Config.getNodePredefinedDatas();
-    }
-
-    for (const key in baseList)
-    {
-      let value = baseList[key];
-
-      valuesList.push(value);
-      keysList.push(key);
-    }
-
-    callback(keysList, valuesList);
-  };
-
-  /**
    * Get types of nodes from a text value
    * @param {String}           searchValue          The target search value
    * @param {Function}         callback             Callback with search result in params
@@ -294,6 +263,7 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
           result[title]["label"] = label;
           result[title]["description"] = description;
           result[title]["uri"] = "wd:" + title;
+          result[title]["title"] = title;
 
           if(queryCount >= totalQuery)
           {

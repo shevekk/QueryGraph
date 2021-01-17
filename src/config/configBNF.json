@@ -1,0 +1,184 @@
+﻿{
+  "homePage" : "http://dataexplorer.hd.free.fr/",
+  "endPoint": "https://data.bnf.fr/sparql",
+  "tripleStore" : "DATA_BNF",
+  "dataFileUrl": "data/data_bnf.json",
+  "defaultLanguage": "fr",
+  "selectLang" : {},
+  "typeUri": "a",
+  "subclassUri": "",
+  "displayLabel": false,
+  "queryLanguage" : {
+    "fr": "[AUTO_LANGUAGE],fr,en",
+    "en": "en"
+  },
+  "limit": 100,
+  "prefix" : 
+  {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "isni": "http://isni.org/ontology#",
+    "rdagroup1elements": "http://rdvocab.info/Elements/",
+    "rdagroup2elements": "http://rdvocab.info/ElementsGr2/",
+    "rdarelationships": "http://rdvocab.info/RDARelationshipsWEMI/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "ore": "http://www.openarchives.org/ore/terms/",
+    "frbr-rda": "http://rdvocab.info/uri/schema/FRBRentitiesRDA/",
+    "marcrel": "http://id.loc.gov/vocabulary/relators/",
+    "mo": "http://purl.org/ontology/mo/",
+    "dcmi-box": "http://dublincore.org/documents/dcmi-box/",
+    "dcmitype": "http://purl.org/dc/dcmitype/",
+    "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "geonames": "http://www.geonames.org/ontology#",
+    "bio": "http://vocab.org/bio/0.1/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "bibo": "http://purl.org/ontology/bibo/",
+    "insee": "http://rdf.insee.fr/geo/",
+    "schemaorg": "http://schema.org/",
+    "ign": "http://data.ign.fr/ontology/topo.owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "bnf-onto": "http://data.bnf.fr/ontology/bnf-onto/",
+    "vocabulary": "http://data.bnf.fr/vocabulary/"
+  },
+  "wikidataSearch": 
+  {
+    "nbResult": 20,
+    "language": {
+      "en": "en",
+      "fr": "fr"
+    }
+  },
+  "nodeTypes": {
+    "fr": {
+      "foaf:Person" : "Personne",
+      "foaf:Organization" : "Organisation",
+      "frbr-rda:Work" : "Oeuvre",
+      "geo:SpatialThing" : "Lieu",
+      "owl-time:Instant" : "Date",
+      "dcterms:Event" : "Spectacle",
+      "skos:Concept" : "Concept",
+      "bibo:Periodical" : "Periodique",
+      "frbr-rda:Expression" : "Expression",
+      "frbr-rda:Manifestation" : "Manisfestation"
+    }
+  },
+  "nodeData": {
+    "fr": {
+      "http://data.bnf.fr/ark:/12148/cb39200814v#about" : "Paris",
+      "http://data.bnf.fr/ark:/12148/cb11907966z#about" : "Victor Hugo",
+      "http://data.bnf.fr/ark:/12148/cb118949856#about" : "Albert Camus",
+      "http://data.bnf.fr/ark:/12148/cb119297200#about" : "Émile Zola",
+      "http://data.bnf.fr/ark:/12148/cb13516296h#about" : "Les misérables",
+      "http://data.bnf.fr/ark:/12148/cb12011567j#about" : "Germinal"
+    }
+  },
+  "infos": 
+  {
+    "baseContactUrl": "infos/contact_",
+    "baseContactExtension": ".html",
+    "baseHelpUrl" : "infos/help_BNF_",
+    "baseHelpExtension": ".pdf"
+  },
+  "searchAndListDisplayState": {
+    "node": {
+      "element": {
+        "search": false,
+        "list": true
+      },
+      "data": {
+        "search": true,
+        "list": true
+      }
+    },
+    "edge": {
+      "fixed": {
+        "list": true
+      }
+    }
+  },
+  "egdesValuesByElementNodeType" : 
+  {
+    "fr" :
+    {
+      "foaf:Person": {
+        "foaf:name" : "Nom",
+        "foaf:familyName" : "Nom de famille",
+        "foaf:givenName" : "Prénom",
+        "foaf:birthday" : "Anniversaire",
+        "foaf:gender" : "Genre",
+        "dagroup2elements:dateOfBirth" : "Date de naissance",
+        "dagroup2elements:dateOfDeath" : "Date de mort",
+        "rdagroup2elements:dateOfEstablishment" : "date de debut d'activité",
+        "rdagroup2elements:dateOfTerminaison" : "date de cessation d'activité"
+      },
+      "frbr-rda:Work" : {
+        "dcterms:creator" : "createur",
+        "bnf-onto:subject" : "sujet",
+        "bnf-onto:firstYear" : "Première Année",
+        "bnf-onto:lastYear" : "Dernière Année",
+        "dcterms:date" : "Date",
+        "dcterms:description" : "Description",
+        "dcterms:title" : "Titre",
+        "dcterms:contributor" : "Contributeur",
+        "rdfs:label" : "Label",
+        "foaf:page" : "Page",
+        "rdarelationships:expressionOfWork" : "Expression",
+        "rdagroup1elements:dateOfWork" : "Date de l'oeuvre",
+        "rdagroup1elements:placeOfProduction" : "Lieu de production"
+      },
+      "owl-time:Instant" : {
+        "rdfs:label" : "Label"
+      },
+      "skos:Concept" :  {
+        "foaf:focus" : "Focus",
+        "skos:prefLabel" : "Label",
+        "skos:altLabel" : "Label Alternatif",
+        "skos:editorialNote" : "Note Editorial",
+        "skos:note" : "Note",
+        "skos:broader" : "élargissement",
+        "skos:narrower" : "plus restreint",
+        "skos:related" : "en relation avec"
+      },
+      "geo:SpatialThing" : {
+        "foaf:page" : "Page",
+        "rdfs:label" : "Label",
+        "dcterms:description" : "Description",
+        "dcterms:EastLimit" : "Limite Est",
+        "dcterms:NorthLimit" : "Limite Nord",
+        "dcterms:SouthLimit" : "Limite Sud",
+        "dcterms:WestLimit" : "Limite Ouest",
+        "dcterms:temporal" : "Temporel",
+        "geo:lat_long" : "Latitude Longitude",
+        "geo:lat" : "Latitude",
+        "geo:long" : "Longitude",
+        "geo:alt" : "alt",
+        "insee:code_commune" : "Code Commune",
+        "bnf-onto:creationduLieu" : "Création du lieu",
+        "bnf-onto:suppressionduLieu" : "Suppression du Lieu",
+        "bnf-onto:referenceIGN" : "Reference IGN",
+        "bnf-onto:coordonneesLambert" : "Coordonnees Lambert",
+        "bnf-onto:superficie" : "Superficie"
+      },
+      "bibo:Periodical": {
+        "dcterms:contributor" : "contributeur",
+        "rdagroup1elements:dateOfWork" : "Date de l'oeuvre",
+        "dcterms:date" : "Date",
+        "dcterms:title" : "Titre",
+        "dcterms:description" : "Description",
+        "dcterms:publisher" : "Editeur",
+        "dcterms:created" : "Créé",
+        "dcterms:frequency" : "Frequence",
+        "rdfs:label" : "Label",
+        "bnf-onto:firstYear" : "Première Année",
+        "bnf-onto:lastYear" : "Dernière Année",
+        "bibo:issn" : "issn",
+        "rdagroup1elements:note" : "Note",
+        "rdagroup1elements:numberingOfIssue" : "Numérotation du numéro",
+        "rdagroup1elements:placeOfPublication" : "Lieu de publication",
+        "rdagroup1elements:publishersName" : "Nom des éditeurs"
+      }
+    }
+  }
+}

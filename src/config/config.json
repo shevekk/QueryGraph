@@ -1,6 +1,8 @@
 ﻿{
   "homePage" : "http://dataexplorer.hd.free.fr/",
   "endPoint": "https://query.wikidata.org/sparql",
+  "tripleStore" : "WIKIDATA",
+  "dataFileUrl": "data/data.json",
   "defaultLanguage": "en",
   "selectLang" : {
     "fr": "img/fr.png",
@@ -80,5 +82,22 @@
     "baseContactExtension": ".html",
     "baseHelpUrl" : "infos/help_",
     "baseHelpExtension": ".pdf"
+  },
+  "searchAndListDisplayState": {
+    "node": {
+      "element": {
+        "search": true,
+        "list": true
+      },
+      "data": {
+        "search": true,
+        "list": true
+      }
+    },
+    "edge": {
+      "fixed": {
+        "list": true
+      }
+    }
   }
 }

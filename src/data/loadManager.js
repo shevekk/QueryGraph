@@ -62,10 +62,9 @@ QueryGraph.Data.LoadManager = class LoadManager
   */
   initHtml()
   {
-
-    let content = '<label for="loadingSelect">'+QueryGraph.Dictionary.Dictionary.get("LOADING_QUERY_SAVED_TEXT")+'</label><select id="loadingSelect" name="loadingSelect"></select>';
-    content += '<button name="loadDataButton" id="loadDataButton" title="'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_NAME")+'</button>';
-    content += '<button name="saveDataButton" id="saveDataButton" title="'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_NAME")+'</button>';
+    let content = '<label for="'+QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("LOADING_QUERY_SAVED_TEXT")+'</label><select id="'+QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID+'" name="'+QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID+'"></select>';
+    content += '<button name="'+QueryGraph.Data.LoadManager.LOAD_BUTTON_HTML_ID+'" id="'+QueryGraph.Data.LoadManager.LOAD_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_NAME")+'</button>';
+    content += '<button name="'+QueryGraph.Data.SaveManager.SAVE_BUTTON_HTML_ID+'" id="'+QueryGraph.Data.SaveManager.SAVE_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_NAME")+'</button>';
 
     $("#" + QueryGraph.Data.LoadManager.LOAD_BAR_DIV_HTML_ID).html(content);
   }
@@ -79,7 +78,7 @@ QueryGraph.Data.LoadManager = class LoadManager
 
     $("#" + QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID).html("");
 
-    let jqxhr = $.getJSON("data/data.json", null)
+    let jqxhr = $.getJSON(QueryGraph.Config.Config.dataFileUrl, null)
     .done(function(content)
     {
       me.dataFileContent = content;

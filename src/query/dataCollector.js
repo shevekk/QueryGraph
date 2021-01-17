@@ -14,23 +14,46 @@ QueryGraph.Query.DataCollector = class DataCollector
   }
 
   /**
-   * Get edge types 
+   * Get edge types possible for the linked node type
    * @param {String}           linkedNodeType          Type of the linked node
+   * @param {String}           linkedNodeUri           URI of the linked node
+   * @param {Function}         callback                Callback with type URI and type label
    */
-  getEdges(linkedNodeType, callback)
+  getEdges(linkedNodeType, linkedNodeUri, callback)
   {
 
-  };
+  }
 
   /**
    * Get the list of types of nodes
    * @param {String}           nodeType             Type of the node
    * @param {Function}         callback             Callback with values keys list and values list in params
    */
-  getNodesPredefinedValues()
+  getNodesPredefinedValues(nodeType, callback)
   {
+    let keysList = [];
+    let valuesList = [];
+    let baseList = [];
 
-  };
+    if(nodeType == QueryGraph.Data.NodeType.ELEMENT)
+    {
+      baseList = QueryGraph.Config.Config.getNodeTypes();
+    }
+    else if(nodeType == QueryGraph.Data.NodeType.DATA)
+    {
+      baseList = QueryGraph.Config.Config.getNodePredefinedDatas();
+    }
+
+    for (const key in baseList)
+    {
+      let value = baseList[key];
+
+      valuesList.push(value);
+      keysList.push(key);
+    }
+
+    callback(keysList, valuesList);
+  }
 
   /**
    * Get types of nodes from name
@@ -38,8 +61,8 @@ QueryGraph.Query.DataCollector = class DataCollector
    */
   getNodesTypes(name)
   {
-
-  };
+    
+  }
 
   /**
    * Get data of nodes from name
@@ -47,8 +70,8 @@ QueryGraph.Query.DataCollector = class DataCollector
    */
   getNodesData(name)
   {
-
-  };
+    
+  }
 
   /**
    * Launch the query

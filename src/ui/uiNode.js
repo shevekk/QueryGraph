@@ -57,13 +57,19 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       content += '<div id='+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'><i>'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_ELEMENT_DESC")+'</i></div>';
       content += '<br/>';
 
-      content += '<div id='+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_PREDEFINED_TYPE")+'</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'"></select><br></div>';
+      if(QueryGraph.Config.Config.searchAndListDisplayState.node.element.list)
+      {
+        content += '<div id='+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_PREDEFINED_TYPE")+'</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'"></select><br></div>';
+      }
 
-      content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_SEARCH_TYPE")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'" value="">';
-      content += '<button id="'+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("OK_BUTTON_NAME")+'</button><br/>';
-      content += '<div id="'+QueryGraph.UI.UIElement.SEARCH_DIV_ID+'"></div><br/>';
+      if(QueryGraph.Config.Config.searchAndListDisplayState.node.element.search)
+      {
+        content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_SEARCH_TYPE")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'" value="">';
+        content += '<button id="'+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("OK_BUTTON_NAME")+'</button><br/>';
+        content += '<div id="'+QueryGraph.UI.UIElement.SEARCH_DIV_ID+'"></div><br/>';
+      }
+
       content += '<br/>';
-      
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_NAME")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'" name="'+QueryGraph.UI.UIElement.NAME_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.elementInfos.name +'"><br>';
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_LABEL")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.elementInfos.label +'"><br>';
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_URI")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.elementInfos.uri +'"><br>';
@@ -76,13 +82,19 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       content += '<div id='+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'><i>'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_DATA_DESC")+'</i></div>';
       content += '<br/>';
 
-      content += '<div id='+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_PREDEFINED_VALUES")+'</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'"></select><br></div>';
+      if(QueryGraph.Config.Config.searchAndListDisplayState.node.data.list)
+      {
+        content += '<div id='+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'><label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_PREDEFINED_VALUES")+'</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'"></select><br></div>';
+      }
 
-      content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_SEARCH_TYPE")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'" value="">';
-      content += '<button id="'+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("OK_BUTTON_NAME")+'</button><br/>';
-      content += '<div id="'+QueryGraph.UI.UIElement.SEARCH_DIV_ID+'"></div><br/>';
-      content += '<br/>';
+      if(QueryGraph.Config.Config.searchAndListDisplayState.node.data.search)
+      {
+        content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_SEARCH_TYPE")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SEARCH_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'" value="">';
+        content += '<button id="'+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("OK_BUTTON_NAME")+'</button><br/>';
+        content += '<div id="'+QueryGraph.UI.UIElement.SEARCH_DIV_ID+'"></div><br/>';
+      }
       
+      content += '<br/>';
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_LABEL")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.dataInfos.label +'"><br>';
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_URI")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.dataInfos.uri +'"><br>';
     }
@@ -115,15 +127,28 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
     {
       me.getWebLink(node.dataInfos.uri);
 
-      me.menageChoiseList(type);
-      me.menageSearch(type);
+      if(QueryGraph.Config.Config.searchAndListDisplayState.node.data.list)
+      {
+        me.menageChoiseList(type);
+      }
+      if(QueryGraph.Config.Config.searchAndListDisplayState.node.data.search)
+      {
+        me.menageSearch(type);
+      }
+      
     }
     else if(type == QueryGraph.Data.NodeType.ELEMENT)
     {
       me.getWebLink(node.elementInfos.uri);
 
-      me.menageChoiseList(type);
-      me.menageSearch(type);
+      if(QueryGraph.Config.Config.searchAndListDisplayState.node.element.list)
+      {
+        me.menageChoiseList(type);
+      }
+      if(QueryGraph.Config.Config.searchAndListDisplayState.node.element.search)
+      {
+        me.menageSearch(type);
+      }
 
       if(node.elementInfos.subclass)
       {
@@ -169,14 +194,14 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
 
       let searchValue = $("#"+QueryGraph.UI.UIElement.SEARCH_HTML_ID).val();
 
-      if(type == QueryGraph.Data.NodeType.DATA)
+      if(type == QueryGraph.Data.NodeType.ELEMENT)
       {
         me.dataCollector.getNodesTypes(searchValue, function(results)
         {
           displaySearchResult(results);
         });
       }
-      else if(type == QueryGraph.Data.NodeType.ELEMENT)
+      else if(type == QueryGraph.Data.NodeType.DATA)
       {
         me.dataCollector.getNodesData(searchValue, function(results)
         {
@@ -195,8 +220,24 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
           let label = results[key].label;
           let description = results[key].description;
           let uri = results[key].uri;
+          let title = results[key].title;
+          let content = "";
 
-          let content = "<div class='" + QueryGraph.UI.UIElement.SEARCH_DIV_LINE_CLASS + "' uri='"+uri+"' label='"+label+"'><b>" + label + " (" + key + ")</b> : " + description + "<br/></div>";
+          if(description)
+          {
+            if(title)
+            {
+              content = "<div class='" + QueryGraph.UI.UIElement.SEARCH_DIV_LINE_CLASS + "' uri='"+uri+"' label='"+label+"'><b>" + label + " (" + key + ")</b> : " + description + "<br/></div>";
+            }
+            else
+            {
+              content = "<div class='" + QueryGraph.UI.UIElement.SEARCH_DIV_LINE_CLASS + "' uri='"+uri+"' label='"+label+"'><b>" + label + "</b> : " + description + "<br/></div>";
+            }
+          }
+          else
+          {
+            content = "<div class='" + QueryGraph.UI.UIElement.SEARCH_DIV_LINE_CLASS + "' uri='"+uri+"' label='"+label+"'><b>" + label + "</b><br/></div>";
+          }          
 
           $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).prepend(content);
         }

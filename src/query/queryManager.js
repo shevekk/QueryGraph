@@ -48,7 +48,7 @@ QueryGraph.Query.QueryManager = class QueryManager
     this.whereQuery += me.addFilters(graph);
 
     // Add language label management
-    if(QueryGraph.Config.Config.displayLabel)
+    if(QueryGraph.Config.Config.displayLabel && QueryGraph.Config.Config.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
     {
       this.whereQuery += ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.getQueryLanguage()+'". }';
     }
@@ -61,7 +61,8 @@ QueryGraph.Query.QueryManager = class QueryManager
       this.query += " LIMIT " + QueryGraph.Config.Config.limit;
     }
 
-    let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURI(this.query) + "&format=json";
+    // let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURI(this.query) + "&format=json";
+    let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURIComponent(this.query) + "&format=json";
 
     // launch the query
     let ajaxRequest = $.ajax({
@@ -186,6 +187,10 @@ QueryGraph.Query.QueryManager = class QueryManager
     {
       // For data nodes, create edges with other nodes
       let startNodeUri = node.dataInfos.uri;
+      if(startNodeUri.startsWith("http"))
+      {
+        startNodeUri = "<" + startNodeUri + ">";
+      }
 
       for(let j = 0; j < node.edges.length; j++)
       {

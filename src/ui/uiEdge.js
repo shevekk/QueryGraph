@@ -61,8 +61,11 @@ QueryGraph.UI.UIEdge = class UIEdge extends QueryGraph.UI.UIElement
       content += '<div id="'+QueryGraph.UI.UIElement.DESCRIPTION_DIV_ID+'"><i>'+QueryGraph.Dictionary.Dictionary.get("EDGE_TYPE_FIXED_DESC")+'</i></div>';
       content += '<br/>';
 
-      content += '<div id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'"><label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_CHOISE")+'</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
-      content += '<br/>';
+      if(QueryGraph.Config.Config.searchAndListDisplayState.edge.fixed.list)
+      {
+        content += '<div id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_DIV_ID+'"><label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_CHOISE")+'</label><select id="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'" class="uiSelect" name="'+QueryGraph.UI.UIElement.LIST_ELEMENT_HTML_ID+'"></select><br></div>';
+        content += '<br/>';
+      }
 
       content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_LABEL")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="uiTextField" value="'+ edge.label +'"><br>';
       content += '<label class="uiTextFieldLabel" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("EDGE_URI")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="uiTextField" value="'+ edge.uri +'"><br>';
@@ -94,7 +97,10 @@ QueryGraph.UI.UIEdge = class UIEdge extends QueryGraph.UI.UIElement
     // Init auto choise list
     if(type == QueryGraph.Data.EdgeType.FIXED)
     {
-      me.menageChoiseList(edge);
+      if(QueryGraph.Config.Config.searchAndListDisplayState.edge.fixed.list)
+      {
+        me.menageChoiseList(edge);
+      }
 
       // Menage web link
       me.getWebLink(edge.uri);
