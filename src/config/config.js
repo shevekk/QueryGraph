@@ -50,6 +50,7 @@ QueryGraph.Config.Config = class Config
   static dataFileUrl;
   static egdesValuesByElementNodeType;
   static searchAndListDisplayState;
+  static queryInEndPointLink;
 
   constructor() 
   {
@@ -93,6 +94,7 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.dataFileUrl = content.dataFileUrl;
       QueryGraph.Config.Config.egdesValuesByElementNodeType = content.egdesValuesByElementNodeType;
       QueryGraph.Config.Config.searchAndListDisplayState = content.searchAndListDisplayState;
+      QueryGraph.Config.Config.queryInEndPointLink = content.queryInEndPointLink;
       
       if(QueryGraph.Config.Config.lang == null)
       {

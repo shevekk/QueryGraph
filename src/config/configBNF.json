@@ -4,6 +4,7 @@
   "tripleStore" : "DATA_BNF",
   "dataFileUrl": "data/data_bnf.json",
   "defaultLanguage": "fr",
+  "queryInEndPointLink": "",
   "selectLang" : {},
   "typeUri": "a",
   "subclassUri": "",

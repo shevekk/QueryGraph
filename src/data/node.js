@@ -16,9 +16,9 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
     super();
 
     /**
-     * @property {String}                              id                    Id of the node
-     * @property {QueryGraph.Data.NodeElementInfos}        elementInfos          Information of elements node
-     * @property {QueryGraph.Data.NodeDataInfos}           dataInfos             Information of data node
+     * @property {String}                                   id                    Id of the node
+     * @property {QueryGraph.Data.NodeElementInfos}         elementInfos          Information of elements node
+     * @property {QueryGraph.Data.NodeDataInfos}            dataInfos             Information of data node
      * @property {QueryGraph.Data.Edge[]}                   edges                 Edges of the node
      * @property {QueryGraph.Data.Edge[]}                   reverseEdges          Reverses edges of the node
      */

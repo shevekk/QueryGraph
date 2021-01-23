@@ -10,21 +10,26 @@ QueryGraph.UI.UIManager = class UIManager
   constructor() 
   {
     /**
-     * @property {QueryGraph.UI.UIElement}                 uiElement             Element draw in ui (QueryGraph.UI.UINode  or QueryGraph.UI.UIEdge)
+     * @property {QueryGraph.UI.UIElement}                   uiElement             Element draw in ui (QueryGraph.UI.UINode  or QueryGraph.UI.UIEdge)
+     * @property {QueryGraph.UI.UIParams}                    uiParams              ui containing parameters of the query
      * @property {QueryGraph.Data.Graph}                     graph                 The graph manager
-     * @property {JQuery Element}                       html                  JQuery element of the UI
-     * @property {QueryGraph.Query.DataCollector}             dataCollector         The data collector
+     * @property {JQuery Element}                            html                  JQuery element of the UI
+     * @property {QueryGraph.Query.DataCollector}            dataCollector         The data collector
      */
     this.uiElement;
+    this.uiParams = new QueryGraph.UI.UIParams();
     this.graph;
     this.html = $("#ui");
     this.dataCollector;
+    this.queryManager;
   }
 
   /**
    * @property {String}             OK_BUTTON_HTML_ID                HTML ID for OK Button 
+   * @property {String}             DISPLAY_ZONE_HTML_ID             HTML ID of DIV for a display zone
    */
   static OK_BUTTON_HTML_ID = "ok";
+  static DISPLAY_ZONE_HTML_ID = "uiDisplayZone";
 
 
   /**
@@ -35,6 +40,8 @@ QueryGraph.UI.UIManager = class UIManager
   {
     this.graph = graph;
     this.dataCollector = dataCollector;
+
+    this.uiParams.init(this.html, graph);
   }
 
   /**
@@ -45,7 +52,7 @@ QueryGraph.UI.UIManager = class UIManager
   {
     let me = this;
 
-    me.uiElement = new QueryGraph.UI.UINode ();
+    me.uiElement = new QueryGraph.UI.UINode();
     me.uiElement.init(me.html, node, me.dataCollector);
 
     $("#"+QueryGraph.UI.UIManager.OK_BUTTON_HTML_ID).click(function() 
@@ -93,8 +100,12 @@ QueryGraph.UI.UIManager = class UIManager
    */
   unSelect()
   {
+    let me = this;
+
     this.html.html("");
 
     this.uiElement = null;
+
+    this.uiParams.init(me.html, me.graph);
   }
 }

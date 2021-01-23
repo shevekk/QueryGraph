@@ -80,5 +80,8 @@
 
   "QUERY_IN_PROGRESS" :"Query in progress",
   "QUERY_FAIL" :"Query failure",
-  "DRAW_GRAPH_IMPOSSIBLE_NO_RESULTS" :"Unable to view the graph: No results"
+  "DRAW_GRAPH_IMPOSSIBLE_NO_RESULTS" :"Unable to view the graph: No results",
+
+  "LINK_TO_TRIPLESTORE": "Link to the triplestore",
+  "QUERY_LABEL": "Query :"
  }

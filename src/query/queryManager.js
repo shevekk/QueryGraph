@@ -23,14 +23,11 @@ QueryGraph.Query.QueryManager = class QueryManager
   }
 
   /**
-   * Execute a query, parse query and send to triplestore
+   * Build the Query
    * @param {QueryGraph.Data.Graph}            graph                  The graphe manager
-   * @param {Function}                    callback               The callback
    */
-  exec(graph, callback)
+  buildQuery(graph)
   {
-    let me = this;
-
     // Reinit query vars
     this.selectVars = [];
     this.query = "";
@@ -42,24 +39,36 @@ QueryGraph.Query.QueryManager = class QueryManager
     {
       let node = graph.nodes[i];
 
-      me.addNode(graph, node);
+      this.addNode(graph, node);
     }
 
-    this.whereQuery += me.addFilters(graph);
+    this.whereQuery += this.addFilters(graph);
 
     // Add language label management
     if(QueryGraph.Config.Config.displayLabel && QueryGraph.Config.Config.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
     {
-      this.whereQuery += ' SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.getQueryLanguage()+'". }';
+      this.whereQuery += '\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.getQueryLanguage()+'". }';
     }
 
-    this.query += this.selectQuery + " WHERE { " + this.whereQuery + " }";
+    this.query += this.selectQuery + " \nWHERE \n{" + this.whereQuery + " \n}";
 
     // Add limit
     if(QueryGraph.Config.Config.limit != null)
     {
-      this.query += " LIMIT " + QueryGraph.Config.Config.limit;
+      this.query += "\nLIMIT " + QueryGraph.Config.Config.limit;
     }
+  }
+
+  /**
+   * Execute a query, parse query and send to triplestore
+   * @param {QueryGraph.Data.Graph}            graph                  The graphe manager
+   * @param {Function}                         callback               The callback
+   */
+  exec(graph, callback)
+  {
+    let me = this;
+
+    me.buildQuery(graph);
 
     // let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURI(this.query) + "&format=json";
     let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURIComponent(this.query) + "&format=json";
@@ -134,7 +143,7 @@ QueryGraph.Query.QueryManager = class QueryManager
       let nodeOptional = node.edgesAreAllOptional();
       if(nodeOptional)
       {
-        this.whereQuery += " OPTIONAL { "
+        this.whereQuery += "\n  OPTIONAL { "
       }
       
       if(typeUri != "")
@@ -148,11 +157,11 @@ QueryGraph.Query.QueryManager = class QueryManager
         // Create query line with the optional recovery of the subclass 
         if(node.elementInfos.subclass)
         {
-          this.whereQuery += nameVar + " " + QueryGraph.Config.Config.typeUri + "/" + QueryGraph.Config.Config.subclassUri + "* " + typeUri + " . ";
+          this.whereQuery += "\n  " + nameVar + " " + QueryGraph.Config.Config.typeUri + "/" + QueryGraph.Config.Config.subclassUri + "* " + typeUri + " . ";
         }
         else
         {
-          this.whereQuery += nameVar + " " + QueryGraph.Config.Config.typeUri + " " + typeUri + " . ";
+          this.whereQuery += "\n  " + nameVar + " " + QueryGraph.Config.Config.typeUri + " " + typeUri + " . ";
         }
       }
 
@@ -180,7 +189,7 @@ QueryGraph.Query.QueryManager = class QueryManager
           this.addEdge(edge, nameVar, node, nodeOptional);
         }
 
-        this.whereQuery += " } "
+        this.whereQuery += "\n} "
       }
     }
     else if(node.type == QueryGraph.Data.NodeType.DATA)
@@ -226,11 +235,11 @@ QueryGraph.Query.QueryManager = class QueryManager
       // Create query line for optional and not optional
       if(edge.optional && !nodeOptional)
       {
-        this.whereQuery +=  " OPTIONAL { " + startNodeVarName + " " + uri + " " + endNodeVarName + " } . ";
+        this.whereQuery +=  "\n  " + "OPTIONAL { " + startNodeVarName + " " + uri + " " + endNodeVarName + " } . ";
       }
       else
       {
-        this.whereQuery +=  startNodeVarName + " " + uri + " " + endNodeVarName + " . ";
+        this.whereQuery += "\n  " + startNodeVarName + " " + uri + " " + endNodeVarName + " . ";
       }
     }
     else if(edge.type == QueryGraph.Data.EdgeType.VARIABLE)
@@ -240,11 +249,11 @@ QueryGraph.Query.QueryManager = class QueryManager
       // Cretae query lien for for optional and not optional
       if(edge.optional && !nodeOptional)
       {
-        this.whereQuery +=  " OPTIONAL { " + startNodeVarName + " " + name + " " + endNodeVarName + " } . ";
+        this.whereQuery += "\n  " + "OPTIONAL { " + startNodeVarName + " " + name + " " + endNodeVarName + " } . ";
       }
       else
       {
-        this.whereQuery +=  startNodeVarName + " " + name + " " + endNodeVarName + " . ";
+        this.whereQuery += "\n  " + startNodeVarName + " " + name + " " + endNodeVarName + " . ";
       }
 
       // Add edge variable name to select

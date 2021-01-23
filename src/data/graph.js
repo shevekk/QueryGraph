@@ -509,6 +509,8 @@ QueryGraph.Data.Graph = class Graph
       me.edges[i].setType(data["edges"][i]["type"], me);
       me.edges[i].setInformations(data["edges"][i]["label"], data["edges"][i]["uri"], data["edges"][i]["name"], data["edges"][i]["optional"], me);
     }
+
+    me.uiManager.unSelect();
   }
 
   /**

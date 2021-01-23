@@ -86,7 +86,7 @@ QueryGraph.UI.UIElement = class UIElement
     me.getSelectElement(nodeOrEdge);
     let types = me.getTypes(nodeOrEdge);
 
-    let content = '<div id="uiDisplayZone">';
+    let content = '<div id="'+QueryGraph.UI.UIManager.DISPLAY_ZONE_HTML_ID+'">';
 
     // selection of type
     content += '<select name="'+QueryGraph.UI.UIElement.TYPE_SELECT_HTML_ID+'" id="'+QueryGraph.UI.UIElement.TYPE_SELECT_HTML_ID+'">';

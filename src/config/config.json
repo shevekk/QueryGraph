@@ -4,6 +4,7 @@
   "tripleStore" : "WIKIDATA",
   "dataFileUrl": "data/data.json",
   "defaultLanguage": "en",
+  "queryInEndPointLink": "https://query.wikidata.org/#",
   "selectLang" : {
     "fr": "img/fr.png",
     "en": "img/en.png"
