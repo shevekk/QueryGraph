@@ -12,6 +12,7 @@
   "typeUri": "wdt:P31",
   "subclassUri": "wdt:P279",
   "displayLabel": true,
+  "nodeFilterDateEnable": true,
   "queryLanguage" : {
     "fr": "[AUTO_LANGUAGE],fr,en",
     "en": "en"

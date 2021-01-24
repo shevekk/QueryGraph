@@ -9,11 +9,12 @@
   "typeUri": "a",
   "subclassUri": "",
   "displayLabel": false,
+  "nodeFilterDateEnable": true,
   "queryLanguage" : {
     "fr": "[AUTO_LANGUAGE],fr,en",
     "en": "en"
   },
-  "limit": 100,
+  "limit": null,
   "prefix" : 
   {
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -57,7 +58,6 @@
       "foaf:Organization" : "Organisation",
       "frbr-rda:Work" : "Oeuvre",
       "geo:SpatialThing" : "Lieu",
-      "owl-time:Instant" : "Date",
       "dcterms:Event" : "Spectacle",
       "skos:Concept" : "Concept",
       "bibo:Periodical" : "Periodique",
@@ -109,8 +109,8 @@
         "foaf:givenName" : "Prénom",
         "foaf:birthday" : "Anniversaire",
         "foaf:gender" : "Genre",
-        "dagroup2elements:dateOfBirth" : "Date de naissance",
-        "dagroup2elements:dateOfDeath" : "Date de mort",
+        "bio:birth" : "Date de naissance",
+        "bio:death" : "Date de mort",
         "rdagroup2elements:dateOfEstablishment" : "date de debut d'activité",
         "rdagroup2elements:dateOfTerminaison" : "date de cessation d'activité"
       },
@@ -128,9 +128,6 @@
         "rdarelationships:expressionOfWork" : "Expression",
         "rdagroup1elements:dateOfWork" : "Date de l'oeuvre",
         "rdagroup1elements:placeOfProduction" : "Lieu de production"
-      },
-      "owl-time:Instant" : {
-        "rdfs:label" : "Label"
       },
       "skos:Concept" :  {
         "foaf:focus" : "Focus",

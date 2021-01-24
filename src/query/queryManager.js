@@ -337,6 +337,10 @@ QueryGraph.Query.QueryManager = class QueryManager
           {
             filterContentStr = 'STR(' + varName + ')';
           }
+          else if(graph.nodes[i].filterInfos.valueType == QueryGraph.Data.NodeFilterValueType.NUMBER)
+          {
+            filterContentStr = 'xsd:integer(' + varName + ')';
+          }
           else
           {
             filterContentStr = varName;
@@ -388,7 +392,7 @@ QueryGraph.Query.QueryManager = class QueryManager
           }
         }
 
-        filterStr += " FILTER(" + filterContentStr + ") . ";
+        filterStr += "\n  FILTER(" + filterContentStr + ") . ";
       }
     }
 

@@ -44,7 +44,7 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
   /**
    * Update params contenent by type of node
    * @param {QueryGraph.Data.NodeType}                 type              The type of the node
-   * @param {QueryGraph.Data.Node}                      node              The selected node
+   * @param {QueryGraph.Data.Node}                     node              The selected node
    */
   updateContent(type, node)
   {
@@ -74,7 +74,10 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_LABEL")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.elementInfos.label +'"><br>';
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_URI")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.elementInfos.uri +'"><br>';
     
-      content += '<br/><div><input type="checkbox" id="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'" class="'+QueryGraph.UI.UIElement.CHECKBOX_CLASS+'"><label for="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_GET_SUBCLASS")+'</label></div>';
+      if(QueryGraph.Config.Config.subclassUri)
+      {
+        content += '<br/><div><input type="checkbox" id="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'" class="'+QueryGraph.UI.UIElement.CHECKBOX_CLASS+'"><label for="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_GET_SUBCLASS")+'</label></div>';
+      }
     }
     else if(type == QueryGraph.Data.NodeType.DATA)
     {
@@ -110,7 +113,10 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       content += '<div><label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES")+'</label><select id="'+QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID+'" name="'+QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'">';
       content += '   <option value="'+QueryGraph.Data.NodeFilterValueType.NUMBER+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES_NUMBER")+'</option>';
       content += '   <option value="'+QueryGraph.Data.NodeFilterValueType.TEXT+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES_TEXT")+'</option>';
-      content += '   <option value="'+QueryGraph.Data.NodeFilterValueType.DATE+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES_DATE")+'</option>';
+      if(QueryGraph.Config.Config.nodeFilterDateEnable)
+      {
+        content += '   <option value="'+QueryGraph.Data.NodeFilterValueType.DATE+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES_DATE")+'</option>';
+      }
       content += '</select><br></div>';
 
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.VALUE_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUE")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.VALUE_HTML_ID+'" name="'+QueryGraph.UI.UIElement.VALUE_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.filterInfos.value +'"><br>';
@@ -135,7 +141,6 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       {
         me.menageSearch(type);
       }
-      
     }
     else if(type == QueryGraph.Data.NodeType.ELEMENT)
     {
@@ -175,7 +180,7 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
     }
 
     // Menage web link
-    $("#"+QueryGraph.UI.UIElement.URI_HTML_ID).change(function() { 
+    $("#"+QueryGraph.UI.UIElement.URI_HTML_ID).change(function() {
         me.getWebLink($("#"+QueryGraph.UI.UIElement.URI_HTML_ID).val()); 
     });
   }
@@ -190,7 +195,7 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
 
     $("#"+QueryGraph.UI.UIElement.SEARCH_BUTTON_HTML_ID).click(function() 
     {
-      $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).html("");
+      $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).html('<b>'+QueryGraph.Dictionary.Dictionary.get("NODE_SEARCH_IN_PROGRESS")+'</b>');
 
       let searchValue = $("#"+QueryGraph.UI.UIElement.SEARCH_HTML_ID).val();
 
@@ -198,6 +203,7 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       {
         me.dataCollector.getNodesTypes(searchValue, function(results)
         {
+
           displaySearchResult(results);
         });
       }
@@ -352,16 +358,18 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_INFERIOR"), QueryGraph.Data.NodeFilterOperator.INFERIOR));
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_SUPERIOR_OR_EQUAL"), QueryGraph.Data.NodeFilterOperator.SUPERIOR_OR_EQUAL));
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_INFERIOR_OR_EQUAL"), QueryGraph.Data.NodeFilterOperator.INFERIOR_OR_EQUAL));
+      $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_DIFFERENT"), QueryGraph.Data.NodeFilterOperator.DIFFERENT));
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_IN"), QueryGraph.Data.NodeFilterOperator.IN));
     }
     else if(valueType == QueryGraph.Data.NodeFilterValueType.TEXT)
     {
       $('#'+QueryGraph.UI.UIElement.VALUE_HTML_ID).attr("type", "text");
 
+      $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_IN"), QueryGraph.Data.NodeFilterOperator.IN));
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_CONTAINS"), QueryGraph.Data.NodeFilterOperator.CONTAINS));
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_STRSTARTS"), QueryGraph.Data.NodeFilterOperator.STRSTARTS));
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_STRENDS"), QueryGraph.Data.NodeFilterOperator.STRENDS));
-      $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_IN"), QueryGraph.Data.NodeFilterOperator.IN));
+      $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_DIFFERENT"), QueryGraph.Data.NodeFilterOperator.DIFFERENT));
     }
     else if(valueType == QueryGraph.Data.NodeFilterValueType.DATE)
     {
@@ -371,6 +379,7 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_INFERIOR"), QueryGraph.Data.NodeFilterOperator.INFERIOR));
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_SUPERIOR_OR_EQUAL"), QueryGraph.Data.NodeFilterOperator.SUPERIOR_OR_EQUAL));
       $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_INFERIOR_OR_EQUAL"), QueryGraph.Data.NodeFilterOperator.INFERIOR_OR_EQUAL));
+      $('#'+QueryGraph.UI.UIElement.OPERATORS_HTML_ID).append(new Option(QueryGraph.Dictionary.Dictionary.get("NODE_FILTER_OPERATOR_DIFFERENT"), QueryGraph.Data.NodeFilterOperator.DIFFERENT));
     }
 
     if($("#"+QueryGraph.UI.UIElement.OPERATORS_HTML_ID + " option[value='" + oldValue + "']").length !== 0)

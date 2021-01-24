@@ -75,7 +75,14 @@ QueryGraph.Query.ResultView = class ResultView
           let value = data.results.bindings[i][selectVars[j].value]["value"];
           let type = data.results.bindings[i][selectVars[j].value]["type"];
 
-          content += "<td>" + value + "</td>";
+          if(type != "literal")
+          {
+            content += "<td><a href='"+value+"' target='_blank'>" + value + "</a></td>";
+          }
+          else
+          {
+            content += "<td>" + value + "</td>";
+          }
 
           if(selectVars[j].label && !selectVars[j].allLiteral)
           {

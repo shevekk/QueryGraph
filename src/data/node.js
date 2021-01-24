@@ -253,7 +253,8 @@ QueryGraph.Data.NodeFilterOperator =
   IN: "IN",
   CONTAINS: "CONTAINS",
   STRSTARTS: "STRSTARTS",
-  STRENDS: "STRENDS"
+  STRENDS: "STRENDS",
+  DIFFERENT: "!="
 }
 
 /*

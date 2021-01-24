@@ -28,7 +28,8 @@ QueryGraph.Config.Config = class Config
    * @property {String}                                      dataFileUrl                         Name of the file containing the predefined queries 
    * @property {Object}                                      egdesValuesByElementNodeType        List for possible edges values for all node types
    * @property {Object}                                      searchAndListDisplayState           Define visibility of UI search bar and select list
-   
+   * @property {Object}                                      queryInEndPointLink                 URL of the endpoint for link of query in the endPoint
+   * @property {Object}                                      nodeFilterDateEnable                Define if the creation of date filter node is possible
    */
   static defaultConfigFileURL = "config/config.json";
 
@@ -51,6 +52,7 @@ QueryGraph.Config.Config = class Config
   static egdesValuesByElementNodeType;
   static searchAndListDisplayState;
   static queryInEndPointLink;
+  static nodeFilterDateEnable;
 
   constructor() 
   {
@@ -95,6 +97,7 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.egdesValuesByElementNodeType = content.egdesValuesByElementNodeType;
       QueryGraph.Config.Config.searchAndListDisplayState = content.searchAndListDisplayState;
       QueryGraph.Config.Config.queryInEndPointLink = content.queryInEndPointLink;
+      QueryGraph.Config.Config.nodeFilterDateEnable = content.nodeFilterDateEnable;
       
       if(QueryGraph.Config.Config.lang == null)
       {

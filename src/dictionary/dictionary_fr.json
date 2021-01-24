@@ -59,7 +59,9 @@
   "NODE_FILTER_OPERATOR_CONTAINS" : "Contient",
   "NODE_FILTER_OPERATOR_STRSTARTS" : "Commence par",
   "NODE_FILTER_OPERATOR_STRENDS" : "Termine par",
+  "NODE_FILTER_OPERATOR_DIFFERENT": "!=",
 
+  "NODE_SEARCH_IN_PROGRESS": "Recherche en cours",
   "LINK_TO_WEB_PAGE": "Lien vers la page",
   "OK_BUTTON_NAME": "OK",
 
