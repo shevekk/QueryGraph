@@ -47,6 +47,16 @@ QueryGraph.Data.Graph = class Graph
 
     me.uiManager = uiManager;
 
+    me.initNetwork();
+
+    me.menageTopBouttonEvent();
+  }
+
+  /**
+   * Init the network
+   */
+  initNetwork()
+  {
     let container = document.getElementById('graph');
 
     this.visNodes = new vis.DataSet([]);
@@ -71,8 +81,7 @@ QueryGraph.Data.Graph = class Graph
     
     this.network = new vis.Network(container, data, options);
 
-    me.menageTopBouttonEvent();
-    me.menageGraphEvents();
+    this.menageGraphEvents();
   }
 
   /* 
@@ -105,19 +114,9 @@ QueryGraph.Data.Graph = class Graph
     /* Action of delete the selection */
     $("#"+QueryGraph.UI.TopUI.DELETE_BUTTON_HTML_ID).click(function() 
     {
-      if(me.selectedNode)
+      if(me.selectedNode || me.selectedEdge)
       {
-        me.deleteNode(me.selectedNode.id);
-
-        me.selectedNode = null;
-        me.uiManager.unSelect();
-      }
-      else if(me.selectedEdge)
-      {
-        me.deleteEdge(me.selectedEdge.id);
-
-        me.selectedEdge = null;
-        me.uiManager.unSelect();
+        me.deleteSelectedElements();
       }
       else
       {
@@ -154,6 +153,26 @@ QueryGraph.Data.Graph = class Graph
 
       me.action = null;
     });
+
+    /* Create a new Query */
+    $("#"+QueryGraph.UI.TopUI.NEW_QUERY_ACTION_BUTTON_HTML_ID).click(function() 
+    {
+      if (confirm(QueryGraph.Dictionary.Dictionary.get("CONFIRM_NEW_QUERY")))
+      {
+        me.clearGraph();
+
+        me.action = null;
+      }
+    });
+
+    /* Action of delete the selection from key action */
+    $(document).keydown(function( event ) 
+    {
+      if(event.key == "Delete")
+      {
+        me.deleteSelectedElements();
+      }
+    });
   }
 
   /*  
@@ -163,9 +182,11 @@ QueryGraph.Data.Graph = class Graph
   {
     let me = this;
 
-    this.network.on("click", function(data)
+    me.network.on("click", function(data)
     {
       me.uiManager.save();
+      let edgeCreated = false;
+      let nodeCreated = false;
 
       // Action of add edge
       if(me.action == QueryGraph.Data.GraphAction.ADD_EDGE)
@@ -182,15 +203,24 @@ QueryGraph.Data.Graph = class Graph
             }
             else
             {
+              let newEdge = null;
+
               if(me.selectedNode.type != QueryGraph.Data.NodeType.FILTER || endNode.type == QueryGraph.Data.NodeType.FILTER)
               {
-                me.addEdge(me.selectedNode.id, data.nodes[0], me.selectedNode, endNode);
+                newEdge = me.addEdge(me.selectedNode.id, data.nodes[0], me.selectedNode, endNode);
               }
               else
               {
                 // If start node tpye is FILTER, reverses the direction and set type to FIXED
-                me.addEdge(data.nodes[0], me.selectedNode.id, endNode, me.selectedNode, null, QueryGraph.Data.EdgeType.FIXED);
+                newEdge = me.addEdge(data.nodes[0], me.selectedNode.id, endNode, me.selectedNode, null, QueryGraph.Data.EdgeType.FIXED);
               }
+
+              me.selectedEdge = newEdge;
+              me.network.selectEdges([newEdge.id]);
+              me.uiManager.selectEdge(me.selectedEdge);
+              me.selectedNode = null;
+             
+              edgeCreated = true;
             }
             
             me.action = null;
@@ -205,50 +235,61 @@ QueryGraph.Data.Graph = class Graph
         }
       }
       // Action of add node
-      if(me.action == QueryGraph.Data.GraphAction.ADD_NODE)
+      else if(me.action == QueryGraph.Data.GraphAction.ADD_NODE)
       {
-        me.addNode(data.pointer.canvas.x, data.pointer.canvas.y);
+        let newNode = me.addNode(data.pointer.canvas.x, data.pointer.canvas.y);
 
         $("#graph").css("cursor", "auto");
         QueryGraph.UI.TopUI.highlight(QueryGraph.UI.TopUI.ADD_NODE_BUTTON_HTML_ID, false);
 
         me.action = null;
-      }
 
-      if(data.nodes.length > 0)
-      {
-        // Select node
-        me.selectedNode = me.getNode(data.nodes[0]);
-
+        me.selectedNode = newNode;
+        me.network.selectNodes([newNode.id]);
         me.uiManager.selectNode(me.selectedNode);
-
         me.selectedEdge = null;
+        
+        nodeCreated = true;
       }
-      else if(data.edges.length > 0)
+
+      // Select node if is not creation
+      if(!edgeCreated && !nodeCreated)
       {
-        // Select edge
-        me.selectedEdge = me.getEdges(data.edges[0]);
+        if(data.nodes.length > 0)
+        {
+          // Select node
+          me.selectedNode = me.getNode(data.nodes[0]);
 
-        me.uiManager.selectEdge(me.selectedEdge);
+          me.uiManager.selectNode(me.selectedNode);
 
-        me.selectedNode = null;
+          me.selectedEdge = null;
+        }
+        else if(data.edges.length > 0)
+        {
+          // Select edge
+          me.selectedEdge = me.getEdges(data.edges[0]);
+
+          me.uiManager.selectEdge(me.selectedEdge);
+
+          me.selectedNode = null;
+        }
+        else
+        {
+          // Unselect all
+          me.selectedNode = null;
+          me.selectedEdge = null;
+
+          me.uiManager.unSelect();
+        }
       }
-      else
-      {
-        // Unselect all
-        me.selectedNode = null;
-        me.selectedEdge = null;
-
-        me.uiManager.unSelect();
-      }
-
     });
   }
 
   /**
    * Add a new node
-   * @param {String}               x                The X node position
-   * @param {String}               y                The Y node position
+   * @param {String}                   x                The X node position
+   * @param {String}                   y                The Y node position
+   * @return {QueryGraph.Data.Node}                     The new Node
    */
   addNode(x, y)
   {
@@ -267,6 +308,8 @@ QueryGraph.Data.Graph = class Graph
     newNode.setType(QueryGraph.Data.NodeType.ELEMENT, this);
 
     this.nodes.push(newNode);
+
+    return newNode;
   }
 
   /**
@@ -277,6 +320,7 @@ QueryGraph.Data.Graph = class Graph
    * @param {QueryGraph.Data.Node}            nodeEnd              End node
    * @param {Number}                          id                   Id of the edge (optional)
    * @param {QueryGraph.Data.EdgeType}        type                 Type of the edges (optional)
+   * @return {QueryGraph.Data.Edge}                                The new Edge
    */
   addEdge(idNodeStart, idNodeEnd, nodeStart, nodeEnd, id, type)
   {
@@ -309,6 +353,8 @@ QueryGraph.Data.Graph = class Graph
     {
       newEdge.setType(QueryGraph.Data.EdgeType.VARIABLE, this);
     }
+
+    return newEdge;
   }
 
   /**
@@ -529,8 +575,34 @@ QueryGraph.Data.Graph = class Graph
       me.visEdges.remove(me.edges[i].id);
     }
 
+    me.network.destroy();
+    me.initNetwork(me.uiManager);
+
     me.nodes = [];
     me.edges = [];
+  }
+
+  /**
+   * Delete selected elements (nodes and edges)
+   */
+  deleteSelectedElements()
+  {
+    var me = this;
+
+    if(me.selectedNode)
+    {
+      me.deleteNode(me.selectedNode.id);
+
+      me.selectedNode = null;
+      me.uiManager.unSelect();
+    }
+    else if(me.selectedEdge)
+    {
+      me.deleteEdge(me.selectedEdge.id);
+
+      me.selectedEdge = null;
+      me.uiManager.unSelect();
+    }
   }
 }
 

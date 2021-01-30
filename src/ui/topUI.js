@@ -11,6 +11,7 @@ QueryGraph.UI.TopUI = class TopUI
    * @property {String}             REVERT_EDGE_BUTTON_HTML_ID               Button for revert the direction of the edge
    * @property {String}             DELETE_BUTTON_HTML_ID                    Button for delete a node or a dege
    * @property {String}             CANCEL_ACTION_BUTTON_HTML_ID             Button for cancel current action
+   * @property {String}             NEW_QUERY_ACTION_BUTTON_HTML_ID          Button for create a new query
    * @property {String}             EXEC_QUERY_GRAPH_BUTTON_HTML_ID          Button for execute a query and display the result as a graph
    * @property {String}             EXEC_QUERY_BUTTON_HTML_ID                Button for execute a query
    * @property {String}             TOP_BUTTON_RIGHT_HTML_CLASS              Top button right html class
@@ -23,6 +24,7 @@ QueryGraph.UI.TopUI = class TopUI
   static REVERT_EDGE_BUTTON_HTML_ID = "revertEdge";
   static DELETE_BUTTON_HTML_ID = "delete";
   static CANCEL_ACTION_BUTTON_HTML_ID = "cancelAction";
+  static NEW_QUERY_ACTION_BUTTON_HTML_ID = "newQuery";
   static EXEC_QUERY_GRAPH_BUTTON_HTML_ID = "execQueryGraph";
   static EXEC_QUERY_BUTTON_HTML_ID = "execQuery";
 
@@ -40,6 +42,7 @@ QueryGraph.UI.TopUI = class TopUI
     content += '<button name="'+QueryGraph.UI.TopUI.REVERT_EDGE_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.REVERT_EDGE_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("REVERT_EDGE_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_LEFT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("REVERT_EDGE_BUTTON_NAME")+'</button>';
     content += '<button name="'+QueryGraph.UI.TopUI.DELETE_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.DELETE_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("DELETE_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_LEFT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("DELETE_BUTTON_NAME")+'</button>';
     content += '<button name="'+QueryGraph.UI.TopUI.CANCEL_ACTION_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.CANCEL_ACTION_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("CANCEL_ACTION_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_LEFT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("CANCEL_ACTION_BUTTON_NAME")+'</button>';
+    content += '<button name="'+QueryGraph.UI.TopUI.NEW_QUERY_ACTION_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.NEW_QUERY_ACTION_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("NEW_QUERY_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_LEFT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("NEW_QUERY_BUTTON_NAME")+'</button>';
 
     content += '<button name="'+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_GRAPH_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_RIGHT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_GRAPH_BUTTON_NAME")+'</button>';
     content += '<button name="'+QueryGraph.UI.TopUI.EXEC_QUERY_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.EXEC_QUERY_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_RIGHT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_BUTTON_NAME")+'</button>';
@@ -80,6 +83,7 @@ QueryGraph.UI.TopUI = class TopUI
         $("#" + buttonId).css("background-color", "#e7e7e7");
       }
     }
+
     /*
      * UnHover button
      */

@@ -19,10 +19,14 @@
   "DELETE_BUTTON_NAME": "Delete selection",
   "CANCEL_ACTION_BUTTON_DESC": "Cancel the current action",
   "CANCEL_ACTION_BUTTON_NAME": "Cancel action",
+  "NEW_QUERY_BUTTON_DESC": "Creating a new query",
+  "NEW_QUERY_BUTTON_NAME": "New query",
   "EXEC_QUERY_GRAPH_BUTTON_DESC": "Execute the query and display as a graph in a new window",
   "EXEC_QUERY_GRAPH_BUTTON_NAME": "Run as a graph",
   "EXEC_QUERY_BUTTON_DESC": "Run the query and display the results as a table",
   "EXEC_QUERY_BUTTON_NAME": "Execute the query",
+
+  "CONFIRM_NEW_QUERY": "Are you sure you want to launch a new query ?",
 
   "NODE_TYPE_ELEMENT": "Element",
   "NODE_TYPE_DATA": "Data",
@@ -83,6 +87,7 @@
   "QUERY_IN_PROGRESS" :"Query in progress",
   "QUERY_FAIL" :"Query failure",
   "DRAW_GRAPH_IMPOSSIBLE_NO_RESULTS" :"Unable to view the graph: No results",
+  "NB_RESULTS" : "Number of results",
 
   "LINK_TO_TRIPLESTORE": "Link to the triplestore",
   "QUERY_LABEL": "Query :"

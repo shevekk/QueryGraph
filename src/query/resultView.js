@@ -28,6 +28,8 @@ QueryGraph.Query.ResultView = class ResultView
   {
     let content = "";
 
+    content += QueryGraph.Dictionary.Dictionary.get("NB_RESULTS") + " : " + data.results.bindings.length;
+
     content += "<table>";
 
     // Create table header

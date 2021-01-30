@@ -189,7 +189,7 @@ QueryGraph.Query.QueryManager = class QueryManager
           this.addEdge(edge, nameVar, node, nodeOptional);
         }
 
-        this.whereQuery += "\n} "
+        this.whereQuery += "\n  } "
       }
     }
     else if(node.type == QueryGraph.Data.NodeType.DATA)
