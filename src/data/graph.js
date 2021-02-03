@@ -35,6 +35,7 @@ QueryGraph.Data.Graph = class Graph
     this.action;
 
     this.uiManager;
+    this.params = new QueryGraph.Data.Params();
   }
 
   /**
@@ -82,6 +83,8 @@ QueryGraph.Data.Graph = class Graph
     this.network = new vis.Network(container, data, options);
 
     this.menageGraphEvents();
+
+    this.params = new QueryGraph.Data.Params();
   }
 
   /* 
@@ -184,7 +187,7 @@ QueryGraph.Data.Graph = class Graph
 
     me.network.on("click", function(data)
     {
-      me.uiManager.save();
+      me.uiManager.save(false);
       let edgeCreated = false;
       let nodeCreated = false;
 
@@ -289,12 +292,16 @@ QueryGraph.Data.Graph = class Graph
    * Add a new node
    * @param {String}                   x                The X node position
    * @param {String}                   y                The Y node position
+   * @param {Number}                   id               Id of the node (optional)
    * @return {QueryGraph.Data.Node}                     The new Node
    */
-  addNode(x, y)
+  addNode(x, y, id)
   {
     // Get free id
-    let id = 1;
+    if(!id)
+    {
+      id = 1;
+    }
     if(this.nodes.length > 0)
     {
       id = this.nodes[this.nodes.length - 1].id + 1;
@@ -305,7 +312,7 @@ QueryGraph.Data.Graph = class Graph
 
     this.visNodes.add([newNode.createVisNode(x, y)]);
 
-    newNode.setType(QueryGraph.Data.NodeType.ELEMENT, this);
+    //newNode.setType(QueryGraph.Data.NodeType.ELEMENT, this);
 
     this.nodes.push(newNode);
 
@@ -480,6 +487,7 @@ QueryGraph.Data.Graph = class Graph
     var data = {};
     data["nodes"] = [];
     data["edges"] = [];
+    data["params"] = me.params.toJson();
 
     for(let i = 0; i < me.nodes.length; i++)
     {
@@ -518,9 +526,9 @@ QueryGraph.Data.Graph = class Graph
 
     for(let i = 0; i < data["nodes"].length; i++)
     {
-      me.addNode(0, 0);
+      me.addNode(0, 0, data["nodes"][i]["id"]);
 
-      me.nodes[i].id = data["nodes"][i]["id"];
+      //me.nodes[i].id = data["nodes"][i]["id"];
       me.nodes[i].setType(data["nodes"][i]["type"], me);
       me.nodes[i].elementInfos = data["nodes"][i]["elementInfos"];
       me.nodes[i].dataInfos = data["nodes"][i]["dataInfos"];
@@ -530,6 +538,7 @@ QueryGraph.Data.Graph = class Graph
         me.nodes[i].filterInfos = data["nodes"][i]["filterInfos"];
       }
 
+      
       if(me.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
       {
         me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].elementInfos.name});
@@ -542,6 +551,7 @@ QueryGraph.Data.Graph = class Graph
       {
         me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].filterInfos.operator + " " + me.nodes[i].filterInfos.value});
       }
+
     }
     for(let i = 0; i < data["edges"].length; i++)
     {
@@ -554,6 +564,11 @@ QueryGraph.Data.Graph = class Graph
 
       me.edges[i].setType(data["edges"][i]["type"], me);
       me.edges[i].setInformations(data["edges"][i]["label"], data["edges"][i]["uri"], data["edges"][i]["name"], data["edges"][i]["optional"], me);
+    }
+
+    if(data["params"])
+    {
+      me.params.fromJson(data["params"]);
     }
 
     me.uiManager.unSelect();
@@ -576,7 +591,8 @@ QueryGraph.Data.Graph = class Graph
     }
 
     me.network.destroy();
-    me.initNetwork(me.uiManager);
+    me.initNetwork();
+    me.uiManager.unSelect();
 
     me.nodes = [];
     me.edges = [];

@@ -52,10 +52,23 @@ QueryGraph.Query.QueryManager = class QueryManager
 
     this.query += this.selectQuery + " \nWHERE \n{" + this.whereQuery + " \n}";
 
-    // Add limit
-    if(QueryGraph.Config.Config.limit != null)
+    // Add Order
+    if(graph.params.sortEnable)
     {
-      this.query += "\nLIMIT " + QueryGraph.Config.Config.limit;
+      if(graph.params.sortType == QueryGraph.Data.ParamsSortType.INCREASING)
+      {
+         this.query += " ORDER BY ASC(?" + graph.params.sortVar + ")";
+      }
+      else
+      {
+         this.query += " ORDER BY DESC(?" + graph.params.sortVar + ")";
+      }
+    }
+
+    // Add limit
+    if(graph.params.limitEnable && graph.params.limitVal > 0)
+    {
+      this.query += "\nLIMIT " + graph.params.limitVal;
     }
   }
 

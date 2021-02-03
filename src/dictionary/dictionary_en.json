@@ -90,5 +90,13 @@
   "NB_RESULTS" : "Number of results",
 
   "LINK_TO_TRIPLESTORE": "Link to the triplestore",
-  "QUERY_LABEL": "Query :"
+  "QUERY_LABEL": "Query :",
+
+  "PARAMS_SORT" : "Sort : ",
+  "PARAMS_SORT_ENABLE" : "Enable",
+  "PARAMS_SORT_VAL" : "Value : ",
+  "PARAMS_SORT_TYPE" : "Type : ",
+  "PARAMS_LIMIT" : "Limit : ",
+  "PARAMS_LIMIT_ENABLE" : "Enable",
+  "PARAMS_LIMIT_VAL" : "Limit value : "
  }

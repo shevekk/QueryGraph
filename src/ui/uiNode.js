@@ -243,8 +243,8 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
           else
           {
             content = "<div class='" + QueryGraph.UI.UIElement.SEARCH_DIV_LINE_CLASS + "' uri='"+uri+"' label='"+label+"'><b>" + label + "</b><br/></div>";
-          }          
-
+          }
+          
           $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).prepend(content);
         }
 

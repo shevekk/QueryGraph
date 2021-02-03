@@ -57,7 +57,7 @@ QueryGraph.UI.UIManager = class UIManager
 
     $("#"+QueryGraph.UI.UIManager.OK_BUTTON_HTML_ID).click(function() 
     {
-      me.save();
+      me.save(false);
     });
   }
 
@@ -74,24 +74,31 @@ QueryGraph.UI.UIManager = class UIManager
 
     $("#"+QueryGraph.UI.UIManager.OK_BUTTON_HTML_ID).click(function() 
     {
-      me.save();
+      me.save(false);
     });
   }
 
   /**
    * Save UI informations
+   * @param {Boolean}                     launchQuery                 True if is call before launchQuery
    */
-  save()
+  save(launchQuery)
   {
     let me = this;
 
-    if(me.uiElement instanceof QueryGraph.UI.UINode )
+    if(me.uiElement instanceof QueryGraph.UI.UINode)
     {
       me.uiElement.setNodeInformations(me.graph);
     }
     else if(me.uiElement instanceof QueryGraph.UI.UIEdge)
     {
       me.uiElement.setEdgeInformations(me.graph);
+    }
+    
+    if(me.uiParams.enable || launchQuery)
+    {
+      me.uiParams.save(me.graph.params);
+      me.uiParams.enable = false;
     }
   }
 

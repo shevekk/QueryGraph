@@ -24,7 +24,7 @@ QueryGraph.Query.ResultView = class ResultView
    * @param {Object[]}                  selectVars               List of selected query
    * @param {Object}                    listEdgesLabel           Object containing edges label with as key the type of edge
    */
-  displayResults(data, selectVars, listEdgesLabel)
+  displayResults(graph, data, selectVars, listEdgesLabel)
   {
     let content = "";
 
@@ -36,7 +36,15 @@ QueryGraph.Query.ResultView = class ResultView
     content += "<tr>";
     for(let i = 0; i < selectVars.length; i++)
     {
-      content += "<th>" + selectVars[i].value + "</th>";
+      if(graph.params.sortEnable && graph.params.sortVar == selectVars[i].value)
+      {
+        content += "<th style='background-color:#75cbc2'>" + selectVars[i].value + "</th>";
+      }
+      else
+      {
+        content += "<th>" + selectVars[i].value + "</th>";
+      }
+
 
       if(selectVars[i].label)
       {
@@ -61,7 +69,14 @@ QueryGraph.Query.ResultView = class ResultView
       }
       else if(QueryGraph.Config.Config.displayLabel && selectVars[i].elementType == QueryGraph.Data.ElementType.EDGE)
       {
-        content += "<th>" + selectVars[i].value + "Label</th>";
+        if(graph.params.sortEnable && graph.params.sortVar == selectVars[i].value)
+        {
+          content += "<th style='background-color:#50e1ad'>" + selectVars[i].value + "Label</th>";
+        }
+        else
+        {
+          content += "<th>" + selectVars[i].value + "Label</th>";
+        }
       }
     }
     content += "</tr>";

@@ -126,7 +126,7 @@ QueryGraph.Main = class Main
   {
     let me = this;
 
-    me.graph.uiManager.save();
+    me.graph.uiManager.save(true);
 
     if(QueryGraph.Query.CheckDataValidity.check(me.graph))
     {
@@ -141,11 +141,11 @@ QueryGraph.Main = class Main
             if(isGraph)
             {
               me.resultView.sendDataToGraph(me.graph, data, selectVars, listEdgesLabel);
-              me.resultView.displayResults(data, selectVars, listEdgesLabel);
+              me.resultView.displayResults(me.graph, data, selectVars, listEdgesLabel);
             }
             else
             {
-              me.resultView.displayResults(data, selectVars, listEdgesLabel);
+              me.resultView.displayResults(me.graph, data, selectVars, listEdgesLabel);
             }
           });
         }
