@@ -45,7 +45,7 @@ QueryGraph.Query.QueryManager = class QueryManager
     this.whereQuery += this.addFilters(graph);
 
     // Add language label management
-    if(QueryGraph.Config.Config.displayLabel && QueryGraph.Config.Config.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
+    if(QueryGraph.Config.Config.main.displayLabel && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
     {
       this.whereQuery += '\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.getQueryLanguage()+'". }';
     }
@@ -83,8 +83,8 @@ QueryGraph.Query.QueryManager = class QueryManager
 
     me.buildQuery(graph);
 
-    // let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURI(this.query) + "&format=json";
-    let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURIComponent(this.query) + "&format=json";
+    // let queryURL = QueryGraph.Config.Config.main.endPoint + "?" + "query="+encodeURI(this.query) + "&format=json";
+    let queryURL = QueryGraph.Config.Config.main.endPoint + "?" + "query="+encodeURIComponent(this.query) + "&format=json";
 
     // launch the query
     let ajaxRequest = $.ajax({
@@ -95,7 +95,7 @@ QueryGraph.Query.QueryManager = class QueryManager
     ajaxRequest.fail(function(error)
     {
       // if the request fails, return to menu
-      console.log("EndPoint : " + QueryGraph.Config.Config.endPoint);
+      console.log("EndPoint : " + QueryGraph.Config.Config.main.endPoint);
       console.log("Query : " + me.query);
 
       alert(QueryGraph.Dictionary.Dictionary.get("QUERY_FAIL"));
@@ -105,7 +105,7 @@ QueryGraph.Query.QueryManager = class QueryManager
         url:"log/log.php",
         dataType: 'json',
         method: "POST",
-        data: { query: me.query, lang: QueryGraph.Config.Config.lang, endPoint: QueryGraph.Config.Config.endPoint, state: "FAIL" }
+        data: { query: me.query, lang: QueryGraph.Config.Config.lang, endPoint: QueryGraph.Config.Config.main.endPoint, state: "FAIL" }
       });
       
       callback(null, null, error.responseText);
@@ -119,7 +119,7 @@ QueryGraph.Query.QueryManager = class QueryManager
         url:"log/log.php",
         dataType: 'json',
         method: "POST",
-        data: { query: me.query, lang: QueryGraph.Config.Config.lang, endPoint: QueryGraph.Config.Config.endPoint, state: "OK" }
+        data: { query: me.query, lang: QueryGraph.Config.Config.lang, endPoint: QueryGraph.Config.Config.main.endPoint, state: "OK" }
       });
 
       callback(data, me.selectVars);
@@ -142,7 +142,7 @@ QueryGraph.Query.QueryManager = class QueryManager
 
       // Add node to select with its label optionnaly
       this.selectQuery += nameVar + " ";
-      if(QueryGraph.Config.Config.displayLabel)
+      if(QueryGraph.Config.Config.main.displayLabel)
       {
         this.selectVars.push({"value" : name, "label" : name + "Label", "elementType" : QueryGraph.Data.ElementType.NODE});
         this.selectQuery += nameVar + "Label ";
@@ -170,11 +170,11 @@ QueryGraph.Query.QueryManager = class QueryManager
         // Create query line with the optional recovery of the subclass 
         if(node.elementInfos.subclass)
         {
-          this.whereQuery += "\n  " + nameVar + " " + QueryGraph.Config.Config.typeUri + "/" + QueryGraph.Config.Config.subclassUri + "* " + typeUri + " . ";
+          this.whereQuery += "\n  " + nameVar + " " + QueryGraph.Config.Config.main.typeUri + "/" + QueryGraph.Config.Config.main.subclassUri + "* " + typeUri + " . ";
         }
         else
         {
-          this.whereQuery += "\n  " + nameVar + " " + QueryGraph.Config.Config.typeUri + " " + typeUri + " . ";
+          this.whereQuery += "\n  " + nameVar + " " + QueryGraph.Config.Config.main.typeUri + " " + typeUri + " . ";
         }
       }
 

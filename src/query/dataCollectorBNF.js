@@ -64,7 +64,7 @@ QueryGraph.Query.DataCollectorBNF = class DataCollectorBNF extends QueryGraph.Qu
 
     if(query)
     {
-      let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURIComponent(query) + "&format=json";
+      let queryURL = QueryGraph.Config.Config.main.endPoint + "?" + "query="+encodeURIComponent(query) + "&format=json";
 
       me.launchQuery(queryURL, function(data)
       {
@@ -121,7 +121,7 @@ QueryGraph.Query.DataCollectorBNF = class DataCollectorBNF extends QueryGraph.Qu
         FILTER(contains(STR(?title),"${name}")) 
       } LIMIT 15`;
 
-    let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURIComponent(query) + "&format=json";
+    let queryURL = QueryGraph.Config.Config.main.endPoint + "?" + "query="+encodeURIComponent(query) + "&format=json";
 
     me.launchQuery(queryURL, function(data)
     {
@@ -160,7 +160,7 @@ QueryGraph.Query.DataCollectorBNF = class DataCollectorBNF extends QueryGraph.Qu
           FILTER(contains(?name,"${name}")) 
         } LIMIT 15`;
 
-      queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURIComponent(query) + "&format=json";
+      queryURL = QueryGraph.Config.Config.main.endPoint + "?" + "query="+encodeURIComponent(query) + "&format=json";
 
       me.launchQuery(queryURL, function(data)
       {

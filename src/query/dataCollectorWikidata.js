@@ -38,7 +38,7 @@ QueryGraph.Query.DataCollectorWikidata = class DataCollectorWikidata extends Que
 
     if(query)
     {
-      let queryURL = QueryGraph.Config.Config.endPoint + "?" + "query="+encodeURI(query) + "&format=json";
+      let queryURL = QueryGraph.Config.Config.main.endPoint + "?" + "query="+encodeURI(query) + "&format=json";
 
       me.launchQuery(queryURL, function(data)
       {

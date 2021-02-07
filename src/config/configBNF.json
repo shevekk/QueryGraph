@@ -1,20 +1,23 @@
 ﻿{
-  "homePage" : "http://dataexplorer.hd.free.fr/",
-  "endPoint": "https://data.bnf.fr/sparql",
-  "tripleStore" : "DATA_BNF",
-  "dataFileUrl": "data/data_bnf.json",
-  "defaultLanguage": "fr",
-  "queryInEndPointLink": "",
-  "selectLang" : {},
-  "typeUri": "a",
-  "subclassUri": "",
-  "displayLabel": false,
-  "nodeFilterDateEnable": true,
-  "queryLanguage" : {
-    "fr": "[AUTO_LANGUAGE],fr,en",
-    "en": "en"
+  "main" : 
+  {
+    "homePage" : "http://dataexplorer.hd.free.fr/",
+    "endPoint": "https://data.bnf.fr/sparql",
+    "tripleStore" : "DATA_BNF",
+    "dataFileUrl": "data/data_bnf.json",
+    "queryInEndPointLink": "",
+    "typeUri": "a",
+    "subclassUri": "",
+    "displayLabel": false,
+    "nodeFilterDateEnable": true,
+    "limit": null
   },
-  "limit": null,
+  "langParams" : 
+  {
+    "default": "fr",
+    "queryLanguage" : {},
+    "select" : {}
+  },
   "prefix" : 
   {
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",

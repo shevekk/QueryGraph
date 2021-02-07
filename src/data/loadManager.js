@@ -78,7 +78,7 @@ QueryGraph.Data.LoadManager = class LoadManager
 
     $("#" + QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID).html("");
 
-    let jqxhr = $.getJSON(QueryGraph.Config.Config.dataFileUrl, null)
+    let jqxhr = $.getJSON(QueryGraph.Config.Config.main.dataFileUrl, null)
     .done(function(content)
     {
       me.dataFileContent = content;

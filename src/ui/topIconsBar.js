@@ -35,9 +35,9 @@ QueryGraph.UI.TopIconsBar = class TopUI
     let content = '';
 
     // Add lang icons
-    for (const key in QueryGraph.Config.Config.selectLang)
+    for (const key in QueryGraph.Config.Config.langParams.select)
     {
-      content += '<img src="'+QueryGraph.Config.Config.selectLang[key]+'" id="'+QueryGraph.UI.TopIconsBar.ICON_LANG_HTML_BASE_ID + key+'" lang="'+key+'" alt="'+key+'" class="'+QueryGraph.UI.TopIconsBar.ICON_LANG_HTML_CLASS+'" />'; 
+      content += '<img src="'+QueryGraph.Config.Config.langParams.select[key]+'" id="'+QueryGraph.UI.TopIconsBar.ICON_LANG_HTML_BASE_ID + key+'" lang="'+key+'" alt="'+key+'" class="'+QueryGraph.UI.TopIconsBar.ICON_LANG_HTML_CLASS+'" />'; 
     }
 
     // Add icon
@@ -62,7 +62,7 @@ QueryGraph.UI.TopIconsBar = class TopUI
     // Home click -> Go to home page
     $("#" + QueryGraph.UI.TopIconsBar.HOME_HTML_ID).click(function()
     {
-      window.open(QueryGraph.Config.Config.homePage);
+      window.open(QueryGraph.Config.Config.main.homePage);
     });
 
     // Select current lang icon

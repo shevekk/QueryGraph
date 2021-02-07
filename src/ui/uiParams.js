@@ -59,9 +59,9 @@ QueryGraph.UI.UIParams = class UIParams
     content += query;
     content += '</textarea>';
 
-    if(QueryGraph.Config.Config.queryInEndPointLink)
+    if(QueryGraph.Config.Config.main.queryInEndPointLink)
     {
-      let hrefInTripleStore = QueryGraph.Config.Config.queryInEndPointLink + encodeURIComponent(query);
+      let hrefInTripleStore = QueryGraph.Config.Config.main.queryInEndPointLink + encodeURIComponent(query);
       content += '<a href="'+hrefInTripleStore+'" target="_blank">'+QueryGraph.Dictionary.Dictionary.get("LINK_TO_TRIPLESTORE")+'</a>';
     }
 

@@ -87,11 +87,11 @@ QueryGraph.Main = class Main
         me.loadManager = new QueryGraph.Data.LoadManager();
         me.saveManager = new QueryGraph.Data.SaveManager();
 
-        if(QueryGraph.Config.Config.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
+        if(QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
         {
           me.dataCollector = new QueryGraph.Query.DataCollectorWikidata();
         }
-        else if(QueryGraph.Config.Config.tripleStore == QueryGraph.Config.TripleStoreType.DATA_BNF)
+        else if(QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.DATA_BNF)
         {
           me.dataCollector = new QueryGraph.Query.DataCollectorBNF();
         }
@@ -167,7 +167,7 @@ QueryGraph.Main = class Main
   {
     let me = this;
 
-    if(QueryGraph.Config.Config.displayLabel)
+    if(QueryGraph.Config.Config.main.displayLabel)
     {
       let listEdgesURI = [];
       let listEdgesLabel = {};

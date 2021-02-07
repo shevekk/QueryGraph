@@ -1,23 +1,29 @@
 ﻿{
-  "homePage" : "http://dataexplorer.hd.free.fr/",
-  "endPoint": "https://query.wikidata.org/sparql",
-  "tripleStore" : "WIKIDATA",
-  "dataFileUrl": "data/data.json",
-  "defaultLanguage": "en",
-  "queryInEndPointLink": "https://query.wikidata.org/#",
-  "selectLang" : {
-    "fr": "img/fr.png",
-    "en": "img/en.png"
+  "main" : 
+  {
+    "homePage" : "http://dataexplorer.hd.free.fr/",
+    "endPoint": "https://query.wikidata.org/sparql",
+    "tripleStore" : "WIKIDATA",
+    "dataFileUrl": "data/data.json",
+    "queryInEndPointLink": "https://query.wikidata.org/#",
+    "typeUri": "wdt:P31",
+    "subclassUri": "wdt:P279",
+    "nodeFilterDateEnable": true,
+    "limit" : null,
+    "displayLabel": true
   },
-  "typeUri": "wdt:P31",
-  "subclassUri": "wdt:P279",
-  "displayLabel": true,
-  "nodeFilterDateEnable": true,
-  "queryLanguage" : {
-    "fr": "[AUTO_LANGUAGE],fr,en",
-    "en": "en"
+  "langParams" : 
+  {
+    "default": "en",
+    "select" : {
+      "fr": "img/fr.png",
+      "en": "img/en.png"
+    },
+    "query" : {
+      "fr": "[AUTO_LANGUAGE],fr,en",
+      "en": "en"
+    }
   },
-  "limit" : null,
   "prefix" : 
   {
     "wd" : "http://www.wikidata.org/entity/",
@@ -32,7 +38,8 @@
       "fr": "fr"
     }
   },
-  "nodeTypes": {
+  "nodeTypes": 
+  {
     "fr": {
       "wd:Q5" : "Personne",
       "wd:Q515" : "Ville",
@@ -58,7 +65,8 @@
       "wd:Q215380" : "Musical group"
     }
   },
-  "nodeData": {
+  "nodeData": 
+  {
     "fr": {
       "wd:Q90": "Paris",
       "wd:Q3392": "Nil",
@@ -85,7 +93,8 @@
     "baseHelpUrl" : "infos/help_",
     "baseHelpExtension": ".pdf"
   },
-  "searchAndListDisplayState": {
+  "searchAndListDisplayState": 
+  {
     "node": {
       "element": {
         "search": true,

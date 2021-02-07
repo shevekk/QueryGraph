@@ -74,7 +74,7 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_LABEL")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" name="'+QueryGraph.UI.UIElement.LABEL_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.elementInfos.label +'"><br>';
       content += '<label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.URI_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_TYPE_URI")+'</label><input type="text" id="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" name="'+QueryGraph.UI.UIElement.URI_HTML_ID+'" class="'+QueryGraph.UI.UIElement.TEXT_FIELD_CLASS+'" value="'+ node.elementInfos.uri +'"><br>';
     
-      if(QueryGraph.Config.Config.subclassUri)
+      if(QueryGraph.Config.Config.main.subclassUri)
       {
         content += '<br/><div><input type="checkbox" id="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'" name="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'" class="'+QueryGraph.UI.UIElement.CHECKBOX_CLASS+'"><label for="'+QueryGraph.UI.UIElement.SUBCLASS_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_GET_SUBCLASS")+'</label></div>';
       }
@@ -113,7 +113,7 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       content += '<div><label class="'+QueryGraph.UI.UIElement.TEXT_FIELD_LABEL_CLASS+'" for="'+QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES")+'</label><select id="'+QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID+'" name="'+QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID+'" class="'+QueryGraph.UI.UIElement.SELECT_CLASS+'">';
       content += '   <option value="'+QueryGraph.Data.NodeFilterValueType.NUMBER+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES_NUMBER")+'</option>';
       content += '   <option value="'+QueryGraph.Data.NodeFilterValueType.TEXT+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES_TEXT")+'</option>';
-      if(QueryGraph.Config.Config.nodeFilterDateEnable)
+      if(QueryGraph.Config.Config.main.nodeFilterDateEnable)
       {
         content += '   <option value="'+QueryGraph.Data.NodeFilterValueType.DATE+'">'+QueryGraph.Dictionary.Dictionary.get("NODE_VALUES_TYPES_DATE")+'</option>';
       }

@@ -32,10 +32,10 @@ QueryGraph.Data.Params = class Params
     this.limitEnable = false;
     this.limitVal = 100;
 
-    if(QueryGraph.Config.Config.limit)
+    if(QueryGraph.Config.Config.main.limit)
     {
       this.limitEnable = true;
-      this.limitVal = QueryGraph.Config.Config.limit;
+      this.limitVal = QueryGraph.Config.Config.main.limit;
     }
   }
 
