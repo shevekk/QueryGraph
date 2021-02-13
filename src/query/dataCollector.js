@@ -21,9 +21,73 @@ QueryGraph.Query.DataCollector = class DataCollector
    */
   getEdges(linkedNodeType, linkedNodeUri, callback)
   {
+    let me = this;
+    let query = "";
 
+    if(linkedNodeType != "")
+    {
+      
+      let edgesValues = [];
+      let edgesLabels = [];
+
+      // Replace uri by prefix for linkedNodeType
+      if(linkedNodeType.startsWith("http"))
+      {
+        for (let key in QueryGraph.Config.Config.prefix)
+        {
+          linkedNodeType = linkedNodeType.replace(QueryGraph.Config.Config.prefix[key], key + ":")
+        }
+      }
+
+      // Get possible edges values form config
+      let egdesValuesByElementNodeType = QueryGraph.Config.Config.egdesValuesByElementNodeType[QueryGraph.Config.Config.lang][linkedNodeType];
+      if(egdesValuesByElementNodeType != undefined)
+      {
+        for (let key in egdesValuesByElementNodeType)
+        {
+          edgesValues.push(key);
+          edgesLabels.push(egdesValuesByElementNodeType[key]);
+        }
+      }
+
+      callback(edgesValues, edgesLabels);
+    }
+    else if(linkedNodeUri != "")
+    {
+      // Get possible edges values form tripleStore
+      if(linkedNodeUri.startsWith("http"))
+      {
+        linkedNodeUri = "<" + linkedNodeUri + ">";
+      }
+
+      query = 'SELECT ?link ';
+      query += 'WHERE { ';
+      query +=  ' '+linkedNodeUri+' ?link ?linkedElement ';
+      query += '} ';
+      query += 'GROUP BY ?link ';
+    }
+
+    if(query)
+    {
+      let queryURL = QueryGraph.Config.Config.main.endPoint + "?" + "query="+encodeURIComponent(query) + "&format=json";
+
+      me.launchQuery(queryURL, function(data)
+      {
+        let edgesValues = [];
+        let edgesLabels = [];
+
+        if(linkedNodeUri != "")
+        {
+          for(let i = 0; i < data.results.bindings.length; i++)
+          {
+            edgesValues.push(data.results.bindings[i]["link"]["value"]);
+          }
+
+          callback(edgesValues, edgesValues);
+        }
+      });
+    }
   }
-
   /**
    * Get the list of types of nodes
    * @param {String}           nodeType             Type of the node
@@ -61,7 +125,7 @@ QueryGraph.Query.DataCollector = class DataCollector
    */
   getNodesTypes(name)
   {
-    
+    callback([]);
   }
 
   /**
@@ -70,7 +134,7 @@ QueryGraph.Query.DataCollector = class DataCollector
    */
   getNodesData(name)
   {
-    
+    callback([]);
   }
 
   /**

@@ -8,61 +8,12 @@ if (typeof QueryGraph.Config == 'undefined') {
  */
 QueryGraph.Config.Config = class Config 
 {
-  /*
-   * @property {Object}                                      defaultConfigFileURL                Default url and name of the default config file
-   * @property {String}                                      homePage                            The home page url (open with clic in home icon)
-   * @property {String}                                      endPoint                            The SPARQL EndPoint adresse
-   * @property {String}                                      typeUri                             URI of the type 
-   * @property {String}                                      subclassUri                         URI of the subclass 
-   * @property {Boolean}                                     displayLabel                        True if label is display
-   * @property {String}                                      queryLanguage                       Language of the request (for labels)
-   * @property {Number}                                      limit                               Limit of result (null for no limit)
-   * @property {Object}                                      wikidataSearch                      Wikidata search options
-   * @property {Object}                                      nodeTypes                           List of possible node type
-   * @property {Object}                                      prefix                              The prefix of triplestore
-   * @property {Object}                                      lang                                The QueryGraph language defaultLanguage
-   * @property {Object}                                      selectLang                          The language selector (icon)
-   * @property {Object}                                      infos                               The infos with contact and help urls
-   * @property {Object}                                      nodeTypes                           List of possible node data
-   * @property {QueryGraph.Config.TripleStoreType}           tripleStore                         Type of Triplestore
-   * @property {String}                                      dataFileUrl                         Name of the file containing the predefined queries 
-   
-   * @property {Object}                                      searchAndListDisplayState           Define visibility of UI search bar and select list
-   * @property {Object}                                      queryInEndPointLink                 URL of the endpoint for link of query in the endPoint
-   * @property {Object}                                      nodeFilterDateEnable                Define if the creation of date filter node is possible
-   */
-
-
-
   /**
    * @property {Object}                                      defaultConfigFileURL                Default url and name of the default config file
    * @property {Object}                                      lang                                The QueryGraph selected language
    */
   static defaultConfigFileURL = "config/config.json";
   static lang;
-
-  /*
-  static homePage;
-  static endPoint;
-  static typeUri;
-  static displayLabel;
-  static queryLanguage;
-  static limit;
-  static wikidataSearch;
-  static nodeTypes;
-  static prefix;
-  static subclassUri;
-  static lang;
-  static selectLang;
-  static infos;
-  static nodeData;
-  static tripleStore;
-  static dataFileUrl;
-  static egdesValuesByElementNodeType;
-  static searchAndListDisplayState;
-  static queryInEndPointLink;
-  static nodeFilterDateEnable;
-  */
 
   /**
    * Main parameters
@@ -108,6 +59,7 @@ QueryGraph.Config.Config = class Config
   /**
    * @property {Object}                                      prefix                              The prefix of triplestore
    * @property {Object}                                      nodeTypes                           List of possible node type
+   * @property {Object}                                      nodeData                            List of possible node data preselected
    * @property {Object}                                      wikidataSearch                      Wikidata search options
    * @property {Object}                                      infos                               The infos with contact and help urls
    * @property {Object}                                      searchAndListDisplayState           Define visibility of UI search bar and select list
@@ -116,6 +68,7 @@ QueryGraph.Config.Config = class Config
   static prefix;
   static wikidataSearch;
   static nodeTypes;
+  static nodeData;
   static infos;
   static searchAndListDisplayState;
   static egdesValuesByElementNodeType;
@@ -149,6 +102,7 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.prefix = content.prefix;
       QueryGraph.Config.Config.wikidataSearch = content.wikidataSearch;
       QueryGraph.Config.Config.nodeTypes = content.nodeTypes;
+      QueryGraph.Config.Config.nodeData = content.nodeData;
       QueryGraph.Config.Config.infos = content.infos;
       QueryGraph.Config.Config.searchAndListDisplayState = content.searchAndListDisplayState;
       QueryGraph.Config.Config.egdesValuesByElementNodeType = content.egdesValuesByElementNodeType;

@@ -1,0 +1,119 @@
+﻿{
+  "main" : 
+  {
+    "homePage" : "http://dataexplorer.hd.free.fr/",
+    "endPoint": "http://openarchaeo-graphdb.huma-num.fr/repositories/openarchaeo",
+    "tripleStore" : "CIDOC_CRM",
+    "dataFileUrl": "data/data_openarchaeo.json",
+    "queryInEndPointLink": "http://openarchaeo.huma-num.fr/federation/?query=",
+    "typeUri": "a",
+    "subclassUri": "",
+    "nodeFilterDateEnable": true,
+    "limit" : null,
+    "displayLabel": false
+  },
+  "langParams" : 
+  {
+    "default": "fr",
+    "select" : {},
+    "query" : {}
+  },
+  "prefix" : 
+  {
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "nodeTypes": 
+  {
+    "fr": {
+      "http://www.cidoc-crm.org/cidoc-crm/E21_Person" : "Personne",
+      "http://www.cidoc-crm.org/cidoc-crm/E19_Encounter_Event" : "Encounter_Event",
+      "http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature" : "Man-Made_Feature",
+      "http://www.ics.forth.gr/isl/CRMba/B1_Built_Work" : "Build_Work",
+      "http://www.cidoc-crm.org/cidoc-crm/E27_Site" : "Site",
+      "http://www.cidoc-crm.org/cidoc-crm/E53_Place" : "Lieu",
+      "http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object" : "Man-Made_Object",
+      "http://www.cidoc-crm.org/cidoc-crm/A2_Stratigraphic_Volume_Unit" : "Stratigraphic_Volume_Unit",
+      "http://www.cidoc-crm.org/cidoc-crm/E52_Time-Span" : "Time-Span",
+      "http://www.cidoc-crm.org/cidoc-crm/E5_Event" : "Événement"
+    }
+  },
+  "nodeData": 
+  {
+    "fr": {
+      "https://ark.frantiq.fr/ark:/26678/pcrtIxHmbVwDYW": "Mur"
+    }
+  },
+  "infos" : 
+  {
+    "baseContactUrl": "infos/contact_",
+    "baseContactExtension": ".html",
+    "baseHelpUrl" : "infos/help_",
+    "baseHelpExtension": ".pdf"
+  },
+  "searchAndListDisplayState": 
+  {
+    "node": {
+      "element": {
+        "search": false,
+        "list": true
+      },
+      "data": {
+        "search": true,
+        "list": true
+      }
+    },
+    "edge": {
+      "fixed": {
+        "list": true
+      }
+    }
+  },
+  "egdesValuesByElementNodeType" : 
+  {
+    "fr" :
+    {
+      "http://www.cidoc-crm.org/cidoc-crm/E21_Person": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label"
+      },
+      "http://www.cidoc-crm.org/cidoc-crm/E19_Encounter_Event": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label",
+        "http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by" : "effectuée par",
+        "http://www.ics.forth.gr/isl/CRMsci/O19_has_found_object" : "a trouvé l'objet",
+        "http://www.cidoc-crm.org/cidoc-crm/P8_took_place_on_or_within" : "a eu lieu à"
+      },
+      "http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label",
+        "http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of" : "est composé de",
+        "http://www.cidoc-crm.org/cidoc-crm/P3_has_note" : "a pour note",
+        "http://www.cidoc-crm.org/cidoc-crm/P2_has_type" : "a pour type"
+      },
+      "http://www.ics.forth.gr/isl/CRMba/B1_Built_Work": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label",
+        "http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of" : "est composé de"
+      },
+      "http://www.cidoc-crm.org/cidoc-crm/E27_Site": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label",
+        "http://www.cidoc-crm.org/cidoc-crm/P53_has_former_or_current_location" : "a pour localisation"
+      },
+      "http://www.cidoc-crm.org/cidoc-crm/E53_Place": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label"
+      },
+      "http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label"
+      },
+      "http://www.cidoc-crm.org/cidoc-crm/A2_Stratigraphic_Volume_Unit": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label",
+        "http://www.cidoc-crm.org/cidoc-crm/AP21_contains" : "est composé de"
+      },
+      "http://www.cidoc-crm.org/cidoc-crm/E52_Time-Span": {
+        "http://www.cidoc-crm.org/cidoc-crm/P82a_begin_of_the_begin" : "début",
+        "http://www.cidoc-crm.org/cidoc-crm/P82b_end_of_the_end" : "fin",
+        "http://www.w3.org/2004/02/skos/core#prefLabel" : "label"
+      },
+      "http://www.cidoc-crm.org/cidoc-crm/E5_Event": {
+        "http://www.cidoc-crm.org/cidoc-crm/P8_took_place_on_or_within" : "a eu lieu à",
+        "http://www.cidoc-crm.org/cidoc-crm/P4_has_time-span" : "a pour durée"
+      }
+    }
+  }
+}

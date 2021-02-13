@@ -300,11 +300,14 @@ QueryGraph.Data.Graph = class Graph
     // Get free id
     if(!id)
     {
-      id = 1;
-    }
-    if(this.nodes.length > 0)
-    {
-      id = this.nodes[this.nodes.length - 1].id + 1;
+      if(this.nodes.length > 0)
+      {
+        id = this.nodes[this.nodes.length - 1].id + 1;
+      }
+      else
+      {
+        id = 1;
+      }
     }
     
     // Create the node

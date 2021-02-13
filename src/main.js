@@ -95,6 +95,10 @@ QueryGraph.Main = class Main
         {
           me.dataCollector = new QueryGraph.Query.DataCollectorBNF();
         }
+        else if(QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.CIDOC_CRM)
+        {
+          me.dataCollector = new QueryGraph.Query.DataCollectorCidocCRM();
+        }
         else
         {
           me.dataCollector = new QueryGraph.Query.DataCollector();
