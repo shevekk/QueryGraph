@@ -50,7 +50,8 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
       y : y,
       color: {
         border: "#000000",
-      }
+      },
+      font: { vadjust : -4 }
     };
 
     return node;

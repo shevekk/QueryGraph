@@ -44,7 +44,7 @@ QueryGraph.UI.TopIconsBar = class TopUI
     content += '<img src="img/address-card.svg" alt="Contact" id="'+QueryGraph.UI.TopIconsBar.CONTACT_HTML_ID+'" class="'+QueryGraph.UI.TopIconsBar.ICON_HTML_CLASS+'" title="'+QueryGraph.Dictionary.Dictionary.get("ICON_CONTACT_DESC")+'" />'; 
     content += '<img src="img/question-circle.svg" alt="Help" id="'+QueryGraph.UI.TopIconsBar.HELP_HTML_ID+'" class="'+QueryGraph.UI.TopIconsBar.ICON_HTML_CLASS+'" title="'+QueryGraph.Dictionary.Dictionary.get("ICON_HELP_DESC")+'" />'; 
     content += '<img src="img/home.svg" alt="Home" id="'+QueryGraph.UI.TopIconsBar.HOME_HTML_ID+'" class="'+QueryGraph.UI.TopIconsBar.ICON_HTML_CLASS+'" title="'+QueryGraph.Dictionary.Dictionary.get("ICON_HOME_DESC")+'" />'; 
-    
+
     $("#" + QueryGraph.UI.TopIconsBar.ICON_BAR_DIV_HTML_ID).html(content);
 
     // Contact click -> Open contact page
@@ -68,7 +68,7 @@ QueryGraph.UI.TopIconsBar = class TopUI
     // Select current lang icon
     $("#" + QueryGraph.UI.TopIconsBar.ICON_LANG_HTML_BASE_ID+QueryGraph.Config.Config.lang).css("background-color", "#b7d4d2");
 
-    // Lang icon click 
+    // Lang icon click
     $("." + QueryGraph.UI.TopIconsBar.ICON_LANG_HTML_CLASS).click(function()
     {
       if (confirm(QueryGraph.Dictionary.Dictionary.get("CHANGE_LANG_VALIDATION")))

@@ -24,7 +24,22 @@ QueryGraph.Query.DataCollector = class DataCollector
     let me = this;
     let query = "";
 
-    if(linkedNodeType != "")
+    if(linkedNodeUri != "")
+    {
+      // Get possible edges values form tripleStore
+      if(linkedNodeUri.startsWith("http"))
+      {
+        linkedNodeUri = "<" + linkedNodeUri + ">";
+      }
+
+      query = 'SELECT ?link ';
+      query += 'WHERE { ';
+      query +=  ' '+linkedNodeUri+' ?link ?linkedElement ';
+      query += '} ';
+      query += 'GROUP BY ?link ';
+    }
+    //if(linkedNodeType != "")
+    else
     {
       
       let edgesValues = [];
@@ -40,32 +55,22 @@ QueryGraph.Query.DataCollector = class DataCollector
       }
 
       // Get possible edges values form config
-      let egdesValuesByElementNodeType = QueryGraph.Config.Config.egdesValuesByElementNodeType[QueryGraph.Config.Config.lang][linkedNodeType];
-      if(egdesValuesByElementNodeType != undefined)
+      let edgesValuesByElementDefault = QueryGraph.Config.Config.edgesValuesByElementNodeType[QueryGraph.Config.Config.lang]["*"];
+      let edgesValuesByElementNodeType = QueryGraph.Config.Config.edgesValuesByElementNodeType[QueryGraph.Config.Config.lang][linkedNodeType];
+
+      let edgesValuesByElement = Object.assign({}, edgesValuesByElementDefault, edgesValuesByElementNodeType);
+      if(edgesValuesByElement != undefined)
       {
-        for (let key in egdesValuesByElementNodeType)
+        for (let key in edgesValuesByElement)
         {
           edgesValues.push(key);
-          edgesLabels.push(egdesValuesByElementNodeType[key]);
+          edgesLabels.push(edgesValuesByElement[key]);
         }
       }
 
       callback(edgesValues, edgesLabels);
     }
-    else if(linkedNodeUri != "")
-    {
-      // Get possible edges values form tripleStore
-      if(linkedNodeUri.startsWith("http"))
-      {
-        linkedNodeUri = "<" + linkedNodeUri + ">";
-      }
-
-      query = 'SELECT ?link ';
-      query += 'WHERE { ';
-      query +=  ' '+linkedNodeUri+' ?link ?linkedElement ';
-      query += '} ';
-      query += 'GROUP BY ?link ';
-    }
+     
 
     if(query)
     {

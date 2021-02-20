@@ -63,7 +63,7 @@ QueryGraph.Config.Config = class Config
    * @property {Object}                                      wikidataSearch                      Wikidata search options
    * @property {Object}                                      infos                               The infos with contact and help urls
    * @property {Object}                                      searchAndListDisplayState           Define visibility of UI search bar and select list
-   * @property {Object}                                      egdesValuesByElementNodeType        List for possible edges values for all node types
+   * @property {Object}                                      edgesValuesByElementNodeType        List for possible edges values for all node types
    */
   static prefix;
   static wikidataSearch;
@@ -71,7 +71,7 @@ QueryGraph.Config.Config = class Config
   static nodeData;
   static infos;
   static searchAndListDisplayState;
-  static egdesValuesByElementNodeType;
+  static edgesValuesByElementNodeType;
 
   constructor() 
   {
@@ -105,7 +105,7 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.nodeData = content.nodeData;
       QueryGraph.Config.Config.infos = content.infos;
       QueryGraph.Config.Config.searchAndListDisplayState = content.searchAndListDisplayState;
-      QueryGraph.Config.Config.egdesValuesByElementNodeType = content.egdesValuesByElementNodeType;
+      QueryGraph.Config.Config.edgesValuesByElementNodeType = content.edgesValuesByElementNodeType;
 
       if(QueryGraph.Config.Config.lang == null)
       {

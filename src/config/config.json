@@ -110,5 +110,6 @@
         "list": true
       }
     }
-  }
+  },
+  "edgesValuesByElementNodeType" : {}
 }

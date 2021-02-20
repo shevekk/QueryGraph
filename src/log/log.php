@@ -36,6 +36,8 @@
   $lang = $_POST['lang'];
   $endPoint = $_POST['endPoint'];
 
+  $query = str_replace("\n", " ", $query);
+
   $line = "$date\t$time\t$state\t$lang\t$endPoint\t$query\n";
 
   fwrite($myfile, $line);
