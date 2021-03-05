@@ -1,7 +1,6 @@
 ﻿{
   "main" : 
   {
-    "homePage" : "http://dataexplorer.hd.free.fr/",
     "endPoint": "https://data.bnf.fr/sparql",
     "tripleStore" : "DATA_BNF",
     "dataFileUrl": "data/data_bnf.json",
@@ -80,10 +79,9 @@
   },
   "infos": 
   {
-    "baseContactUrl": "infos/contact_",
-    "baseContactExtension": ".html",
-    "baseHelpUrl" : "infos/help_BNF_",
-    "baseHelpExtension": ".pdf"
+    "homePage" : "http://dataexplorer.hd.free.fr/",
+    "contactUrl": "infos/contact_{lang}.html",
+    "helpUrl" : "infos/help_BNF_{lang}.pdf"
   },
   "searchAndListDisplayState": {
     "node": {

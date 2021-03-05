@@ -1,7 +1,6 @@
 ﻿{
   "main" : 
   {
-    "homePage" : "http://dataexplorer.hd.free.fr/",
     "endPoint": "https://query.wikidata.org/sparql",
     "tripleStore" : "WIKIDATA",
     "dataFileUrl": "data/data.json",
@@ -88,10 +87,9 @@
   },
   "infos" : 
   {
-    "baseContactUrl": "infos/contact_",
-    "baseContactExtension": ".html",
-    "baseHelpUrl" : "infos/help_",
-    "baseHelpExtension": ".pdf"
+    "homePage" : "http://dataexplorer.hd.free.fr/",
+    "contactUrl": "infos/contact_{lang}.html",
+    "helpUrl" : "infos/help_{lang}.pdf"
   },
   "searchAndListDisplayState": 
   {

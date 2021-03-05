@@ -62,7 +62,7 @@ QueryGraph.UI.TopIconsBar = class TopUI
     // Home click -> Go to home page
     $("#" + QueryGraph.UI.TopIconsBar.HOME_HTML_ID).click(function()
     {
-      window.open(QueryGraph.Config.Config.main.homePage);
+      window.open(QueryGraph.Config.Config.infos.homePage);
     });
 
     // Select current lang icon

@@ -177,7 +177,10 @@ QueryGraph.Config.Config = class Config
    */
   static getContactPageUrl()
   {
-    return QueryGraph.Config.Config.infos.baseContactUrl + QueryGraph.Config.Config.lang + QueryGraph.Config.Config.infos.baseContactExtension;
+    let contactUrl = QueryGraph.Config.Config.infos.contactUrl;
+    contactUrl = contactUrl.replace("{lang}", QueryGraph.Config.Config.lang);
+
+    return contactUrl;
   }
 
   /**
@@ -186,6 +189,9 @@ QueryGraph.Config.Config = class Config
    */
   static getHelpPageUrl()
   {
-    return QueryGraph.Config.Config.infos.baseHelpUrl + QueryGraph.Config.Config.lang + QueryGraph.Config.Config.infos.baseHelpExtension;
+    let helpUrl = QueryGraph.Config.Config.infos.helpUrl;
+    helpUrl = helpUrl.replace("{lang}", QueryGraph.Config.Config.lang);
+
+    return helpUrl;
   }
 }
