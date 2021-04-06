@@ -98,5 +98,28 @@
   "PARAMS_SORT_TYPE" : "Type : ",
   "PARAMS_LIMIT" : "Limit : ",
   "PARAMS_LIMIT_ENABLE" : "Enable",
-  "PARAMS_LIMIT_VAL" : "Limit value : "
+  "PARAMS_LIMIT_VAL" : "Limit value : ",
+
+  "VISIBILITY_ELEMENT_ZONE" : "Visibility of elements : ",
+  "ICON_VISIBLE_DESC" : "Making it invisible",
+  "ICON_INVISIBLE_DESC" : "Making it visible",
+  "ICON_ARROW_UP_DESC" : "Go up",
+  "ICON_ARROW_DOWN_DESC" : "Go down",
+
+  "QUERY_VALIDITY_NODE_NO_EDGE" : "One of your nodes is not linked to any other node",
+  "QUERY_VALIDITY_NODE_NAME_EMPTY" : "The name of one of your nodes is empty",
+  "QUERY_VALIDITY_NODE_NAME_WITH_SPACE" : "The name of one of your nodes contains a space",
+  "QUERY_VALIDITY_NODE_NAME_ALREADY_EXIST" : "The name of one of your nodes already exists",
+  "QUERY_VALIDITY_NODE_URI_EMPTY" : "The URI of one of your nodes is empty",
+  "QUERY_VALIDITY_NODE_FILTER_EMPTY_VALUE" : "One of your filter nodes has an empty value",
+  "QUERY_VALIDITY_EDGE_URI_EMPTY" : "The URI of one of your fixed edges is empty",
+  "QUERY_VALIDITY_TWO_NODE_FILTER_LINKED" : "Impossible to link two nodes of type Filter",
+  "QUERY_VALIDITY_NODE_FILTER_AND_DATA_LINKED" : "Impossible to link a node of type Data to a node of type Filter",
+  "QUERY_VALIDITY_EDGE_NAME_EMPTY" : "The name of one of your edges is empty",
+  "QUERY_VALIDITY_EDGE_NAME_WITH_SPACE" : "The name of one of your edges contains a space",
+  "QUERY_VALIDITY_EDGE_NAME_ALREADY_EXIST" : "The name of one of your edges already exists",
+  "QUERY_VALIDITY_EDGE_WITH_FILTER_NO_FIXED" : "Edges with a filter must be of Fixed type",
+  "QUERY_VALIDITY_EMPTY_QUERY" : "The query is empty",
+  "QUERY_VALIDITY_ALL_EL_INVISIBLE" : "All elements are invisible",
+  "QUERY_VALIDITY_BASE" : "Unable to run the query"
  }

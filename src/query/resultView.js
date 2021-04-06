@@ -36,23 +36,25 @@ QueryGraph.Query.ResultView = class ResultView
     content += "<tr>";
     for(let i = 0; i < selectVars.length; i++)
     {
-      if(graph.params.sortEnable && graph.params.sortVar == selectVars[i].value)
+      if(selectVars[i].visible)
       {
-        content += "<th style='background-color:#75cbc2'>" + selectVars[i].value + "</th>";
-      }
-      else
-      {
-        content += "<th>" + selectVars[i].value + "</th>";
+        if(graph.params.sortEnable && graph.params.sortVar == selectVars[i].value)
+        {
+          content += "<th style='background-color:#75cbc2'>" + selectVars[i].value + "</th>";
+        }
+        else
+        {
+          content += "<th>" + selectVars[i].value + "</th>";
+        }
       }
 
-
-      if(selectVars[i].label)
+      if(selectVars[i].label && selectVars[i].visibleLabel)
       {
         // If result type are all literal don't get label
         let allLiteral = true;
         for(let j = 0; j < data.results.bindings.length; j++)
         {
-          if(data.results.bindings[j][selectVars[i].value]["type"] != "literal")
+          if(data.results.bindings[j][selectVars[i].value] == undefined || data.results.bindings[j][selectVars[i].value]["type"] != "literal")
           {
             allLiteral = false;
           }
@@ -67,7 +69,7 @@ QueryGraph.Query.ResultView = class ResultView
           selectVars[i].allLiteral = true;
         }
       }
-      else if(QueryGraph.Config.Config.main.displayLabel && selectVars[i].elementType == QueryGraph.Data.ElementType.EDGE)
+      else if(QueryGraph.Config.Config.main.displayLabel && selectVars[i].elementType == QueryGraph.Data.ElementType.EDGE && selectVars[i].visible)
       {
         if(graph.params.sortEnable && graph.params.sortVar == selectVars[i].value)
         {
@@ -87,50 +89,51 @@ QueryGraph.Query.ResultView = class ResultView
       content += "<tr>";
       for(let j = 0; j < selectVars.length; j++)
       {
-        if(data.results.bindings[i][selectVars[j].value])
+        let value = "";
+        let type = "";
+
+        if(selectVars[j].visible)
         {
-          let value = data.results.bindings[i][selectVars[j].value]["value"];
-          let type = data.results.bindings[i][selectVars[j].value]["type"];
-
-          if(type != "literal")
+          if(data.results.bindings[i][selectVars[j].value])
           {
-            content += "<td><a href='"+value+"' target='_blank'>" + value + "</a></td>";
-          }
-          else
-          {
-            content += "<td>" + value + "</td>";
-          }
+            value = data.results.bindings[i][selectVars[j].value]["value"];
+            type = data.results.bindings[i][selectVars[j].value]["type"];
 
-          if(selectVars[j].label && !selectVars[j].allLiteral)
-          {
-            value = data.results.bindings[i][selectVars[j].label]["value"];
-
-            if(type == "literal")
+            if(type != "literal")
             {
-              content += "<td></td>";
+              content += "<td><a href='"+value+"' target='_blank'>" + value + "</a></td>";
             }
             else
             {
               content += "<td>" + value + "</td>";
             }
           }
-          else if(QueryGraph.Config.Config.main.displayLabel && selectVars[j].elementType == QueryGraph.Data.ElementType.EDGE)
+          else
           {
-            if(listEdgesLabel[value] != undefined)
-            {
-              content += "<td>" + listEdgesLabel[value] + "</td>";
-            }
-            else
-            {
-              content += "<td></td>";
-            }
+            content += "<td></td>";
           }
         }
-        else
+        
+        if(selectVars[j].label && !selectVars[j].allLiteral && selectVars[j].visibleLabel)
         {
-          content += "<td></td>";
+          value = data.results.bindings[i][selectVars[j].label]["value"];
 
-          if(QueryGraph.Config.Config.main.displayLabel)
+          if(type == "literal")
+          {
+            content += "<td></td>";
+          }
+          else
+          {
+            content += "<td>" + value + "</td>";
+          }
+        }
+        else if(QueryGraph.Config.Config.main.displayLabel && selectVars[j].elementType == QueryGraph.Data.ElementType.EDGE && selectVars[j].visible)
+        {
+          if(listEdgesLabel[value] != undefined)
+          {
+            content += "<td>" + listEdgesLabel[value] + "</td>";
+          }
+          else
           {
             content += "<td></td>";
           }
@@ -236,12 +239,12 @@ QueryGraph.Query.ResultView = class ResultView
     {
       for(let j = 0; j < selectVars.length; j++)
       {
-        if(data.results.bindings[i][selectVars[j].value])
+        if(data.results.bindings[i][selectVars[j].value] && selectVars[j].visible)
         {
           let value = data.results.bindings[i][selectVars[j].value]["value"];
           let label = "";
 
-          if(selectVars[j].label)
+          if(selectVars[j].label && selectVars[j].visibleLabel)
           {
             label = data.results.bindings[i][selectVars[j].label]["value"];
           }

@@ -221,6 +221,51 @@ body
   display: inline-block; 
 }
 
+/* Icon of visility element */
+.uiIconVisibility
+{
+  display: inline-block;
+
+  width: 15px;
+  height: 15px;
+
+  padding-right: 4px; 
+  padding-left: 4px;
+  padding-top: 2px; 
+  padding-bottom: 2px; 
+
+  vertical-align: middle;
+
+  border-radius: 5px;
+}
+
+.uiIconVisibility:hover
+{
+  background-color: #bbbbbb;
+}
+
+/* Icon of arraw element */
+.uiIconArrow
+{
+  display: inline-block;
+
+  width: 15px;
+  height: 15px;
+
+  padding-right: 4px; 
+  padding-left: 4px;
+  padding-top: 2px; 
+  padding-bottom: 2px; 
+
+  vertical-align: middle;
+
+  border-radius: 5px;
+}
+
+.uiIconArrow:hover
+{
+  background-color: #bbbbbb;
+}
 
 /* Div of result view */
 #result

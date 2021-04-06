@@ -42,6 +42,8 @@ QueryGraph.Query.QueryManager = class QueryManager
       this.addNode(graph, node);
     }
 
+    this.buildSelect(graph);
+
     this.whereQuery += this.addFilters(graph);
 
     // Add language label management
@@ -70,6 +72,49 @@ QueryGraph.Query.QueryManager = class QueryManager
     {
       this.query += "\nLIMIT " + graph.params.limitVal;
     }
+  }
+
+  /**
+   * Create select query
+   * @param {QueryGraph.Data.Graph}            graph                  The graphe manager
+   */
+  buildSelect(graph)
+  {
+    graph.params.updateVisiblityInfosList(this.selectVars);
+
+    for(let i = 0; i < this.selectVars.length; i++)
+    {
+      let infos = graph.params.getVisiblityInfos(this.selectVars[i].value);
+      if(infos.visibility == true)
+      {
+        this.selectQuery += "?" + this.selectVars[i].value + " ";
+        this.selectVars[i].visible = true;
+      }
+      else
+      {
+        this.selectVars[i].visible = false;
+      }
+      this.selectVars[i].order = infos.order;
+
+      if(QueryGraph.Config.Config.main.displayLabel && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA && this.selectVars[i].elementType != QueryGraph.Data.ElementType.EDGE)
+      {
+        let infos = graph.params.getVisiblityInfos(this.selectVars[i].label);
+        if(infos.visibility == true)
+        {
+          this.selectQuery += "?" + this.selectVars[i].label + " ";
+          this.selectVars[i].visibleLabel = true;
+        }
+        else
+        {
+          this.selectVars[i].visibleLabel = false;
+        }
+      }
+    }
+
+    // Reorder result variables
+    this.selectVars.sort((a, b) => {
+      return a.order - b.order; 
+    });
   }
 
   /**
@@ -141,15 +186,17 @@ QueryGraph.Query.QueryManager = class QueryManager
       let name = node.elementInfos.name;
 
       // Add node to select with its label optionnaly
-      this.selectQuery += nameVar + " ";
+      //this.selectQuery += nameVar + " ";
       if(QueryGraph.Config.Config.main.displayLabel)
       {
-        this.selectVars.push({"value" : name, "label" : name + "Label", "elementType" : QueryGraph.Data.ElementType.NODE});
-        this.selectQuery += nameVar + "Label ";
+        this.selectVars.push(new QueryGraph.Query.SelectVariable(name, name + "Label", QueryGraph.Data.ElementType.NODE));
+        //this.selectVars.push({"value" : name, "label" : name + "Label", "elementType" : QueryGraph.Data.ElementType.NODE});
+        //this.selectQuery += nameVar + "Label ";
       }
       else
       {
-        this.selectVars.push({"value" : name});
+        this.selectVars.push(new QueryGraph.Query.SelectVariable(name, null, QueryGraph.Data.ElementType.NODE));
+        //this.selectVars.push({"value" : name});
       }
 
       // Menage optional state
@@ -270,8 +317,9 @@ QueryGraph.Query.QueryManager = class QueryManager
       }
 
       // Add edge variable name to select
-      this.selectVars.push({"value" : edge.name, "elementType" : QueryGraph.Data.ElementType.EDGE});
-      this.selectQuery += name + " ";
+      this.selectVars.push(new QueryGraph.Query.SelectVariable(edge.name, null, QueryGraph.Data.ElementType.EDGE));
+      //this.selectVars.push({"value" : edge.name, "elementType" : QueryGraph.Data.ElementType.EDGE});
+      //this.selectQuery += name + " ";
     }
   }
 

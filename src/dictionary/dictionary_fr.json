@@ -98,5 +98,28 @@
   "PARAMS_SORT_TYPE" : "Type : ",
   "PARAMS_LIMIT" : "Limite : ",
   "PARAMS_LIMIT_ENABLE" : "Activé",
-  "PARAMS_LIMIT_VAL" : "Valeur limite : "
+  "PARAMS_LIMIT_VAL" : "Valeur limite : ",
+
+  "VISIBILITY_ELEMENT_ZONE" : "Visibilité des éléments : ",
+  "ICON_VISIBLE_DESC" : "Rendre invisible",
+  "ICON_INVISIBLE_DESC" : "Rendre visible",
+  "ICON_ARROW_UP_DESC" : "Monter",
+  "ICON_ARROW_DOWN_DESC" : "Descendre",
+
+  "QUERY_VALIDITY_NODE_NO_EDGE" : "L'un de vos noeuds n'est lié à aucun autre noeuds",
+  "QUERY_VALIDITY_NODE_NAME_EMPTY" : "Le nom d'un de vos noeuds est vide",
+  "QUERY_VALIDITY_NODE_NAME_WITH_SPACE" : "Le nom d'une de vos noeuds contient un espace",
+  "QUERY_VALIDITY_NODE_NAME_ALREADY_EXIST" : "Le nom d'un de vos noeuds existe déja",
+  "QUERY_VALIDITY_NODE_URI_EMPTY" : "L'URI d'un de vos noeud est vide",
+  "QUERY_VALIDITY_NODE_FILTER_EMPTY_VALUE" : "L'un de vos noeuds filtre possède une valeur vide",
+  "QUERY_VALIDITY_EDGE_URI_EMPTY" : "L'URI d'un de vos liens fixe est vide",
+  "QUERY_VALIDITY_TWO_NODE_FILTER_LINKED" : "Impossible de liés deux noeuds de type Filter",
+  "QUERY_VALIDITY_NODE_FILTER_AND_DATA_LINKED" : "Impossible de liés un noeud de type Donnée à un noeuds de type Filter",
+  "QUERY_VALIDITY_EDGE_NAME_EMPTY" : "Le nom d'un de vos liens est vide",
+  "QUERY_VALIDITY_EDGE_NAME_WITH_SPACE" : "Le nom d'un de vos liens contient un espace",
+  "QUERY_VALIDITY_EDGE_NAME_ALREADY_EXIST" : "Le nom d'un de vos liens existe déja",
+  "QUERY_VALIDITY_EDGE_WITH_FILTER_NO_FIXED" : "Les liens avec un filtre doivent être de type fixe",
+  "QUERY_VALIDITY_EMPTY_QUERY" : "La requête est vide",
+  "QUERY_VALIDITY_ALL_EL_INVISIBLE" : "Tout les éléments sont invisibles",
+  "QUERY_VALIDITY_BASE" : "Impossible de lancer la requête"
  }

@@ -25,7 +25,7 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
       if(graph.nodes[i].edges.length == 0 && graph.nodes[i].reverseEdges.length == 0)
       {
         valid = false;
-        errorMessage = "L'un de vos noeuds n'est lié à aucun autre noeuds";
+        errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_NODE_NO_EDGE");
       }
 
       if(graph.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
@@ -37,19 +37,19 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
         if(name == "")
         {
           valid = false;
-          errorMessage = "Le nom d'un de vos noeuds est vide";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_NODE_NAME_EMPTY");
         }
         else if(name.indexOf(' ') >= 0)
         {
           valid = false;
-          errorMessage = "Le nom d'une de vos noeuds contient un espace";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_NODE_NAME_WITH_SPACE");
         }
         else
         {
           if(namesList.indexOf(name) >= 0)
           {
             valid = false;
-            errorMessage = "Le nom d'un de vos noeuds existe deja";
+            errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_NODE_NAME_ALREADY_EXIST");
           }
           
           namesList.push(name);
@@ -60,7 +60,7 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
         if(graph.nodes[i].dataInfos.uri == "")
         {
           valid = false;
-          errorMessage = "L'URI d'un de vos noeud est vide";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_NODE_URI_EMPTY");
         }
       }
       else if(graph.nodes[i].type == QueryGraph.Data.NodeType.FILTER)
@@ -68,7 +68,7 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
         if(graph.nodes[i].filterInfos.value == "")
         {
           valid = false;
-          errorMessage = "L'un de vos noeuds filtre possède une valeur vide";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_NODE_FILTER_EMPTY_VALUE");
         }
       }
     }
@@ -81,17 +81,17 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
         if(graph.edges[i].uri == "")
         {
           valid = false;
-          errorMessage = "L'URI d'un de vos liens fixe est vide";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_EDGE_URI_EMPTY");
         }
         if(graph.edges[i].nodeStart.type == QueryGraph.Data.NodeType.FILTER && graph.edges[i].nodeEnd.type == QueryGraph.Data.NodeType.FILTER)
         {
           valid = false;
-          errorMessage = "Impossible de liés deux noeuds de type Filter";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_TWO_NODE_FILTER_LINKED");
         }
         if(graph.edges[i].nodeStart.type == QueryGraph.Data.NodeType.DATA && graph.edges[i].nodeEnd.type == QueryGraph.Data.NodeType.FILTER)
         {
           valid = false;
-          errorMessage = "Impossible de liés un noeud de type Donnée à un noeuds de type Filter";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_NODE_FILTER_AND_DATA_LINKED");
         }
       }
       else if(graph.edges[i].type == QueryGraph.Data.EdgeType.VARIABLE)
@@ -103,19 +103,19 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
         if(name == "")
         {
           valid = false;
-          errorMessage = "Le nom d'un de vos liens est vide";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_EDGE_NAME_EMPTY");
         }
         else if(name.indexOf(' ') >= 0)
         {
           valid = false;
-          errorMessage = "Le nom d'un de vos liens contient un espace";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_EDGE_NAME_WITH_SPACE");
         }
         else
         {
           if(namesList.indexOf(name) >= 0)
           {
             valid = false;
-            errorMessage = "Le nom d'un de vos liens existe deja";
+            errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_EDGE_NAME_ALREADY_EXIST");
           }
           
           namesList.push(name);
@@ -124,7 +124,7 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
         if(graph.edges[i].nodeStart.type == QueryGraph.Data.NodeType.FILTER || graph.edges[i].nodeEnd.type == QueryGraph.Data.NodeType.FILTER)
         {
           valid = false;
-          errorMessage = "Les liens avec un filtre doivent être de type fixe";
+          errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_EDGE_WITH_FILTER_NO_FIXED");
         }
       }
     }
@@ -132,13 +132,18 @@ QueryGraph.Query.CheckDataValidity = class CheckDataValidity
     if(empty)
     {
       valid = false;
-      errorMessage = "La requête est vide";
+      errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_EMPTY_QUERY");
+    }
+    else if(graph.params.checkAllInvisible())
+    {
+      valid = false;
+      errorMessage = QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_ALL_EL_INVISIBLE");
     }
 
     // 
     if(valid == false)
     {
-      alert("Impossible de lancer la requête : " + errorMessage);
+      alert(QueryGraph.Dictionary.Dictionary.get("QUERY_VALIDITY_BASE") + " : " + errorMessage);
     }
 
     return valid;
