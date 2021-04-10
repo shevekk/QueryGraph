@@ -171,7 +171,7 @@ QueryGraph.Main = class Main
   {
     let me = this;
 
-    if(QueryGraph.Config.Config.main.displayLabel)
+    if(QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA && QueryGraph.Config.Config.label.enable)
     {
       let listEdgesURI = [];
       let listEdgesLabel = {};

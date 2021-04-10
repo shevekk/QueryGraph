@@ -8,8 +8,11 @@
     "typeUri": "wdt:P31",
     "subclassUri": "wdt:P279",
     "nodeFilterDateEnable": true,
-    "limit" : null,
-    "displayLabel": true
+    "limit" : null
+  },
+  "label" : {
+    "enable" : true,
+    "properties" : null
   },
   "langParams" : 
   {

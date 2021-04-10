@@ -9,7 +9,7 @@ if (typeof QueryGraph.Query == 'undefined') {
 QueryGraph.Query.SelectVariable = class SelectVariable
 {
 
-  constructor(value, label, elementType) 
+  constructor(value, label, typeUri, elementType) 
   {
     /**
      * @property {String}                             value                 Select name of the variable
@@ -18,6 +18,7 @@ QueryGraph.Query.SelectVariable = class SelectVariable
      * @property {Boolean}                            visibleLabel          Visible state of the label
      * @property {QueryGraph.Data.ElementType}        elementType           Type of the variable (node or edge)
      * @property {Number}                             order                 Order number
+     * @property {String}                             typeUri               URI of the type
     */
 
     this.value = value;
@@ -26,5 +27,6 @@ QueryGraph.Query.SelectVariable = class SelectVariable
     this.visibleLabel = false;
     this.elementType = elementType;
     this.order = 0;
+    this.typeUri = typeUri;
   }
 }

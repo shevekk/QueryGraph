@@ -26,7 +26,6 @@ QueryGraph.Config.Config = class Config
    * @property {String}                                      subclassUri                         URI of the subclass 
    * @property {Object}                                      nodeFilterDateEnable                Define if the creation of date filter node is possible
    * @property {Number}                                      limit                               Limit of result (null for no limit)
-   * @property {Boolean}                                     displayLabel                        True if label is display
    * @property {String}                                      queryLanguage                       Language of the request (for labels)
    */
   static main = class Main
@@ -40,7 +39,6 @@ QueryGraph.Config.Config = class Config
     static subclassUri;
     static nodeFilterDateEnable;
     static limit;
-    static displayLabel;
   }
 
   /**
@@ -54,6 +52,17 @@ QueryGraph.Config.Config = class Config
     static default;
     static select;
     static query;
+  }
+
+  /**
+   * Labels parameters
+   * @property {Boolean}                                     enable                              State of display label
+   * @property {Object}                                      properties                          Properties get in query for display label
+   */
+  static label = class Label
+  {
+    static enable;
+    static properties;
   }
 
   /**
@@ -72,6 +81,7 @@ QueryGraph.Config.Config = class Config
   static infos;
   static searchAndListDisplayState;
   static edgesValuesByElementNodeType;
+  //static label;
 
   constructor() 
   {
@@ -106,6 +116,7 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.infos = content.infos;
       QueryGraph.Config.Config.searchAndListDisplayState = content.searchAndListDisplayState;
       QueryGraph.Config.Config.edgesValuesByElementNodeType = content.edgesValuesByElementNodeType;
+      QueryGraph.Config.Config.label = content.label;
 
       if(QueryGraph.Config.Config.lang == null)
       {

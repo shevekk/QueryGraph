@@ -47,7 +47,7 @@ QueryGraph.Query.QueryManager = class QueryManager
     this.whereQuery += this.addFilters(graph);
 
     // Add language label management
-    if(QueryGraph.Config.Config.main.displayLabel && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
+    if(QueryGraph.Config.Config.label.enable && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
     {
       this.whereQuery += '\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.getQueryLanguage()+'". }';
     }
@@ -96,17 +96,23 @@ QueryGraph.Query.QueryManager = class QueryManager
       }
       this.selectVars[i].order = infos.order;
 
-      if(QueryGraph.Config.Config.main.displayLabel && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA && this.selectVars[i].elementType != QueryGraph.Data.ElementType.EDGE)
+      if(QueryGraph.Config.Config.label.enable && (QueryGraph.Config.Config.label.properties || QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA) && this.selectVars[i].elementType != QueryGraph.Data.ElementType.EDGE)
       {
-        let infos = graph.params.getVisiblityInfos(this.selectVars[i].label);
-        if(infos.visibility == true)
+        let propertyLabel = graph.params.getPropertyLabel(this.selectVars[i].typeUri);
+
+        if(propertyLabel != "" || QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
         {
-          this.selectQuery += "?" + this.selectVars[i].label + " ";
-          this.selectVars[i].visibleLabel = true;
-        }
-        else
-        {
-          this.selectVars[i].visibleLabel = false;
+
+          let infos = graph.params.getVisiblityInfos(this.selectVars[i].label);
+          if(infos.visibility == true)
+          {
+            this.selectQuery += "?" + this.selectVars[i].label + " ";
+            this.selectVars[i].visibleLabel = true;
+          }
+          else
+          {
+            this.selectVars[i].visibleLabel = false;
+          }
         }
       }
     }
@@ -186,17 +192,13 @@ QueryGraph.Query.QueryManager = class QueryManager
       let name = node.elementInfos.name;
 
       // Add node to select with its label optionnaly
-      //this.selectQuery += nameVar + " ";
-      if(QueryGraph.Config.Config.main.displayLabel)
+      if(QueryGraph.Config.Config.label.enable)
       {
-        this.selectVars.push(new QueryGraph.Query.SelectVariable(name, name + "Label", QueryGraph.Data.ElementType.NODE));
-        //this.selectVars.push({"value" : name, "label" : name + "Label", "elementType" : QueryGraph.Data.ElementType.NODE});
-        //this.selectQuery += nameVar + "Label ";
+        this.selectVars.push(new QueryGraph.Query.SelectVariable(name, name + "Label", typeUri, QueryGraph.Data.ElementType.NODE));
       }
       else
       {
-        this.selectVars.push(new QueryGraph.Query.SelectVariable(name, null, QueryGraph.Data.ElementType.NODE));
-        //this.selectVars.push({"value" : name});
+        this.selectVars.push(new QueryGraph.Query.SelectVariable(name, null, null, QueryGraph.Data.ElementType.NODE));
       }
 
       // Menage optional state
@@ -222,6 +224,17 @@ QueryGraph.Query.QueryManager = class QueryManager
         else
         {
           this.whereQuery += "\n  " + nameVar + " " + QueryGraph.Config.Config.main.typeUri + " " + typeUri + " . ";
+        }
+
+        // Get labels from properties 
+        if(QueryGraph.Config.Config.label.enable && QueryGraph.Config.Config.label.properties)
+        {
+          let propertyLabel = graph.params.getPropertyLabel(typeUri);
+
+          if(propertyLabel != "")
+          {
+            this.whereQuery += "\n  " + nameVar + " " + propertyLabel + " " + nameVar + "Label . ";
+          }
         }
       }
 
@@ -317,9 +330,7 @@ QueryGraph.Query.QueryManager = class QueryManager
       }
 
       // Add edge variable name to select
-      this.selectVars.push(new QueryGraph.Query.SelectVariable(edge.name, null, QueryGraph.Data.ElementType.EDGE));
-      //this.selectVars.push({"value" : edge.name, "elementType" : QueryGraph.Data.ElementType.EDGE});
-      //this.selectQuery += name + " ";
+      this.selectVars.push(new QueryGraph.Query.SelectVariable(edge.name, null, null, QueryGraph.Data.ElementType.EDGE));
     }
   }
 

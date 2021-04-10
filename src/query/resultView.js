@@ -69,7 +69,7 @@ QueryGraph.Query.ResultView = class ResultView
           selectVars[i].allLiteral = true;
         }
       }
-      else if(QueryGraph.Config.Config.main.displayLabel && selectVars[i].elementType == QueryGraph.Data.ElementType.EDGE && selectVars[i].visible)
+      else if(QueryGraph.Config.Config.label.enable && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA && selectVars[i].elementType == QueryGraph.Data.ElementType.EDGE && selectVars[i].visible)
       {
         if(graph.params.sortEnable && graph.params.sortVar == selectVars[i].value)
         {
@@ -127,7 +127,7 @@ QueryGraph.Query.ResultView = class ResultView
             content += "<td>" + value + "</td>";
           }
         }
-        else if(QueryGraph.Config.Config.main.displayLabel && selectVars[j].elementType == QueryGraph.Data.ElementType.EDGE && selectVars[j].visible)
+        else if(QueryGraph.Config.Config.label.enable && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA && selectVars[j].elementType == QueryGraph.Data.ElementType.EDGE && selectVars[j].visible)
         {
           if(listEdgesLabel[value] != undefined)
           {
@@ -248,7 +248,7 @@ QueryGraph.Query.ResultView = class ResultView
           {
             label = data.results.bindings[i][selectVars[j].label]["value"];
           }
-          else if(QueryGraph.Config.Config.main.displayLabel && selectVars[j].elementType == QueryGraph.Data.ElementType.EDGE)
+          else if(QueryGraph.Config.Config.label.enable && selectVars[j].elementType == QueryGraph.Data.ElementType.EDGE)
           {
             label = listEdgesLabel[value];
           }

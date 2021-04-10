@@ -8,8 +8,13 @@
     "typeUri": "a",
     "subclassUri": "",
     "nodeFilterDateEnable": true,
-    "limit" : null,
-    "displayLabel": false
+    "limit" : null
+  },
+  "label" : {
+    "enable" : true,
+    "properties" : {
+      "*" : "<http://www.w3.org/2004/02/skos/core#prefLabel>"
+    }
   },
   "langParams" : 
   {

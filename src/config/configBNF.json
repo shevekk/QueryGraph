@@ -7,9 +7,18 @@
     "queryInEndPointLink": "",
     "typeUri": "a",
     "subclassUri": "",
-    "displayLabel": false,
     "nodeFilterDateEnable": true,
     "limit": null
+  },
+  "label" : {
+    "enable" : true,
+    "properties" : {
+      "foaf:Person" : "foaf:name",
+      "frbr-rda:Work": "dcterms:title",
+      "skos:Concept": "skos:prefLabel",
+      "geo:SpatialThing" : "rdfs:label",
+      "bibo:Periodical" : "dcterms:title"
+    }
   },
   "langParams" : 
   {

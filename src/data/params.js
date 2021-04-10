@@ -57,12 +57,19 @@ QueryGraph.Data.Params = class Params
         this.visibility.push({"name" : selectVars[i].value, "visibility" : true, "label": false});
       }
 
-      if(QueryGraph.Config.Config.main.displayLabel && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA && selectVars[i].elementType != QueryGraph.Data.ElementType.EDGE)
+      // Get label 
+      if(QueryGraph.Config.Config.label.enable && (QueryGraph.Config.Config.label.properties || QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA) && selectVars[i].elementType != QueryGraph.Data.ElementType.EDGE)
       {
-        let selectVisibility = this.visibility.filter(visibility => visibility.name == selectVars[i].label);
-        if(selectVisibility == null || selectVisibility.length == 0)
+        // Check if property label
+        let propertyLabel = this.getPropertyLabel(selectVars[i].typeUri);
+
+        if(propertyLabel != "" || QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
         {
-          this.visibility.push({"name" : selectVars[i].label, "visibility" : true, "label": true});
+          let selectVisibility = this.visibility.filter(visibility => visibility.name == selectVars[i].label);
+          if(selectVisibility == null || selectVisibility.length == 0)
+          {
+            this.visibility.push({"name" : selectVars[i].label, "visibility" : true, "label": true});
+          }
         }
       }
     }
@@ -77,6 +84,28 @@ QueryGraph.Data.Params = class Params
         i--;
       }
     }
+  }
+
+  /**
+   * retrieves the property corresponding to the label 
+   * @property {String}             typeUri         URI of type of node
+   */
+  getPropertyLabel(typeUri)
+  {
+    let propertyLabel = "";
+
+    if(QueryGraph.Config.Config.label.enable && QueryGraph.Config.Config.label.properties)
+    {
+      if(QueryGraph.Config.Config.label.properties.hasOwnProperty(typeUri))
+      {
+        propertyLabel = QueryGraph.Config.Config.label.properties[typeUri];
+      }
+      else if(QueryGraph.Config.Config.label.properties.hasOwnProperty("*"))
+      {
+        propertyLabel = QueryGraph.Config.Config.label.properties["*"];
+      }
+    }
+    return propertyLabel;
   }
 
   /**
