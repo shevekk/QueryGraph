@@ -531,8 +531,6 @@ QueryGraph.Data.Graph = class Graph
     {
       me.addNode(0, 0, data["nodes"][i]["id"]);
 
-      //me.nodes[i].id = data["nodes"][i]["id"];
-      me.nodes[i].setType(data["nodes"][i]["type"], me);
       me.nodes[i].elementInfos = data["nodes"][i]["elementInfos"];
       me.nodes[i].dataInfos = data["nodes"][i]["dataInfos"];
 
@@ -541,20 +539,7 @@ QueryGraph.Data.Graph = class Graph
         me.nodes[i].filterInfos = data["nodes"][i]["filterInfos"];
       }
 
-      
-      if(me.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
-      {
-        me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].elementInfos.name});
-      }
-      else if(me.nodes[i].type == QueryGraph.Data.NodeType.DATA)
-      {
-        me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].dataInfos.label});
-      }
-      else if(me.nodes[i].type == QueryGraph.Data.NodeType.FILTER)
-      {
-        me.visNodes.update({id: me.nodes[i].id, label: me.nodes[i].filterInfos.operator + " " + me.nodes[i].filterInfos.value});
-      }
-
+      me.nodes[i].setType(data["nodes"][i]["type"], me);
     }
     for(let i = 0; i < data["edges"].length; i++)
     {

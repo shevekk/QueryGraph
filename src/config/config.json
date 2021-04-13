@@ -112,5 +112,14 @@
       }
     }
   },
-  "edgesValuesByElementNodeType" : {}
+  "edgesValuesByElementNodeType" : {},
+  "icons" : 
+  {
+    "wd:Q5" : "\uf007",
+    "wd:Q515" : "\uf1ad",
+    "wd:Q6256" : "\uf024",
+    "wd:Q41176" : "\uf1ad",
+    "wd:Q11424" : "\uf008",
+    "wd:Q571" : "\uf02d"
+  }
 }

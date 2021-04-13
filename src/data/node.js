@@ -66,18 +66,87 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
   {
     this.type = type;
 
+    this.updateDesign(graph);
+  }
+
+  /**
+   * Init design from type
+   * @param {QueryGraph.Data.Graph}                     graph                  The graphe manager
+   */
+  updateDesign(graph)
+  {
     // set design
     if(this.type == QueryGraph.Data.NodeType.DATA)
     {
-      graph.visNodes.update({id: this.id, color: { background: "#e99290", border: "#ba4e4b" }, shape: "dot", size: 15, shape: "diamond", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#e99290" }});
+      graph.visNodes.update(
+        {
+          id: this.id,
+          color: { background: "#e99290", border: "#ba4e4b" }, 
+          shape: "dot", size: 15,
+          shape: "diamond", 
+          borderWidth: 2, 
+          font: { strokeWidth: 2, strokeColor: "#e99290" },
+          label : this.dataInfos.label
+        }
+      );
     }
     else if(this.type == QueryGraph.Data.NodeType.ELEMENT)
     {
-      graph.visNodes.update({id: this.id, color: { background: "#a9d1db", border: "#418597" }, size: 11, shape: "dot", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#a9d1db" }});
+      let icon = null;
+      for (const property in QueryGraph.Config.Config.icons) 
+      {
+        if(QueryGraph.Config.Config.checkSameUri(property, this.elementInfos.uri))
+        {
+          icon = QueryGraph.Config.Config.icons[this.elementInfos.uri];
+        }
+      }
+
+      if(icon != null)
+      {
+        let node = {
+          id: this.id,
+          shape: "icon",
+          icon: {
+            face: '"FontAwesome"',
+            code: `${icon}`,
+            size: 35,
+            color:'#418597'
+          },
+          borderWidth: 3,
+          margin : 10,
+          font: { strokeWidth: 2, strokeColor: "#a9d1db" },
+          label: this.elementInfos.name
+        };
+        graph.visNodes.update(node);
+      }
+      else
+      {
+        graph.visNodes.update(
+          {
+            id: this.id, 
+            label: this.elementInfos.name, 
+            color: { background: "#a9d1db", border: "#418597" }, 
+            size: 11, 
+            shape: "dot", 
+            borderWidth: 2, 
+            font: { strokeWidth: 2, strokeColor: "#a9d1db" }
+          }
+        );
+      }
     }
     else if(this.type == QueryGraph.Data.NodeType.FILTER)
     {
-      graph.visNodes.update({id: this.id, color: { background: "#ffe782", border: "#d3b843" }, size: 12, shape: "triangle", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#ffe782" }});
+      graph.visNodes.update(
+        {
+          id: this.id, 
+          color: { background: "#ffe782", border: "#d3b843" }, 
+          size: 12, 
+          shape: "triangle", 
+          borderWidth: 2, 
+          font: { strokeWidth: 2, strokeColor: "#ffe782" },
+          label: this.filterInfos.operator + " " + this.filterInfos.value
+        }
+      );
 
       // Reverse edges
       for(let i = 0; i < this.edges.length; i++)
@@ -111,7 +180,8 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
     this.elementInfos.name = name;
     this.elementInfos.subclass = subclass;
 
-    graph.visNodes.update({id: this.id, label: name});
+    //graph.visNodes.update({id: this.id, label: name});
+    this.updateDesign(graph);
   }
 
   /**

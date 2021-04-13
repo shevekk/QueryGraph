@@ -73,6 +73,7 @@ QueryGraph.Config.Config = class Config
    * @property {Object}                                      infos                               The infos with contact and help urls
    * @property {Object}                                      searchAndListDisplayState           Define visibility of UI search bar and select list
    * @property {Object}                                      edgesValuesByElementNodeType        List for possible edges values for all node types
+   * @property {Object}                                      icons                               List for icons for node types
    */
   static prefix;
   static wikidataSearch;
@@ -81,7 +82,7 @@ QueryGraph.Config.Config = class Config
   static infos;
   static searchAndListDisplayState;
   static edgesValuesByElementNodeType;
-  //static label;
+  static icons;
 
   constructor() 
   {
@@ -117,6 +118,7 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.searchAndListDisplayState = content.searchAndListDisplayState;
       QueryGraph.Config.Config.edgesValuesByElementNodeType = content.edgesValuesByElementNodeType;
       QueryGraph.Config.Config.label = content.label;
+      QueryGraph.Config.Config.icons = content.icons;
 
       if(QueryGraph.Config.Config.lang == null)
       {
@@ -204,5 +206,38 @@ QueryGraph.Config.Config = class Config
     helpUrl = helpUrl.replace("{lang}", QueryGraph.Config.Config.lang);
 
     return helpUrl;
+  }
+
+  /**
+   * Verify if two uri are same (with prefix)
+   * @param {String}       uri1       First uri to compare
+   * @param {String}       uri2       Second uri to compare
+   */
+  static checkSameUri(uri1, uri2)
+  {
+    if(uri1.startsWith("http"))
+    {
+      for (let key in QueryGraph.Config.Config.prefix)
+      {
+        uri1 = uri1.replace(QueryGraph.Config.Config.prefix[key], key + ":")
+      }
+    }
+
+    if(uri2.startsWith("http"))
+    {
+      for (let key in QueryGraph.Config.Config.prefix)
+      {
+        uri2 = uri2.replace(QueryGraph.Config.Config.prefix[key], key + ":")
+      }
+    }
+
+    if(uri1 == uri2)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 }
