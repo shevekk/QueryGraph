@@ -116,8 +116,11 @@ QueryGraph.Query.ResultView = class ResultView
         
         if(selectVars[j].label && !selectVars[j].allLiteral && selectVars[j].visibleLabel)
         {
-          value = data.results.bindings[i][selectVars[j].label]["value"];
-
+          if(data.results.bindings[i][selectVars[j].label])
+          {
+            value = data.results.bindings[i][selectVars[j].label]["value"];
+          }
+          
           if(type == "literal")
           {
             content += "<td></td>";
@@ -202,6 +205,7 @@ QueryGraph.Query.ResultView = class ResultView
         else if(graph.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
         {
           nodes[nodes.length - 1]["name"] = graph.nodes[i].elementInfos.name;
+          nodes[nodes.length - 1]["uri"] = me.getUri(graph.nodes[i].elementInfos.uri);
         }
       }
     }
@@ -291,6 +295,13 @@ QueryGraph.Query.ResultView = class ResultView
     resultsJsonInput.type = "text";
     resultsJsonInput.name = "data";
     resultsJsonInput.value = resultsJson.replaceAll("'", "\'");
+    resultsJsonInput.className = 'invisibleField';
+    mapForm.appendChild(resultsJsonInput);
+
+    var resultsJsonInput = document.createElement("input");
+    resultsJsonInput.type = "text";
+    resultsJsonInput.name = "config";
+    resultsJsonInput.value = QueryGraph.Config.Config.fileName;
     resultsJsonInput.className = 'invisibleField';
     mapForm.appendChild(resultsJsonInput);
 

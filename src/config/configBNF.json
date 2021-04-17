@@ -188,5 +188,13 @@
         "rdagroup1elements:publishersName" : "Nom des éditeurs"
       }
     }
+  },
+  "icons" : 
+  {
+    "foaf:Person" : "\uf007",
+    "foaf:Organization": "\uf0c0",
+    "frbr-rda:Work" : "\uf02d",
+    "geo:SpatialThing" : "\uf041",
+    "skos:Concept" : "\uf0eb"
   }
 }

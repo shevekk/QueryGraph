@@ -45,6 +45,7 @@
   "NODE_SEARCH_TYPE": "Recherche :",
   "NODE_LABEL": "Label :",
   "NODE_URI": "URI :",
+  "NODE_TYPE": "Type :",
 
   "NODE_TYPE_FILTER_DESC" : "Noeud permettant de filtrer les données.",
   "NODE_OPERATORS": "Opérateurs :",
@@ -78,6 +79,7 @@
   "EDGE_TYPE_FIXED_DESC": "Lien possédant une valeur fixe.",
   "EDGE_NAME": "Nom : ",
   "EDGE_OPTIONAL": "Optionel",
+  "EDGE_TYPE": "Type :",
 
   "CHANGE_LANG_VALIDATION": "La page va être rechargée, toutes les données non sauvegardées seront perdues. Êtes-vous sûr ?",
 

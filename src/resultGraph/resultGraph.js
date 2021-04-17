@@ -50,6 +50,68 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
       }
     }
 
+    // create groups
+    let groups = {};
+    for(let i = 0; i < this.baseGraph.nodes.length; i++)
+    {
+      if(this.baseGraph.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
+      {
+        let icon = null;
+        for (const property in QueryGraph.Config.Config.icons) 
+        {
+          if(QueryGraph.Config.Config.checkSameUri(property, this.baseGraph.nodes[i].uri))
+          {
+            let uri = this.baseGraph.nodes[i].uri;
+            if(uri.startsWith("http"))
+            {
+              for (let key in QueryGraph.Config.Config.prefix)
+              {
+                uri = uri.replace(QueryGraph.Config.Config.prefix[key], key + ":")
+              }
+            }
+
+            icon = QueryGraph.Config.Config.icons[uri];
+          }
+        }
+
+        if(icon != null)
+        {
+          groups[this.baseGraph.nodes[i].name] = {
+            shape: "icon",
+            icon: {
+              face: '"FontAwesome"',
+              code: `${icon}`,
+              size: 35,
+              color:'#418597'
+            },
+            borderWidth: 3,
+            margin : 10,
+            font: { strokeWidth: 2, strokeColor: "#a9d1db" }
+          };
+        }
+        else
+        {
+          groups[this.baseGraph.nodes[i].name] = {
+            shape: "dot",
+            color: { background : "#a9d1db", border : "#418597" }, 
+            size: 11,
+            borderWidth: 2,
+            font: { strokeWidth: 2, strokeColor: "#a9d1db" }
+          };
+        }
+      }
+      else if(this.baseGraph.nodes[i].type == QueryGraph.Data.NodeType.DATA)
+      {
+        groups["|data|"] = {
+          color: { background : "#e99290", border : "#ba4e4b" },
+          size: 15,
+          shape: "diamond",
+          borderWidth: 2, 
+          font: { strokeWidth: 2, strokeColor: "#e99290" }
+        };
+      }
+    }
+
     // Create nodes
     var nodeNumber = 0;
     for(let i = 0; i < this.baseGraph.nodes.length; i++)
@@ -57,7 +119,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
       if(this.baseGraph.nodes[i].type == QueryGraph.Data.NodeType.DATA)
       {
         nodeNumber ++;
-        me.addNode(nodeNumber, this.baseGraph.nodes[i].type, this.baseGraph.nodes[i].label, this.baseGraph.nodes[i].id, -1, this.baseGraph.nodes[i].uri);
+        me.addNode(nodeNumber, this.baseGraph.nodes[i].type, this.baseGraph.nodes[i].name, this.baseGraph.nodes[i].label, this.baseGraph.nodes[i].id, -1, this.baseGraph.nodes[i].uri);
       }
     }
     for(let i = 0; i < this.baseGraph.nodes.length; i++)
@@ -76,7 +138,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
               label = this.data[j].label;
             }
 
-            me.addNode(nodeNumber, this.baseGraph.nodes[i].type, label, this.baseGraph.nodes[i].id, this.data[j].lineNumber, this.data[j].value);
+            me.addNode(nodeNumber, this.baseGraph.nodes[i].type, this.baseGraph.nodes[i].name, label, this.baseGraph.nodes[i].id, this.data[j].lineNumber, this.data[j].value);
           }
         }
       }
@@ -87,7 +149,6 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
     {
       me.edgesCreation(this.baseGraph.edges[i]);
     }
-
     // Init graph 
     let container = document.getElementById('graph');
     let data = {
@@ -95,6 +156,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
       edges: me.visEdges
     };
     let options = {
+      groups: groups,
       physics : {
         enabled: true,
         stabilization: false,
@@ -108,6 +170,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
     };
 
     me.network = new vis.Network(container, data, options);
+
 
     // Reinit labels
     var ids = me.visEdges.getIds();
@@ -133,6 +196,32 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
           window.open(me.visEdges.get(data.edges[0]).uri);
         }
       }
+    });
+
+    me.network.on("click", function(data)
+    {
+      let content = "";
+      if(data.nodes.length > 0)
+      {
+        // QueryGraph.Dictionary.Dictionary.get("NODE_LABEL") NODE_URI NODE_NAME NODE_TYPE EDGE_LABEL  EDGE_URI EDGE_TYPE
+        content += ` || ${QueryGraph.Dictionary.Dictionary.get("NODE_LABEL")} ${me.visNodes.get(data.nodes[0]).label}`;
+        content += ` || ${QueryGraph.Dictionary.Dictionary.get("NODE_URI")} <a href="${me.visNodes.get(data.nodes[0]).uri}" target="_blank">${me.visNodes.get(data.nodes[0]).uri}</a>`;
+
+        if(me.visNodes.get(data.nodes[0]).name)
+        {
+          content += ` || ${QueryGraph.Dictionary.Dictionary.get("NODE_NAME")} ${me.visNodes.get(data.nodes[0]).name}`;
+        }
+
+        content += ` || ${QueryGraph.Dictionary.Dictionary.get("NODE_TYPE")} ${me.visNodes.get(data.nodes[0]).type}`;
+      }
+      else if(data.edges.length > 0)
+      {
+        content += ` || ${QueryGraph.Dictionary.Dictionary.get("EDGE_LABEL")} ${me.visEdges.get(data.edges[0]).label}`;
+        content += ` || ${QueryGraph.Dictionary.Dictionary.get("EDGE_URI")} <a href="${me.visEdges.get(data.edges[0]).uri}" target="_blank">${me.visEdges.get(data.edges[0]).uri}</a>`;
+        content += ` || ${QueryGraph.Dictionary.Dictionary.get("EDGE_TYPE")} ${me.visEdges.get(data.edges[0]).type}`;
+      }
+
+      $("#contentData").html(content);
     });
   }
 
@@ -258,12 +347,13 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
    * Add a new node, if node with is URI already exist, update lines Numbers
    * @param {Number}                       id                      Number of the node
    * @param {QueryGraph.Data.NodeType}     type                    Type of the node 
+   * @param {String}                       name                    Name of the node
    * @param {String}                       label                   Label of the node
    * @param {String}                       baseId                  Id of the base graph matching the node
    * @param {Number}                       lineNumber              The line number
    * @param {String}                       uri                     URI of the node
    */ 
-  addNode(id, type, label, baseId, lineNumber, uri)
+  addNode(id, type, name, label, baseId, lineNumber, uri)
   {
     var items = this.visNodes.get({
       filter: function (item) {
@@ -273,29 +363,27 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
 
     if(uri == null || items.length == 0)
     {
-      let node = {
+      let group = name;
+      if(type == QueryGraph.Data.NodeType.DATA)
+      {
+        group = "|data|";
+      }
+
+        let node = {
         id: id,
         label: label,
         size : 10,
-        shape: "dot",
         baseIds: [],
         uri: uri,
         type: type,
+        name: name,
+        group : group,
         color: {
           border: "#000000",
         }
       };
       node.baseIds[baseId] = [lineNumber];
       this.visNodes.add(node);
-
-      if(type == QueryGraph.Data.NodeType.DATA)
-      {
-        this.visNodes.update({id, color: { background : "#e99290", border : "#ba4e4b" }, shape: "dot", size: 15, shape: "diamond", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#e99290" }});
-      }
-      else if(type == QueryGraph.Data.NodeType.ELEMENT)
-      {
-        this.visNodes.update({id, color: { background : "#a9d1db", border : "#418597" }, size: 11, shape: "dot", borderWidth: 2, font: { strokeWidth: 2, strokeColor: "#a9d1db" }});
-      }
     }
     else
     {
@@ -347,6 +435,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
       arrows : "to",
       label: label,
       uri: uri,
+      type: type,
       color: {
         color: "#ff0000"
       }

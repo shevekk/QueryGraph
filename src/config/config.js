@@ -74,6 +74,7 @@ QueryGraph.Config.Config = class Config
    * @property {Object}                                      searchAndListDisplayState           Define visibility of UI search bar and select list
    * @property {Object}                                      edgesValuesByElementNodeType        List for possible edges values for all node types
    * @property {Object}                                      icons                               List for icons for node types
+   * @property {String}                                      fileName                            Name of the config file
    */
   static prefix;
   static wikidataSearch;
@@ -83,6 +84,7 @@ QueryGraph.Config.Config = class Config
   static searchAndListDisplayState;
   static edgesValuesByElementNodeType;
   static icons;
+  static fileName;
 
   constructor() 
   {
@@ -108,6 +110,7 @@ QueryGraph.Config.Config = class Config
     let jqxhr = $.getJSON(fileName, null)
     .done(function(content)
     {
+      QueryGraph.Config.Config.fileName = fileName;
       QueryGraph.Config.Config.main = content.main;
       QueryGraph.Config.Config.langParams = content.langParams;
       QueryGraph.Config.Config.prefix = content.prefix;

@@ -45,6 +45,7 @@
   "NODE_SEARCH_TYPE": "Search :",
   "NODE_LABEL": "Label :",
   "NODE_URI": "URI :",
+  "NODE_TYPE": "Type :",
 
   "NODE_TYPE_FILTER_DESC" : "Node to filter data.",
   "NODE_OPERATORS": "Operators :",
@@ -78,6 +79,7 @@
   "EDGE_TYPE_FIXED_DESC": "Link with a fixed value.",
   "EDGE_NAME": "Name : ",
   "EDGE_OPTIONAL": "Optional",
+  "EDGE_TYPE": "Type :",
 
   "CHANGE_LANG_VALIDATION": "The page will be reloaded, all unsaved data will be lost. Are you sure?",
 
