@@ -177,6 +177,16 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
       });
 
       $('#' + QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID).val(node.filterInfos.valueType);
+
+      // Change type if value is text and type number
+      $('#' + QueryGraph.UI.UIElement.VALUE_HTML_ID).change(function()
+      {
+        let value = $(this).val();
+        if(isNaN(value) && $('#'+QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID).val() == QueryGraph.Data.NodeFilterValueType.NUMBER)
+        {
+          $('#'+QueryGraph.UI.UIElement.VALUE_TYPE_HTML_ID).val(QueryGraph.Data.NodeFilterValueType.TEXT);
+        }
+      });
     }
 
     // Menage web link

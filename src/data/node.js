@@ -97,7 +97,16 @@ QueryGraph.Data.Node = class Node extends QueryGraph.Data.Element
       {
         if(QueryGraph.Config.Config.checkSameUri(property, this.elementInfos.uri))
         {
-          icon = QueryGraph.Config.Config.icons[this.elementInfos.uri];
+          let uri = this.elementInfos.uri;
+          if(uri.startsWith("http"))
+          {
+            for (let key in QueryGraph.Config.Config.prefix)
+            {
+              uri = uri.replace(QueryGraph.Config.Config.prefix[key], key + ":")
+            }
+          }
+
+          icon = QueryGraph.Config.Config.icons[uri];
         }
       }
 

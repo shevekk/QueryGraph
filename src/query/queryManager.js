@@ -34,6 +34,12 @@ QueryGraph.Query.QueryManager = class QueryManager
     this.selectQuery = "SELECT ";
     this.whereQuery = " ";
 
+    // graph
+    if(QueryGraph.Config.Config.main.graph)
+    {
+      this.whereQuery += `GRAPH <${QueryGraph.Config.Config.main.graph}> {`;
+    }
+
     // Create request 
     for(let i = 0; i < graph.nodes.length; i++)
     {
@@ -50,6 +56,11 @@ QueryGraph.Query.QueryManager = class QueryManager
     if(QueryGraph.Config.Config.label.enable && QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
     {
       this.whereQuery += '\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "'+QueryGraph.Config.Config.getQueryLanguage()+'". }';
+    }
+
+    if(QueryGraph.Config.Config.main.graph)
+    {
+      this.whereQuery += ` }`;
     }
 
     this.query += this.selectQuery + " \nWHERE \n{" + this.whereQuery + " \n}";

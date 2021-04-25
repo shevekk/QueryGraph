@@ -8,7 +8,8 @@
     "typeUri": "a",
     "subclassUri": "",
     "nodeFilterDateEnable": true,
-    "limit": null
+    "limit": null,
+    "graph": null
   },
   "label" : {
     "enable" : true,

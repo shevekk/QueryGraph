@@ -27,6 +27,7 @@ QueryGraph.Config.Config = class Config
    * @property {Object}                                      nodeFilterDateEnable                Define if the creation of date filter node is possible
    * @property {Number}                                      limit                               Limit of result (null for no limit)
    * @property {String}                                      queryLanguage                       Language of the request (for labels)
+   * @property {String}                                      graph                               Graphes informations
    */
   static main = class Main
   {
@@ -39,6 +40,7 @@ QueryGraph.Config.Config = class Config
     static subclassUri;
     static nodeFilterDateEnable;
     static limit;
+    static graph;
   }
 
   /**

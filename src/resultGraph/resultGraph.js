@@ -308,7 +308,14 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
           {
             if(startLines[i] == endLines[j] || startLines[i] == -1 || endLines[j] == -1)
             {
-              numLines.push(startLines[i]);
+              if(startLines[i] != -1)
+              {
+                numLines.push(startLines[i]);
+              }
+              else
+              {
+                numLines.push(endLines[j]);
+              }
             }
           }
         }
