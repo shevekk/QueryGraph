@@ -1,0 +1,198 @@
+﻿{
+  "main" : 
+  {
+    "endPoint": "http://data.persee.fr/sparql",
+    "tripleStore" : "DATA_PERSEE",
+    "dataFileUrl": "data/data_persee.json",
+    "queryInEndPointLink": "",
+    "typeUri": "a",
+    "subclassUri": "",
+    "nodeFilterDateEnable": true,
+    "limit": null,
+    "graph": null
+  },
+  "label" : {
+    "enable" : true,
+    "properties" : {
+      "foaf:Person" : "foaf:name",
+      "bibo:Document": "dcterms:title",
+      "bibo:Print": "dcterms:title",
+      "bibo:Issue": "dcterms:title",
+      "bibo:Journal": "dcterms:title",
+      "bibo:Book": "dcterms:title",
+      "bibo:Series": "dcterms:title",
+      "bibo:Collection": "dcterms:title",
+      "skos:Concept": "rdfs:label"
+    }
+  },
+  "langParams" : 
+  {
+    "default": "fr",
+    "queryLanguage" : {},
+    "select" : {}
+  },
+  "prefix" : 
+  {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "marcrel": "http://id.loc.gov/vocabulary/relators/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "bibo": "http://purl.org/ontology/bibo/"
+  },
+  "wikidataSearch": 
+  {
+    "nbResult": 20,
+    "language": {
+      "en": "en",
+      "fr": "fr"
+    }
+  },
+  "nodeTypes": {
+    "fr": {
+      "foaf:Person" : "Personne",
+      "bibo:Document" : "Document",
+      "bibo:Issue" : "Numero",
+      "bibo:Journal" : "Revue",
+      "bibo:Book" : "Livre",
+      "bibo:Series" : "Serie",
+      "bibo:Collection" : "Collection"
+    }
+  },
+  "nodeData": {
+    "fr": {
+      "http://data.persee.fr/authority/30551#Person" : "Pierre Bourdieu",
+      "http://data.persee.fr/authority/275656#Person" : "Marc Bloch"
+
+    }
+  },
+  "infos": 
+  {
+    "homePage" : "http://dataexplorer.hd.free.fr/",
+    "contactUrl": "infos/contact_{lang}.html",
+    "helpUrl" : "infos/help_BNF_{lang}.pdf"
+  },
+  "searchAndListDisplayState": {
+    "node": {
+      "element": {
+        "search": false,
+        "list": true
+      },
+      "data": {
+        "search": true,
+        "list": true
+      }
+    },
+    "edge": {
+      "fixed": {
+        "list": true
+      }
+    }
+  },
+  "edgesValuesByElementNodeType" : 
+  {
+    "fr" :
+    {
+      "foaf:Person": {
+        "foaf:name" : "Nom",
+        "foaf:familyName" : "Nom de famille",
+        "foaf:givenName" : "Prénom",
+        "rdfs:label" : "Label",
+        "schema:birthDate:" : "Date de naissance",
+        "schema:deathDate" : "Date de mort",
+        "owl:sameAs" : "Similaire à",
+        "cito:cites" : "Cite",
+        "cito:isCitedBy" : "Cité par"
+      },
+      "bibo:Document" : {
+        "marcrel:aut" : "A pour auteur",
+        "marcrel:pht" : "A pour photographe",
+        "marcrel:ill" : "A pour illustrateur",
+        "foaf:focus" : "à propos",
+        "dcterms:subject" : "Mots clés",
+        "dcterms:title" : "Titre",
+        "rdf:type" : "Type",
+        "dcterms:language" : "Langue",
+        "dcterms:abstract" : "Résumé",
+        "dcterms:modified" : "Date de mise à jour",
+        "persee:dateOfPrintPublication" : "Date original de publication papier",
+        "dcterms:tableOfContents" : "Table de matière",
+        "dcterms:bibliographicCitation" : "Référence bibliographique",
+        "dcterms:accessRights" : "Droit d'accès",
+        "bibo:doi" : "Identifiant",
+        "rdfs:label" : "Label",
+        "dcterms:isPartOf" : "Fait partie de",
+        "dcterms:hasPart" : "A pour partie"
+      },
+      "bibo:Collection": {
+        "dcterms:title" : "Titre",
+        "dcterms:isPartOf" : "Fait partie de",
+        "dcterms:hasPart" : "A pour partie",
+        "dcterms:dateOfPublication" : "Date de mise en ligne",
+        "dcterms:modified" : "Date de mise à jour",
+        "dcterms:description" : "Présentation",
+        "biro:bibliographicRecord" : "Référence bibliographique",
+        "dcterms:coverage" : "Date de publication sur Persée",
+        "dcterms:publisher" : "Editeur",
+        "dcterms:modified" : "Date de mise à jour",
+        "dcterms:accessRights" : "Droit d'accès",
+        "dcterms:identifier" : "Identifiant",
+        "bibo:eissn" : "ISSN éléctronique",
+        "rdfs:label" : "Label"
+      },
+      "bibo:Issue": {
+        "dcterms:isPartOf" : "Fait partie de",
+        "dcterms:hasPart" : "A pour partie",
+        "dcterms:identifier" : "Identifiant",
+        "dcterms:title" : "Titre",
+        "rdam:dateOfPublication" : "Date de mise en ligne",
+        "dcterms:bibliographicCitation" : "Référence bibliographique",
+        "rdf:type" : "Type",
+        "marcrel:edit" : "A pour auteur"
+      },
+      "bibo:Journal": {
+        "dcterms:isPartOf" : "Fait partie de",
+        "dcterms:hasPart" : "A pour partie",
+        "dcterms:accessRights" : "Droit d'accès",
+        "dcterms:modified" : "Date de mise à jour",
+        "biro:bibliographicRecord" : "Référence bibliographique",
+        "rdam:dateOfPublication" : "Date de mise en ligne",
+        "dcterms:coverage" : "Date de publication sur Persée",
+        "dcterms:title" : "Titre"
+      },
+      "bibo:Book": {
+        "dcterms:isPartOf" : "Fait partie de",
+        "dcterms:hasPart" : "A pour partie",
+        "dcterms:identifier" : "Identifiant",
+        "dcterms:title" : "Titre",
+        "rdam:dateOfPublication" : "Date de mise en ligne",
+        "dcterms:bibliographicCitation" : "Référence bibliographique",
+        "rdf:type" : "Type",
+        "marcrel:edit" : "A pour auteur"
+      },
+      "bibo:Series": {
+        "dcterms:isPartOf" : "Fait partie de",
+        "dcterms:hasPart" : "A pour partie",
+        "dcterms:accessRights" : "Droit d'accès",
+        "dcterms:modified" : "Date de mise à jour",
+        "biro:bibliographicRecord" : "Référence bibliographique",
+        "rdam:dateOfPublication" : "Date de mise en ligne",
+        "dcterms:coverage" : "Date de publication sur Persée"
+      },
+      "skos:Concept": {
+        "rdfs:label" : "Label",
+        "skos:prefLabel": "prefLabel"
+      }
+    }
+  },
+  "icons" : 
+  {
+    "foaf:Person" : "\uf007",
+    "bibo:Document": "\uf15c",
+    "bibo:Collection": "\uf187",
+    "bibo:Book": "\uf02d",
+    "bibo:Journal": "\uf1ea",
+    "skos:Concept": "\uf0eb"
+  }
+}

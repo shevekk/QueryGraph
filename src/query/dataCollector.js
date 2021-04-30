@@ -128,7 +128,7 @@ QueryGraph.Query.DataCollector = class DataCollector
    * Get types of nodes from name
    * @param {String}           name          The target name
    */
-  getNodesTypes(name)
+  getNodesTypes(name, callback)
   {
     callback([]);
   }
@@ -137,7 +137,7 @@ QueryGraph.Query.DataCollector = class DataCollector
    * Get data of nodes from name
    * @param {String}           name          The target name
    */
-  getNodesData(name)
+  getNodesData(name, callback)
   {
     callback([]);
   }
