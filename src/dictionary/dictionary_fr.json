@@ -85,6 +85,7 @@
 
   "GRAPH_TOO_MANY_DATA_START": "La création du graphe va être longue car il y a ",
   "GRAPH_TOO_MANY_DATA_END": " ligne de résultats. Etes-vous sûr de vouloir charger le graph ?",
+  "GRAPH_NO_DATA": "Aucune données : Veuillez vous assurez que la visibilité des éléments principaux est activé (éléments autres que labels)",
 
   "QUERY_IN_PROGRESS" :"Requête en cours d'exécution",
   "QUERY_FAIL" :"Echec de la requête",
@@ -123,5 +124,7 @@
   "QUERY_VALIDITY_EDGE_WITH_FILTER_NO_FIXED" : "Les liens avec un filtre doivent être de type fixe",
   "QUERY_VALIDITY_EMPTY_QUERY" : "La requête est vide",
   "QUERY_VALIDITY_ALL_EL_INVISIBLE" : "Tout les éléments sont invisibles",
-  "QUERY_VALIDITY_BASE" : "Impossible de lancer la requête"
+  "QUERY_VALIDITY_BASE" : "Impossible de lancer la requête",
+
+  
  }

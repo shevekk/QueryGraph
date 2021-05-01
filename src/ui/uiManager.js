@@ -95,7 +95,7 @@ QueryGraph.UI.UIManager = class UIManager
       me.uiElement.setEdgeInformations(me.graph);
     }
     
-    if(me.uiParams.enable || launchQuery)
+    if(me.uiParams.enable)
     {
       me.uiParams.save(me.graph.params);
       me.uiParams.enable = false;

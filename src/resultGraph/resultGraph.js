@@ -39,7 +39,11 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
   {
     var me = this;
 
-    if(me.data.length >= 500)
+    if(me.data.length == 0)
+    {
+      alert(QueryGraph.Dictionary.Dictionary.get("GRAPH_NO_DATA"));
+    }
+    else if(me.data.length >= 500)
     {
       var confimation = confirm(QueryGraph.Dictionary.Dictionary.get("GRAPH_TOO_MANY_DATA_START") + me.data.length + QueryGraph.Dictionary.Dictionary.get("GRAPH_TOO_MANY_DATA_END"));
 

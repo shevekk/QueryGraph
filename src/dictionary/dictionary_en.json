@@ -85,6 +85,7 @@
 
   "GRAPH_TOO_MANY_DATA_START": "The creation of the graph will be long because there are ",
   "GRAPH_TOO_MANY_DATA_END": " lines of results. Are you sure you want to load the graph?",
+  "GRAPH_NO_DATA": "No data : Please make sure that the visibility of the main elements is activated (elements other than labels)",
 
   "QUERY_IN_PROGRESS" :"Query in progress",
   "QUERY_FAIL" :"Query failure",
