@@ -124,7 +124,5 @@
   "QUERY_VALIDITY_EDGE_WITH_FILTER_NO_FIXED" : "Les liens avec un filtre doivent être de type fixe",
   "QUERY_VALIDITY_EMPTY_QUERY" : "La requête est vide",
   "QUERY_VALIDITY_ALL_EL_INVISIBLE" : "Tout les éléments sont invisibles",
-  "QUERY_VALIDITY_BASE" : "Impossible de lancer la requête",
-
-  
+  "QUERY_VALIDITY_BASE" : "Impossible de lancer la requête"
  }
