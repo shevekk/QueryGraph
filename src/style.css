@@ -355,3 +355,17 @@ body
 {
   width: 98%;
 }
+
+/* Import area */
+.importArea
+{
+  margin-left : 5px;
+  margin-bottom : 5px;
+  display: none;
+}
+
+.importTextArea
+{
+  width: 700px;
+  height: 250px;
+}

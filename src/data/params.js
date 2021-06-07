@@ -96,6 +96,19 @@ QueryGraph.Data.Params = class Params
 
     if(QueryGraph.Config.Config.label.enable && QueryGraph.Config.Config.label.properties)
     {
+      if(typeUri.includes("http:"))
+      {
+        if(typeUri.startsWith('<'))
+        {
+          typeUri = typeUri.substr(1, typeUri.length - 2);
+        }
+        
+        for (const prop in QueryGraph.Config.Config.prefix) 
+        {
+          typeUri = typeUri.replace(QueryGraph.Config.Config.prefix[prop], prop + ":");
+        }
+      }
+
       if(QueryGraph.Config.Config.label.properties.hasOwnProperty(typeUri))
       {
         propertyLabel = QueryGraph.Config.Config.label.properties[typeUri];

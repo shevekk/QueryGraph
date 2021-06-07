@@ -9,7 +9,11 @@
     "subclassUri": "",
     "nodeFilterDateEnable": true,
     "limit": null,
-    "graph": null
+    "graph": null,
+    "queryDataType" : "json"
+  },
+  "views": {
+    "graphEnable": true
   },
   "label" : {
     "enable" : true,

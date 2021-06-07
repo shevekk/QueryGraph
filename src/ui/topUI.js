@@ -44,7 +44,11 @@ QueryGraph.UI.TopUI = class TopUI
     content += '<button name="'+QueryGraph.UI.TopUI.CANCEL_ACTION_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.CANCEL_ACTION_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("CANCEL_ACTION_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_LEFT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("CANCEL_ACTION_BUTTON_NAME")+'</button>';
     content += '<button name="'+QueryGraph.UI.TopUI.NEW_QUERY_ACTION_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.NEW_QUERY_ACTION_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("NEW_QUERY_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_LEFT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("NEW_QUERY_BUTTON_NAME")+'</button>';
 
-    content += '<button name="'+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_GRAPH_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_RIGHT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_GRAPH_BUTTON_NAME")+'</button>';
+    if(QueryGraph.Config.Config.views.graphEnable)
+    {
+      content += '<button name="'+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_GRAPH_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_RIGHT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_GRAPH_BUTTON_NAME")+'</button>';
+    }
+    
     content += '<button name="'+QueryGraph.UI.TopUI.EXEC_QUERY_BUTTON_HTML_ID+'" id="'+QueryGraph.UI.TopUI.EXEC_QUERY_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_BUTTON_DESC")+'" class="'+QueryGraph.UI.TopUI.TOP_BUTTON_RIGHT_HTML_CLASS+'">'+QueryGraph.Dictionary.Dictionary.get("EXEC_QUERY_BUTTON_NAME")+'</button>';
 
     $("#" + QueryGraph.UI.TopUI.TOP_UI_DIV_HTML_ID).html(content);

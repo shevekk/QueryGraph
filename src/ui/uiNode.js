@@ -231,6 +231,8 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
        */
       function displaySearchResult(results)
       {
+        $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).html("");
+
         for (const key in results)
         {
           let label = results[key].label;
@@ -255,7 +257,7 @@ QueryGraph.UI.UINode = class UINode extends QueryGraph.UI.UIElement
             content = "<div class='" + QueryGraph.UI.UIElement.SEARCH_DIV_LINE_CLASS + "' uri='"+uri+"' label='"+label+"'><b>" + label + "</b><br/></div>";
           }
           
-          $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).prepend(content);
+          $("#" + QueryGraph.UI.UIElement.SEARCH_DIV_ID).append(content);
         }
 
         // Menage click in search line : select an element

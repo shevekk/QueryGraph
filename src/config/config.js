@@ -28,6 +28,7 @@ QueryGraph.Config.Config = class Config
    * @property {Number}                                      limit                               Limit of result (null for no limit)
    * @property {String}                                      queryLanguage                       Language of the request (for labels)
    * @property {String}                                      graph                               Graphes informations
+   * @property {String}                                      queryDataType                       DataType of query 
    */
   static main = class Main
   {
@@ -41,6 +42,17 @@ QueryGraph.Config.Config = class Config
     static nodeFilterDateEnable;
     static limit;
     static graph;
+    static groupQuery;
+    static queryDataType;
+  }
+
+  /**
+   * Views enable state
+   * @property {Boolean}                                      graphEnable                            The enable state of graph view
+   */
+  static views = class View
+  {
+    static graphEnable;
   }
 
   /**
@@ -124,6 +136,8 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.edgesValuesByElementNodeType = content.edgesValuesByElementNodeType;
       QueryGraph.Config.Config.label = content.label;
       QueryGraph.Config.Config.icons = content.icons;
+      QueryGraph.Config.Config.views = content.views;
+      
 
       if(QueryGraph.Config.Config.lang == null)
       {

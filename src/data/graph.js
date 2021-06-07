@@ -210,12 +210,14 @@ QueryGraph.Data.Graph = class Graph
 
               if(me.selectedNode.type != QueryGraph.Data.NodeType.FILTER || endNode.type == QueryGraph.Data.NodeType.FILTER)
               {
-                newEdge = me.addEdge(me.selectedNode.id, data.nodes[0], me.selectedNode, endNode);
+                //newEdge = me.addEdge(me.selectedNode.id, data.nodes[0], me.selectedNode, endNode);
+                newEdge = me.addEdge(me.selectedNode.id, data.nodes[0]);
               }
               else
               {
                 // If start node tpye is FILTER, reverses the direction and set type to FIXED
-                newEdge = me.addEdge(data.nodes[0], me.selectedNode.id, endNode, me.selectedNode, null, QueryGraph.Data.EdgeType.FIXED);
+                //newEdge = me.addEdge(data.nodes[0], me.selectedNode.id, endNode, me.selectedNode, null, QueryGraph.Data.EdgeType.FIXED);
+                newEdge = me.addEdge(data.nodes[0], me.selectedNode.id, null, QueryGraph.Data.EdgeType.FIXED);
               }
 
               me.selectedEdge = newEdge;
@@ -332,9 +334,12 @@ QueryGraph.Data.Graph = class Graph
    * @param {QueryGraph.Data.EdgeType}        type                 Type of the edges (optional)
    * @return {QueryGraph.Data.Edge}                                The new Edge
    */
-  addEdge(idNodeStart, idNodeEnd, nodeStart, nodeEnd, id, type)
+  addEdge(idNodeStart, idNodeEnd, id, type)
   {
-    let newEdge = new QueryGraph.Data.Edge(idNodeStart, idNodeEnd, nodeStart, nodeEnd);
+    let startNode = this.getNode(idNodeStart);
+    let endNode = this.getNode(idNodeEnd);
+
+    let newEdge = new QueryGraph.Data.Edge(idNodeStart, idNodeEnd, startNode, endNode);
 
     if(id)
     {
@@ -349,10 +354,7 @@ QueryGraph.Data.Graph = class Graph
 
     this.edges.push(newEdge);
 
-    let startNode = this.getNode(idNodeStart);
     startNode.addEdge(newEdge, false);
-
-    let endNode = this.getNode(idNodeEnd);
     endNode.addEdge(newEdge, true);
 
     if(type)
@@ -548,7 +550,7 @@ QueryGraph.Data.Graph = class Graph
       let nodeStart = me.getNode(idNodeStart);
       let nodeEnd = me.getNode(idNodeEnd);
 
-      me.addEdge(idNodeStart, idNodeEnd, nodeStart, nodeEnd, data["edges"][i]["id"]);
+      me.addEdge(idNodeStart, idNodeEnd, data["edges"][i]["id"]);
 
       me.edges[i].setType(data["edges"][i]["type"], me);
       me.edges[i].setInformations(data["edges"][i]["label"], data["edges"][i]["uri"], data["edges"][i]["name"], data["edges"][i]["optional"], me);
@@ -607,6 +609,347 @@ QueryGraph.Data.Graph = class Graph
       me.selectedEdge = null;
       me.uiManager.unSelect();
     }
+  }
+
+  /*
+   * Load a SPARQL query and create a graph
+   * @param {String}                                   query                 The query to load
+   * @param {QueryGraph.Query.QueryManager}            queryManager          The query manager
+   */
+  loadFromSPARQL(query, queryManager)
+  {
+    this.clearGraph();
+
+    // Manage error
+    let validQuery = true;
+    let messageError = "";
+    if(query.includes("BIND"))
+    {
+      validQuery = false;
+      messageError = QueryGraph.Dictionary.Dictionary.get("LOAD_SPARQL_BIND_NOT_MANAGED");
+    }
+    else if(query.includes("UNION"))
+    {
+      validQuery = false;
+      messageError = QueryGraph.Dictionary.Dictionary.get("LOAD_SPARQL_UNION_NOT_MANAGED");
+    }
+    else if(query.includes("GROUP BY"))
+    {
+      validQuery = false;
+      messageError = QueryGraph.Dictionary.Dictionary.get("LOAD_SPARQL_GROUPBY_NOT_MANAGED");
+    }
+
+    if(validQuery)
+    {
+      try 
+      {
+        // Remove SERVICE LABEL (for wikidata)
+        let querySplit = query.split("SERVICE");
+        if(querySplit.length > 1)
+        {
+          let endCharPosition = -1;
+          for(let i = 0; i < querySplit[1].length && endCharPosition == -1; i++)
+          {
+            if(querySplit[1][i] == "}")
+            {
+              endCharPosition = i;
+            }
+          }
+
+          if(endCharPosition != -1)
+          {
+            querySplit[1] = querySplit[1].substr((endCharPosition+1), querySplit[1].length - (endCharPosition+1));
+          }
+
+          query = querySplit[0] + querySplit[1];
+        }
+
+        // Get Complete Type URI (predicate value)
+        let completeTypeUri = QueryGraph.Config.Config.main.typeUri;
+        if(completeTypeUri.includes(":"))
+        {
+          let splitTypeUri = QueryGraph.Config.Config.main.typeUri.split(":");
+          completeTypeUri = QueryGraph.Config.Config.prefix[splitTypeUri[0]] + splitTypeUri[1];
+        }
+        if(completeTypeUri == "a")
+        {
+          completeTypeUri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+        }
+        else if(completeTypeUri.startsWith("<"))
+        {
+          completeTypeUri = completeTypeUri.substr(1, completeTypeUri.length - 2);
+        }
+
+        // 
+        let elementLabel = [];
+
+        // Add prefixe
+        for (const prop in QueryGraph.Config.Config.prefix) 
+        {
+          query = `PREFIX ${prop}: <${QueryGraph.Config.Config.prefix[prop]}> ` + query;
+        }
+
+        let queryObj = parseSPARQLQuery(query);
+
+
+        let nodesVars = [];
+        let edgesVar = [];
+
+        for(let i = 0; i < queryObj.where.length; i++)
+        {
+          if(queryObj.where[i].type == "bgp" || queryObj.where[i].type == "optional")
+          {
+            let triples = queryObj.where[i].triples;
+            let optional = false;
+            if(queryObj.where[i].type == "optional")
+            {
+              triples = queryObj.where[i].patterns[0].triples;
+              optional = true;
+            }
+
+            for(let j = 0; j < triples.length; j++)
+            {
+              // Manage subject
+              if(triples[j].subject.termType == "Variable")
+              {
+                if(nodesVars.filter(node => node.name.includes(triples[j].subject.value)).length == 0)
+                {
+                  nodesVars.push({name : triples[j].subject.value, type : QueryGraph.Data.NodeType.ELEMENT, id: nodesVars.length+1});
+                }
+              }
+              else if(triples[j].subject.termType == "NamedNode")
+              {
+                nodesVars.push({name : triples[j].subject.value, type : QueryGraph.Data.NodeType.DATA, id: nodesVars.length+1});
+              }
+
+              if(nodesVars.filter(node => node.name.includes(triples[j].object.value)).length == 0)
+              {
+                if(triples[j].object.termType == "Variable")
+                {
+                  // TO DO : Gestion filter sur prop label
+                  let labelProp = "";
+                  let selectVarNode = nodesVars.filter(node => node.name == triples[j].subject.value)[0];
+                  if(selectVarNode && selectVarNode.typeValue)
+                  {
+                    labelProp = this.params.getPropertyLabel(selectVarNode.typeValue);
+                  }
+
+                  let predicateValue = triples[j].predicate.value;
+                  for (const prop in QueryGraph.Config.Config.prefix) 
+                  {
+                    predicateValue = predicateValue.replace(QueryGraph.Config.Config.prefix[prop], prop + ":");
+                  }
+
+                  if(labelProp != predicateValue || elementLabel.includes(triples[j].subject.value))
+                  {
+                    nodesVars.push({name : triples[j].object.value, type : QueryGraph.Data.NodeType.ELEMENT, id: nodesVars.length+1});
+                  }
+                  else
+                  {
+                    elementLabel.push(triples[j].subject.value);
+                  }
+                }
+                else if(triples[j].object.termType == "NamedNode" && triples[j].predicate.value == completeTypeUri)
+                {
+                  nodesVars.filter(node => node.name == triples[j].subject.value)[0].typeValue = triples[j].object.value;
+                }
+                else if(triples[j].object.termType == "NamedNode")
+                {
+                  nodesVars.push({name : triples[j].object.value, type : QueryGraph.Data.NodeType.DATA, id: nodesVars.length+1});
+                }
+              }
+
+              if(triples[j].predicate.value != completeTypeUri)
+              {
+                if(triples[j].predicate.termType == "Variable")
+                {
+                  edgesVar.push({name : triples[j].predicate.value, nodeStartName : triples[j].subject.value, nodeStartEnd : triples[j].object.value, type: QueryGraph.Data.EdgeType.VARIABLE, optional: optional});
+                }
+                else if(triples[j].predicate.type == "path")
+                {
+                  edgesVar.push({name : "", nodeStartName : triples[j].subject.value, nodeStartEnd : triples[j].object.value, type: QueryGraph.Data.EdgeType.FIXED, optional: optional});
+                }
+                else
+                {
+                  edgesVar.push({name: triples[j].predicate.value, nodeStartName : triples[j].subject.value, nodeStartEnd : triples[j].object.value, type: QueryGraph.Data.EdgeType.FIXED, optional: optional});
+                }
+              }
+            }
+          }
+          else if(queryObj.where[i].type == "filter")
+          {
+            let name = "";
+            let value = "";
+            let operator = queryObj.where[i].expression.operator.toUpperCase();
+            let valueType = "";
+
+            let args = queryObj.where[i].expression.args;
+
+            for(let j = 0; j < args.length; j++)
+            {
+              if(args[j].termType == "Literal")
+              {
+                value = args[j].value;
+
+                if(args[j].datatype.value == "http://www.w3.org/2001/XMLSchema#string")
+                {
+                  valueType = QueryGraph.Data.NodeFilterValueType.TEXT;
+                }
+                else if(args[j].datatype.value == "http://www.w3.org/2001/XMLSchema#integer")
+                {
+                  valueType = QueryGraph.Data.NodeFilterValueType.NUMBER;
+                }
+                else if(args[j].datatype.value == "http://www.w3.org/2001/XMLSchema#dateTime")
+                {
+                  valueType = QueryGraph.Data.NodeFilterValueType.DATE;
+                }
+              }
+              else if(args[j].type == "operation" || args[j].type == "functionCall")
+              {
+                // queryObj.where[i].expression.args[j].operator == "str"
+
+                for(let k = 0; k < args[j].args.length; k++)
+                {
+                  if(args[j].args[k].termType == "Variable")
+                  {
+                    name = args[j].args[k].value;
+                  }
+                }
+              }
+              else if(args[j].termType == "Variable")
+              {
+                name = args[j].value;
+              }
+            }
+
+            let node = nodesVars.filter(node => node.name == name)[0];
+            if(node)
+            {
+              node.type = QueryGraph.Data.NodeType.FILTER;
+              node.value = value;
+              node.operator = operator;
+              node.valueType = valueType;
+            }
+          }
+        } 
+
+        // Add element nodes
+        for(let i = 0; i < nodesVars.length; i++)
+        {
+          this.addNode(0, 0, (i+1));
+
+          if(nodesVars[i].type == QueryGraph.Data.NodeType.ELEMENT)
+          {
+            this.nodes[i].elementInfos.name = nodesVars[i].name;
+
+            if(nodesVars[i].typeValue)
+            {
+              this.nodes[i].elementInfos.uri = nodesVars[i].typeValue;
+            }
+          }
+          else if(nodesVars[i].type == QueryGraph.Data.NodeType.DATA)
+          {
+            this.nodes[i].dataInfos.label = nodesVars[i].name;
+            this.nodes[i].dataInfos.uri = nodesVars[i].name;
+          }
+          else if(nodesVars[i].type == QueryGraph.Data.NodeType.FILTER)
+          {
+            this.nodes[i].filterInfos.value = nodesVars[i].value;
+            this.nodes[i].filterInfos.operator = nodesVars[i].operator;
+            this.nodes[i].filterInfos.valueType = nodesVars[i].valueType;
+          }
+
+          this.nodes[i].setType(nodesVars[i].type, this);
+        }
+        // Add edges elements
+        for(let i = 0; i < edgesVar.length; i++)
+        {
+          let nodeStartVar = nodesVars.filter(el => el.name == edgesVar[i].nodeStartName)[0];
+          let nodeEndVar = nodesVars.filter(el => el.name == edgesVar[i].nodeStartEnd)[0];
+
+          if(nodeStartVar && nodeEndVar)
+          {
+            let idNodeStart = nodeStartVar.id;
+            let idNodeEnd = nodeEndVar.id;
+
+            let startNode = this.getNode(idNodeStart);
+
+            this.addEdge(idNodeStart, idNodeEnd, (i+1), edgesVar[i].type);
+
+            let optional = edgesVar[i].optional;
+            let name = edgesVar[i].name;
+
+            this.edges[this.edges.length - 1].setInformations(name, name, name, optional, this);
+          }
+        }
+
+        // Get Select Data
+        queryManager.buildQuery(this);
+        // Disable all visibility
+        let defaultVisibility = false;
+        if(queryObj.variables[0].termType == "Wildcard")
+        {
+          defaultVisibility = true;
+        }
+
+        for(let i = 0; i < this.params.visibility.length; i++)
+        {
+          this.params.visibility[i].visibility = defaultVisibility;
+          this.params.visibility[i].label = defaultVisibility;
+        }
+
+        // Update select visibility
+        for(let i = 0; i < queryObj.variables.length; i++)
+        {
+          if(queryObj.variables[i].termType == "Variable")
+          {
+            let visibility = this.params.visibility.filter(visibility => visibility.name == queryObj.variables[i].value)[0];
+            if(visibility)
+            {
+              visibility.visibility = true;
+            }
+          }
+        }
+
+        // Manage ORDER
+        if(queryObj.order && queryObj.order.length > 0)
+        {
+          // 
+          this.params.sortEnable = true;
+          this.params.sortVar = queryObj.order[0].expression.value;
+
+          if(queryObj.order[0].descending)
+          {
+            this.params.sortType = QueryGraph.Data.ParamsSortType.DECREASING;
+          }
+          else
+          {
+            this.params.sortType = QueryGraph.Data.ParamsSortType.INCREASING;
+          }
+        }
+
+        // Manage LIMIT
+        if(queryObj.limit)
+        {
+          this.params.limitEnable = true;
+          this.params.limitVal = queryObj.limit;
+        }
+        else
+        {
+          this.params.limitEnable = false;
+        }
+      } 
+      catch (error) 
+      {
+        alert(QueryGraph.Dictionary.Dictionary.get("LOAD_SPARQL_ERROR"));
+      }
+    }
+    else
+    {
+      alert(QueryGraph.Dictionary.Dictionary.get("LOAD_SPARQL_ERROR") + " : " + messageError);
+    }
+
+    this.uiManager.unSelect();
   }
 }
 

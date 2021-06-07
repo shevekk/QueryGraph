@@ -11,6 +11,9 @@
     "limit" : null,
     "graph": null
   },
+  "views": {
+    "graphEnable": true
+  },
   "label" : {
     "enable" : true,
     "properties" : null
@@ -31,7 +34,8 @@
   {
     "wd" : "http://www.wikidata.org/entity/",
     "wdt" : "http://www.wikidata.org/prop/direct/",
-    "rdfs" : "www.w3.org/2000/01/rdf-schema#"
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#"
   },
   "wikidataSearch": 
   {

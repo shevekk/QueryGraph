@@ -26,6 +26,7 @@ QueryGraph.Main = class Main
     this.dataCollector;
     this.loadManager;
     this.saveManager;
+    this.importAreaUI;
   }
 
   /**
@@ -87,6 +88,9 @@ QueryGraph.Main = class Main
         me.loadManager = new QueryGraph.Data.LoadManager();
         me.saveManager = new QueryGraph.Data.SaveManager();
 
+        me.importAreaUI = new QueryGraph.UI.ImportAreaUI();
+        me.importAreaUI.init(me.graph, me.queryManager);
+
         if(QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.WIKIDATA)
         {
           me.dataCollector = new QueryGraph.Query.DataCollectorWikidata();
@@ -102,6 +106,10 @@ QueryGraph.Main = class Main
         else if(QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.DATA_PERSEE)
         {
           me.dataCollector = new QueryGraph.Query.DataCollectorPersee();
+        }
+        else if(QueryGraph.Config.Config.main.tripleStore == QueryGraph.Config.TripleStoreType.SIMOGIH)
+        {
+          me.dataCollector = new QueryGraph.Query.dataCollectorSimogih();
         }
         else
         {

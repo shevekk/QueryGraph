@@ -1,0 +1,109 @@
+﻿{
+  "main" : 
+  {
+    "endPoint": "http://bhp-publi.ish-lyon.cnrs.fr:8888/sparql",
+    "tripleStore" : "SIMOGIH",
+    "dataFileUrl": "data/data_simogih.json",
+    "queryInEndPointLink": "",
+    "typeUri": "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+    "subclassUri": "",
+    "nodeFilterDateEnable": true,
+    "limit": null,
+    "graph": null,
+    "groupQuery": true,
+    "queryDataType" : "jsonp"
+  },
+  "views": {
+    "graphEnable": false
+  },
+  "label" : {
+    "enable" : true,
+    "properties" : {
+      "sym:Information": "sym:knowledgeUnitStandardLabel",
+      "sym:Object": "sym:objectStandardName"
+    }
+  },
+  "langParams" : 
+  {
+    "default": "fr",
+    "queryLanguage" : {},
+    "select" : {}
+  },
+  "prefix" : 
+  {
+    "sym": "http://symogih.org/ontology/"
+  },
+  "wikidataSearch": 
+  {
+    "nbResult": 20,
+    "language": {
+      "en": "en",
+      "fr": "fr"
+    }
+  },
+  "nodeTypes": {
+    "fr": {
+      "sym:InformationRole" : "InformationRole",
+      "sym:Object" : "Object",
+      "sym:Information" : "Information"
+    }
+  },
+  "nodeData": {
+    "fr": {
+    }
+  },
+  "infos": 
+  {
+    "homePage" : "http://dataexplorer.hd.free.fr/",
+    "contactUrl": "infos/contact_{lang}.html",
+    "helpUrl" : "infos/help_BNF_{lang}.pdf"
+  },
+  "searchAndListDisplayState": {
+    "node": {
+      "element": {
+        "search": false,
+        "list": true
+      },
+      "data": {
+        "search": true,
+        "list": false
+      }
+    },
+    "edge": {
+      "fixed": {
+        "list": true
+      }
+    }
+  },
+  "edgesValuesByElementNodeType" : 
+  {
+    "fr" :
+    {
+      "sym:Object": {
+        "sym:hasObjectType" : "Type",
+        "sym:objectStandardDate" : "Date",
+        "sym:objectStandardName" : "Nom",
+        "http://www.w3.org/2002/07/owl#sameAs" : "Identique à"
+      },
+      "sym:InformationRole" : {
+        "sym:isComponentOf" : "Est composant de",
+        "sym:associatesObject" : "Objet associé",
+        "sym:creationTimestamp" : "Date de création",
+        "sym:creator" : "Créateur",
+        "sym:hasRoleType" : "A pour type de rôle",
+        "sym:roleObjectLabel" : "Label"
+      },
+      "sym:Information" :  {
+        "sym:knowledgeUnitStandardDate" : "Date",
+        "sym:knowledgeUnitStandardDateType" : "Type de date",
+        "sym:knowledgeUnitStandardLabel" : "Label",
+        "sym:hasKnowledgeUnitType" : "Type",
+        "sym:creationTimestamp" : "Date de création",
+        "sym:creator" : "Créateur"
+      }
+    }
+  },
+  "icons" : 
+  {
+  }
+}

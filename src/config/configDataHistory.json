@@ -1,15 +1,15 @@
 ﻿{
   "main" : 
   {
-    "endPoint": "http://openarchaeo-graphdb.huma-num.fr/repositories/openarchaeo",
+    "endPoint": "http://localhost:3030/DataHistory/query",
     "tripleStore" : "CIDOC_CRM",
-    "dataFileUrl": "data/data_openarchaeo.json",
-    "queryInEndPointLink": "http://openarchaeo.huma-num.fr/federation/?query=",
+    "dataFileUrl": "",
+    "queryInEndPointLink": "",
     "typeUri": "a",
     "subclassUri": "",
     "nodeFilterDateEnable": true,
     "limit" : null,
-    "graph": null,
+    "graph": "projet_test",
     "queryDataType" : "json"
   },
   "views": {
@@ -35,15 +35,17 @@
   {
     "fr": {
       "http://www.cidoc-crm.org/cidoc-crm/E21_Person" : "Personne",
-      "http://www.cidoc-crm.org/cidoc-crm/E19_Encounter_Event" : "Encounter_Event",
-      "http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature" : "Man-Made_Feature",
-      "http://www.ics.forth.gr/isl/CRMba/B1_Built_Work" : "Build_Work",
-      "http://www.cidoc-crm.org/cidoc-crm/E27_Site" : "Site",
-      "http://www.cidoc-crm.org/cidoc-crm/E53_Place" : "Lieu",
-      "http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object" : "Man-Made_Object",
-      "http://www.cidoc-crm.org/cidoc-crm/A2_Stratigraphic_Volume_Unit" : "Stratigraphic_Volume_Unit",
-      "http://www.cidoc-crm.org/cidoc-crm/E52_Time-Span" : "Time-Span",
-      "http://www.cidoc-crm.org/cidoc-crm/E5_Event" : "Événement"
+      "http://www.cidoc-crm.org/cidoc-crm/E53_Place" : "Place",
+      "http://www.cidoc-crm.org/cidoc-crm/E74_Group" : "Group",
+      "http://www.cidoc-crm.org/cidoc-crm/E5_Event" : "Event",
+      "http://www.cidoc-crm.org/cidoc-crm/E65_Creation" : "Creation",
+      "http://www.cidoc-crm.org/cidoc-crm/E66_Formation" : "Formation",
+      "http://www.cidoc-crm.org/cidoc-crm/E67_Birth" : "Birth",
+      "http://www.cidoc-crm.org/cidoc-crm/E68_Dissolution" : "Dissolution",
+      "http://www.cidoc-crm.org/cidoc-crm/E69_Death" : "Death",
+      "http://www.cidoc-crm.org/cidoc-crm/E7_Activity" : "Activity",
+      "http://www.cidoc-crm.org/cidoc-crm/E85_Joining" : "Joining",
+      "http://www.cidoc-crm.org/cidoc-crm/E86_Leaving" : "Leaving"
     }
   },
   "nodeData": 

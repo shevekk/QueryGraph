@@ -9,7 +9,11 @@
     "subclassUri": "",
     "nodeFilterDateEnable": true,
     "limit": null,
-    "graph": null
+    "graph": null,
+    "queryDataType" : "json"
+  },
+  "views": {
+    "graphEnable": true
   },
   "label" : {
     "enable" : true,
@@ -39,7 +43,8 @@
     "owl": "http://www.w3.org/2002/07/owl#",
     "marcrel": "http://id.loc.gov/vocabulary/relators/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "bibo": "http://purl.org/ontology/bibo/"
+    "bibo": "http://purl.org/ontology/bibo/",
+    "persee": "http://data.persee.fr/ontology/persee-ontology/"
   },
   "wikidataSearch": 
   {

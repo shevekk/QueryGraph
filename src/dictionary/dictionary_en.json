@@ -124,5 +124,16 @@
   "QUERY_VALIDITY_EDGE_WITH_FILTER_NO_FIXED" : "Edges with a filter must be of Fixed type",
   "QUERY_VALIDITY_EMPTY_QUERY" : "The query is empty",
   "QUERY_VALIDITY_ALL_EL_INVISIBLE" : "All elements are invisible",
-  "QUERY_VALIDITY_BASE" : "Unable to run the query"
+  "QUERY_VALIDITY_BASE" : "Unable to run the query",
+
+  "IMPORT_SPARQL_BUTTON_DESC" : "Load data from a SPARQL query",
+  "IMPORT_SPARQL_BUTTON_NAME" : "Import from SPARQL",
+  "IMPORTAREA_CANCEL_BUTTON_DESC" : "Cancel Loading (hide the text area)",
+  "IMPORTAREA_CANCEL_BUTTON_NAME" : "Cancel",
+  "IMPORTAREA_LOAD_BUTTON_DESC" : "Load the query",
+  "IMPORTAREA_LOAD_BUTTON_NAME" : "Load",
+  "LOAD_SPARQL_ERROR" : "Cannot load the SPARQL query",
+  "LOAD_SPARQL_BIND_NOT_MANAGED" : "BIND not managed",
+  "LOAD_SPARQL_UNION_NOT_MANAGED" : "UNION not managed",
+  "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY not managed"
  }

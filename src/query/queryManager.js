@@ -65,6 +65,12 @@ QueryGraph.Query.QueryManager = class QueryManager
 
     this.query += this.selectQuery + " \nWHERE \n{" + this.whereQuery + " \n}";
 
+    // Add group 
+    if(QueryGraph.Config.Config.main.groupQuery)
+    {
+      this.query += ` GROUP BY ${this.selectQuery.slice(7)} `;
+    }
+
     // Add Order
     if(graph.params.sortEnable)
     {
@@ -150,10 +156,11 @@ QueryGraph.Query.QueryManager = class QueryManager
 
     // launch the query
     let ajaxRequest = $.ajax({
+      method: "GET",
+      dataType: QueryGraph.Config.Config.main.queryDataType,
       url:queryURL,
-      dataType: 'json'
     });
-
+    
     ajaxRequest.fail(function(error)
     {
       // if the request fails, return to menu
@@ -311,7 +318,7 @@ QueryGraph.Query.QueryManager = class QueryManager
     if(edge.type == QueryGraph.Data.EdgeType.FIXED)
     {
       let uri = edge.uri;
-      if(uri.startsWith("http"))
+      if(uri && uri.startsWith("http"))
       {
         uri = "<" + uri + ">";
       }

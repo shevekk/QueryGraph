@@ -23,7 +23,7 @@ QueryGraph.Data.LoadManager = class LoadManager
   static LOAD_BAR_DIV_HTML_ID = "loadingBar";
   static LOAD_BUTTON_HTML_ID = "loadDataButton";
   static LOAD_SELECT_HTML_ID = "loadingSelect";
-  
+  static IMPORT_SPARQL_BUTTON_HTML_ID = "importfromSparqlButton";
 
   /**
    * Init the Loading actions, load select content and menage load button action
@@ -55,6 +55,11 @@ QueryGraph.Data.LoadManager = class LoadManager
         graph.fromJson(me.dataFileContent[name].data); 
       }
     });
+
+    $("#" + QueryGraph.Data.LoadManager.IMPORT_SPARQL_BUTTON_HTML_ID).click(function()
+    {
+      $("#" + QueryGraph.UI.ImportAreaUI.DIV_HTML_ID).css("display", "block");
+    });
   }
 
   /**
@@ -65,6 +70,7 @@ QueryGraph.Data.LoadManager = class LoadManager
     let content = '<label for="'+QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("LOADING_QUERY_SAVED_TEXT")+'</label><select id="'+QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID+'" name="'+QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID+'"></select>';
     content += '<button name="'+QueryGraph.Data.LoadManager.LOAD_BUTTON_HTML_ID+'" id="'+QueryGraph.Data.LoadManager.LOAD_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_NAME")+'</button>';
     content += '<button name="'+QueryGraph.Data.SaveManager.SAVE_BUTTON_HTML_ID+'" id="'+QueryGraph.Data.SaveManager.SAVE_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_NAME")+'</button>';
+    content += '<button name="'+QueryGraph.Data.LoadManager.IMPORT_SPARQL_BUTTON_HTML_ID+'" id="'+QueryGraph.Data.LoadManager.IMPORT_SPARQL_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("IMPORT_SPARQL_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("IMPORT_SPARQL_BUTTON_NAME")+'</button>';
 
     $("#" + QueryGraph.Data.LoadManager.LOAD_BAR_DIV_HTML_ID).html(content);
   }
