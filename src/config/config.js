@@ -48,11 +48,17 @@ QueryGraph.Config.Config = class Config
 
   /**
    * Views enable state
-   * @property {Boolean}                                      graphEnable                            The enable state of graph view
+   * @property {Boolean}                                      graphEnable                          The enable state of graph view
+   * @property {Boolean}                                      mapEnable                            The enable state of map view
+   * @property {Boolean}                                      timelineEnable                       The enable state of timeline view
+   * @property {Boolean}                                      chartEnable                          The enable state of chart view
    */
   static views = class View
   {
     static graphEnable;
+    static mapEnable;
+    static timelineEnable;
+    static chartEnable;
   }
 
   /**

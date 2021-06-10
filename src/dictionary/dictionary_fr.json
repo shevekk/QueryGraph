@@ -135,5 +135,13 @@
   "LOAD_SPARQL_ERROR" : "Impossible de charger la requête SPARQL",
   "LOAD_SPARQL_BIND_NOT_MANAGED" : "BIND non gérer",
   "LOAD_SPARQL_UNION_NOT_MANAGED" : "UNION non gérer",
-  "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY non gérer"
+  "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY non gérer",
+
+  "RESULTS_MAP_BUTTON": "Voir résultats sous forme de carte",
+
+  "MAP_PROPERTIES_NOT_VALID" : "Propriétés non valides",
+  "MAP_LABEL_DESCRIPTION": "Description",
+  "MAP_LABEL_COORDS": "Coordonnées",
+  "MAP_LABEL_OK" : "OK",
+  "MAP_CHANGE_PROPERTIES": "Modifier les propriétés"
  }

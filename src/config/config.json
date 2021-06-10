@@ -12,7 +12,10 @@
     "graph": null
   },
   "views": {
-    "graphEnable": true
+    "graphEnable": true,
+    "mapEnable": true,
+    "timelineEnable": true,
+    "chartEnable": true
   },
   "label" : {
     "enable" : true,

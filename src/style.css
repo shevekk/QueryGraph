@@ -369,3 +369,16 @@ body
   width: 700px;
   height: 250px;
 }
+
+#resultMapButton
+{
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 3px;
+}
+
+.resultButtonClass
+{
+  margin-left: 3px;
+  margin-right: 3px;
+}

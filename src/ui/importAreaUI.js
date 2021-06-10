@@ -7,7 +7,13 @@
  */
 QueryGraph.UI.ImportAreaUI = class ImportAreaUI 
 {
-
+ /**
+  * @property {String}             DIV_HTML_ID                    HTML ID of the import area
+  * @property {String}             TEXTAREA_ID                    Id of the textArea
+  * @property {String}             TEXTAREA_CLASS                 Class of the textArea
+  * @property {String}             CANCEL_BUTTON_ID               Cancel button id
+  * @property {String}             LOAD_BUTTON_ID                 Load button id
+  */
   static DIV_HTML_ID = "importArea";
   static TEXTAREA_ID = "importTextArea";
   static TEXTAREA_CLASS = "importTextArea";
@@ -16,7 +22,8 @@ QueryGraph.UI.ImportAreaUI = class ImportAreaUI
 
   /*
    * Init the import area with html content and action management
-   * @param {QueryGraph.Data.Graph}             graph             The graph manager 
+   * @param {QueryGraph.Data.Graph}                   graph             The graph manager 
+   * @param {QueryGraph.Query.QueryManager}           queryManager      The query manager 
    */
   init(graph, queryManager)
   {

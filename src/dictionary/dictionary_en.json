@@ -135,5 +135,13 @@
   "LOAD_SPARQL_ERROR" : "Cannot load the SPARQL query",
   "LOAD_SPARQL_BIND_NOT_MANAGED" : "BIND not managed",
   "LOAD_SPARQL_UNION_NOT_MANAGED" : "UNION not managed",
-  "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY not managed"
+  "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY not managed",
+
+  "RESULTS_MAP_BUTTON": "See results in map view",
+
+  "MAP_PROPERTIES_NOT_VALID" : "Properties not valid",
+  "MAP_LABEL_DESCRIPTION": "Description",
+  "MAP_LABEL_COORDS": "Coordinates",
+  "MAP_LABEL_OK" : "OK",
+  "MAP_CHANGE_PROPERTIES": "Change properties"
  }

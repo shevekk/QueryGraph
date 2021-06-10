@@ -14,13 +14,17 @@
     "queryDataType" : "jsonp"
   },
   "views": {
-    "graphEnable": false
+    "graphEnable": false,
+    "mapEnable": false,
+    "timelineEnable": true,
+    "chartEnable": true
   },
   "label" : {
     "enable" : true,
     "properties" : {
       "sym:Information": "sym:knowledgeUnitStandardLabel",
-      "sym:Object": "sym:objectStandardName"
+      "sym:Object": "sym:objectStandardName",
+      "sym:NamedPlace": "sym:objectStandardName"
     }
   },
   "langParams" : 

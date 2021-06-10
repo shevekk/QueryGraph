@@ -1,0 +1,25 @@
+﻿body
+{
+
+}
+
+#map
+{
+  width: 100%;
+  height: 800px; 
+}
+
+#selectDiv
+{
+
+}
+
+#coordsSelect
+{
+  margin-right: 14px;
+}
+
+#descriptionSelect
+{
+  margin-right: 14px;
+}

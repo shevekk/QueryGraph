@@ -13,6 +13,11 @@ QueryGraph.Query.ResultView = class ResultView
    */
   static RESULT_DIV_ID = "result";
 
+  static RESULT_HEAD_DIV_ID = "resultHeadDiv";
+
+  static RESULT_MAP_BUTTON_ID = "resultMapButton";
+  static RESULT_BUTTON_CLASS = "resultButtonClass";
+
   constructor() 
   {
 
@@ -26,9 +31,19 @@ QueryGraph.Query.ResultView = class ResultView
    */
   displayResults(graph, data, selectVars, listEdgesLabel)
   {
+    let me = this;
+
     let content = "";
 
-    content += QueryGraph.Dictionary.Dictionary.get("NB_RESULTS") + " : " + data.results.bindings.length;
+    content += `<div id="${QueryGraph.Query.ResultView.RESULT_HEAD_DIV_ID}">
+      ${QueryGraph.Dictionary.Dictionary.get("NB_RESULTS")} : ${data.results.bindings.length}`;
+
+    if(QueryGraph.Config.Config.views.mapEnable)
+    {
+      content += `  <button class="${QueryGraph.Query.ResultView.RESULT_BUTTON_CLASS}" id="${QueryGraph.Query.ResultView.RESULT_MAP_BUTTON_ID}">${QueryGraph.Dictionary.Dictionary.get("RESULTS_MAP_BUTTON")}</button>`;
+    }
+
+    content += `</div>`;
 
     content += "<table>";
 
@@ -147,6 +162,12 @@ QueryGraph.Query.ResultView = class ResultView
     content += "</table>";
 
     $("#"+QueryGraph.Query.ResultView.RESULT_DIV_ID).html(content);
+
+    // 
+    $("#" + QueryGraph.Query.ResultView.RESULT_MAP_BUTTON_ID).click(function()
+    {
+      me.openExternalView("map/index.php", graph, data, selectVars, listEdgesLabel);
+    });
   }
 
   /**
@@ -169,15 +190,158 @@ QueryGraph.Query.ResultView = class ResultView
     $("#"+QueryGraph.Query.ResultView.RESULT_DIV_ID).html(content);
   }
 
+  openExternalView(urlToPage, graph, data, selectVars, listEdgesLabel)
+  {
+     var me = this;
+
+    if(data.results.bindings.length == 0)
+    {
+      alert(QueryGraph.Dictionary.Dictionary.get("DRAW_GRAPH_IMPOSSIBLE_NO_RESULTS"));
+      return;
+    }
+
+    // Get graph nodes
+    var nodes = []; 
+    var edges = []; 
+    for(let i = 0; i < graph.nodes.length; i++)
+    {
+      if(graph.nodes[i].type != QueryGraph.Data.NodeType.FILTER)
+      {
+        nodes.push({});
+        nodes[nodes.length - 1]["id"] = graph.nodes[i].id;
+        nodes[nodes.length - 1]["type"] = graph.nodes[i].type;
+        
+        if(graph.nodes[i].type == QueryGraph.Data.NodeType.DATA)
+        {
+          nodes[nodes.length - 1]["label"] = graph.nodes[i].dataInfos.label;
+          nodes[nodes.length - 1]["uri"] = me.getUri(graph.nodes[i].dataInfos.uri);
+        }
+        else if(graph.nodes[i].type == QueryGraph.Data.NodeType.ELEMENT)
+        {
+          nodes[nodes.length - 1]["name"] = graph.nodes[i].elementInfos.name;
+          nodes[nodes.length - 1]["uri"] = me.getUri(graph.nodes[i].elementInfos.uri);
+        }
+      }
+    }
+
+    // Get graph edges
+    for(let i = 0; i < graph.edges.length; i++)
+    {
+      if(graph.edges[i].nodeStart.type != QueryGraph.Data.NodeType.FILTER && graph.edges[i].nodeEnd.type != QueryGraph.Data.NodeType.FILTER)
+      {
+        edges.push({});
+        edges[edges.length - 1]["type"] = graph.edges[i].type;
+        edges[edges.length - 1]["idNodeStart"] = graph.edges[i].idNodeStart;
+        edges[edges.length - 1]["idNodeEnd"] = graph.edges[i].idNodeEnd;
+        edges[edges.length - 1]["typeNodeStart"] = graph.edges[i].nodeStart.type;
+        edges[edges.length - 1]["typeNodeEnd"] = graph.edges[i].nodeEnd.type;
+
+        if(graph.edges[i].type == QueryGraph.Data.EdgeType.VARIABLE)
+        {
+          edges[edges.length - 1]["name"] = graph.edges[i].name;
+        }
+        else if(graph.edges[i].type == QueryGraph.Data.EdgeType.FIXED)
+        {
+          edges[edges.length - 1]["label"] = graph.edges[i].label;
+          edges[edges.length - 1]["uri"] = me.getUri(graph.edges[i].uri);
+        }
+      }
+    }
+    // Init json graph
+    let graphObject = { "nodes" : nodes, "edges" : edges};
+    let graphJson = JSON.stringify(graphObject); 
+
+    // Init Json Result
+    var results = [];
+    for(let i = 0; i < data.results.bindings.length; i++)
+    {
+      for(let j = 0; j < selectVars.length; j++)
+      {
+        if(data.results.bindings[i][selectVars[j].value] && selectVars[j].visible)
+        {
+          let value = data.results.bindings[i][selectVars[j].value]["value"];
+          let label = "";
+
+          if(selectVars[j].label && selectVars[j].visibleLabel)
+          {
+            label = data.results.bindings[i][selectVars[j].label]["value"];
+          }
+          else if(QueryGraph.Config.Config.label.enable && selectVars[j].elementType == QueryGraph.Data.ElementType.EDGE)
+          {
+            label = listEdgesLabel[value];
+          }
+
+          if(label == undefined)
+          {
+            results.push({"var" : selectVars[j].value, "value" : value.replaceAll('"', "'"), "label" : "", "lineNumber" : i});
+          }
+          else
+          {
+            results.push({"var" : selectVars[j].value, "value" : value.replaceAll('"', "'"), "label" : label.replaceAll('"', "'"), "lineNumber" : i});
+          }
+          
+        }
+      }
+    }
+    let resultsJson = JSON.stringify(results); 
+
+    // Create hidden form for transmit data
+    //let url = window.location.href.split("?")[0];
+    let url = window.location.href.split("?")[0];
+    if(url.includes("index.html"))
+    {
+      url = url.replace("index.html","");
+    }
+    
+    var mapForm = document.createElement("form");
+    mapForm.target = "Map";
+    mapForm.method = "POST";
+    mapForm.action = url + urlToPage;
+
+    var graphJsonInput = document.createElement("input");
+    graphJsonInput.type = "text";
+    graphJsonInput.name = "graph";
+    graphJsonInput.value = graphJson;
+    graphJsonInput.className = 'invisibleField';
+    mapForm.appendChild(graphJsonInput);
+
+    var resultsJsonInput = document.createElement("input");
+    resultsJsonInput.type = "text";
+    resultsJsonInput.name = "data";
+    resultsJsonInput.value = resultsJson.replaceAll("'", "\'");
+    resultsJsonInput.className = 'invisibleField';
+    mapForm.appendChild(resultsJsonInput);
+
+    var resultsJsonInput = document.createElement("input");
+    resultsJsonInput.type = "text";
+    resultsJsonInput.name = "config";
+    resultsJsonInput.value = QueryGraph.Config.Config.fileName;
+    resultsJsonInput.className = 'invisibleField';
+    mapForm.appendChild(resultsJsonInput);
+
+    var resultsJsonLang = document.createElement("input");
+    resultsJsonLang.type = "text";
+    resultsJsonLang.name = "lang";
+    resultsJsonLang.value = QueryGraph.Config.Config.lang;
+    resultsJsonLang.className = 'invisibleField';
+    mapForm.appendChild(resultsJsonLang);
+
+    document.body.appendChild(mapForm);
+
+    mapForm.submit();
+  }
+
   /**
    * Send result data to graph result representation 
-   * @param {QueryGraph.Data.Graph}          graph                    Graph manager
+   * @param {QueryGraph.Data.Graph}     graph                    Graph manager
    * @param {Array}                     data                     Data result of the query
    * @param {Object[]}                  selectVars               List of selected query
    * @param {Object}                    listEdgesLabel           Object containing edges label with as key the type of edge
    */
   sendDataToGraph(graph, data, selectVars, listEdgesLabel)
   {
+    this.openExternalView("resultGraph/index.php", graph, data, selectVars, listEdgesLabel);
+    /*
     var me = this;
 
     if(data.results.bindings.length == 0)
@@ -315,6 +479,7 @@ QueryGraph.Query.ResultView = class ResultView
     document.body.appendChild(mapForm);
 
     mapForm.submit();
+    */
   }
 
   /**

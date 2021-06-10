@@ -16,9 +16,10 @@ QueryGraph.Data.LoadManager = class LoadManager
   }
 
   /**
-   * @property {String}             LOAD_BAR_DIV_HTML_ID            HTML ID of the loading bar div containing select and buttons
-   * @property {String}             LOAD_BUTTON_HTML_ID             Button of loading
-   * @property {String}             LOAD_SELECT_HTML_ID             Loading select
+   * @property {String}             LOAD_BAR_DIV_HTML_ID                HTML ID of the loading bar div containing select and buttons
+   * @property {String}             LOAD_BUTTON_HTML_ID                 Button of loading
+   * @property {String}             LOAD_SELECT_HTML_ID                 Loading select
+   * @property {String}             IMPORT_SPARQL_BUTTON_HTML_ID        Import button id
    */
   static LOAD_BAR_DIV_HTML_ID = "loadingBar";
   static LOAD_BUTTON_HTML_ID = "loadDataButton";
@@ -111,6 +112,16 @@ QueryGraph.Data.LoadManager = class LoadManager
     .fail(function(d, textStatus, error)
     {
       console.error("getJSON failed, status: " + textStatus + ", error: "+error);
+
+      // Get local saves
+      let keys = Object.keys(localStorage);
+      for(let i = 0; i < keys.length; i++)
+      {
+        if(keys[i].endsWith("@sav"))
+        {
+          $("#" + QueryGraph.Data.LoadManager.LOAD_SELECT_HTML_ID).append(new Option(keys[i].replace('@sav', ''), keys[i]));
+        }
+      }
     })
     .always(function()
     {
