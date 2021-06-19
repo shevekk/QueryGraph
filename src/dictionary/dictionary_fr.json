@@ -138,10 +138,24 @@
   "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY non gérer",
 
   "RESULTS_MAP_BUTTON": "Voir résultats sous forme de carte",
+  "RESULTS_TIMELINE_BUTTON": "Voir résultats sous forme de frise chronologique",
+  "RESULTS_CHART_BUTTON" : "Voir résultats sous forme de diagramme",
 
   "MAP_PROPERTIES_NOT_VALID" : "Propriétés non valides",
   "MAP_LABEL_DESCRIPTION": "Description",
   "MAP_LABEL_COORDS": "Coordonnées",
   "MAP_LABEL_OK" : "OK",
-  "MAP_CHANGE_PROPERTIES": "Modifier les propriétés"
+  "MAP_CHANGE_PROPERTIES": "Modifier les propriétés",
+
+  "TIMELINE_LABEL_DESCRIPTION": "Description",
+  "TIMELINE_LABEL_START": "Début",
+  "TIMELINE_LABEL_END": "Fin",
+  "TIMELINE_LABEL_OK" : "OK",
+
+  "CHART_ELEMENT": "Element",
+  "CHART_DISPLAY_TYPE": "Type d'affichage",
+  "CHART_TYPE_PIE": "Circulaire",
+  "CHART_TYPE_BAR": "Barre",
+  "CHART_LABEL_OK": "OK",
+  "CHART_ELEMENT_NUMBERS": "Nombre d'éléments"
  }

@@ -138,10 +138,24 @@
   "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY not managed",
 
   "RESULTS_MAP_BUTTON": "See results in map view",
+  "RESULTS_TIMELINE_BUTTON": "See results in timeline",
+  "RESULTS_CHART_BUTTON" : "See results in chart",
 
   "MAP_PROPERTIES_NOT_VALID" : "Properties not valid",
   "MAP_LABEL_DESCRIPTION": "Description",
   "MAP_LABEL_COORDS": "Coordinates",
   "MAP_LABEL_OK" : "OK",
-  "MAP_CHANGE_PROPERTIES": "Change properties"
+  "MAP_CHANGE_PROPERTIES": "Change properties",
+
+  "TIMELINE_LABEL_DESCRIPTION": "Description",
+  "TIMELINE_LABEL_START": "Start",
+  "TIMELINE_LABEL_END": "End",
+  "TIMELINE_LABEL_OK" : "OK",
+
+  "CHART_ELEMENT": "Element",
+  "CHART_DISPLAY_TYPE": "Display type",
+  "CHART_TYPE_PIE": "Pie",
+  "CHART_TYPE_BAR": "Bar",
+  "CHART_LABEL_OK": "OK",
+  "CHART_ELEMENT_NUMBERS": "Number of elements"
  }

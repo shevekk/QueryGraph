@@ -16,6 +16,8 @@ QueryGraph.Query.ResultView = class ResultView
   static RESULT_HEAD_DIV_ID = "resultHeadDiv";
 
   static RESULT_MAP_BUTTON_ID = "resultMapButton";
+  static RESULT_TIMELINE_BUTTON_ID = "resultTimeLineButton";
+  static RESULT_CHART_BUTTON_ID = "resultChartButton";
   static RESULT_BUTTON_CLASS = "resultButtonClass";
 
   constructor() 
@@ -41,6 +43,14 @@ QueryGraph.Query.ResultView = class ResultView
     if(QueryGraph.Config.Config.views.mapEnable)
     {
       content += `  <button class="${QueryGraph.Query.ResultView.RESULT_BUTTON_CLASS}" id="${QueryGraph.Query.ResultView.RESULT_MAP_BUTTON_ID}">${QueryGraph.Dictionary.Dictionary.get("RESULTS_MAP_BUTTON")}</button>`;
+    }
+    if(QueryGraph.Config.Config.views.timelineEnable)
+    {
+      content += `  <button class="${QueryGraph.Query.ResultView.RESULT_BUTTON_CLASS}" id="${QueryGraph.Query.ResultView.RESULT_TIMELINE_BUTTON_ID}">${QueryGraph.Dictionary.Dictionary.get("RESULTS_TIMELINE_BUTTON")}</button>`;
+    }
+    if(QueryGraph.Config.Config.views.chartEnable)
+    {
+      content += `  <button class="${QueryGraph.Query.ResultView.RESULT_BUTTON_CLASS}" id="${QueryGraph.Query.ResultView.RESULT_CHART_BUTTON_ID}">${QueryGraph.Dictionary.Dictionary.get("RESULTS_CHART_BUTTON")}</button>`;
     }
 
     content += `</div>`;
@@ -167,6 +177,16 @@ QueryGraph.Query.ResultView = class ResultView
     $("#" + QueryGraph.Query.ResultView.RESULT_MAP_BUTTON_ID).click(function()
     {
       me.openExternalView("map/index.php", graph, data, selectVars, listEdgesLabel);
+    });
+
+    $("#" + QueryGraph.Query.ResultView.RESULT_TIMELINE_BUTTON_ID).click(function()
+    {
+      me.openExternalView("timeline/index.php", graph, data, selectVars, listEdgesLabel);
+    });
+
+    $("#" + QueryGraph.Query.ResultView.RESULT_CHART_BUTTON_ID).click(function()
+    {
+      me.openExternalView("chart/index.php", graph, data, selectVars, listEdgesLabel);
     });
   }
 

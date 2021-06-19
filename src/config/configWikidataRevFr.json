@@ -1,0 +1,133 @@
+﻿{
+  "main" : 
+  {
+    "endPoint": "https://query.wikidata.org/sparql",
+    "tripleStore" : "WIKIDATA",
+    "dataFileUrl": "data/data_revfr.json",
+    "queryInEndPointLink": "https://query.wikidata.org/#",
+    "typeUri": "wdt:P31",
+    "subclassUri": "wdt:P279",
+    "nodeFilterDateEnable": true,
+    "limit" : null,
+    "graph": null
+  },
+  "views": {
+    "graphEnable": true,
+    "mapEnable": true,
+    "timelineEnable": true,
+    "chartEnable": true
+  },
+  "label" : {
+    "enable" : true,
+    "properties" : null
+  },
+  "langParams" : 
+  {
+    "default": "en",
+    "select" : {
+      "fr": "img/fr.png",
+      "en": "img/en.png"
+    },
+    "query" : {
+      "fr": "[AUTO_LANGUAGE],fr,en",
+      "en": "en"
+    }
+  },
+  "prefix" : 
+  {
+    "wd" : "http://www.wikidata.org/entity/",
+    "wdt" : "http://www.wikidata.org/prop/direct/",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#"
+  },
+  "wikidataSearch": 
+  {
+    "nbResult": 20,
+    "language": {
+      "en": "en",
+      "fr": "fr"
+    }
+  },
+  "nodeTypes": 
+  {
+    "fr": {
+      "wd:Q5" : "Personne",
+      "wd:Q515" : "Ville",
+      "wd:Q6256" : "Pays",
+      "wd:Q41176" : "Bâtiment",
+      "wd:Q33506" : "Musée",
+      "wd:Q570116" : "Attraction touristique",
+      "wd:Q4022" : "Rivière",
+      "wd:Q11424" : "Film",
+      "wd:Q571" : "Livre",
+      "wd:Q215380" : "Groupe de musique"
+    },
+    "en": {
+      "wd:Q5" : "Person",
+      "wd:Q515" : "City",
+      "wd:Q6256" : "Country",
+      "wd:Q41176" : "Building",
+      "wd:Q33506" : "Museum",
+      "wd:Q570116" : "Tourist attraction",
+      "wd:Q4022" : "River",
+      "wd:Q11424" : "Film",
+      "wd:Q571" : "Book",
+      "wd:Q215380" : "Musical group"
+    }
+  },
+  "nodeData": 
+  {
+    "fr": {
+      "wd:Q90": "Paris",
+      "wd:Q3392": "Nil",
+      "wd:Q517": "Napoléon Ier",
+      "wd:Q142": "France",
+      "wd:Q937857": "Joueur de football",
+      "wd:Q191954": "Président de la République française",
+      "wd:Q2277": "Empire romain"
+    },
+    "en": {
+      "wd:Q90" : "Paris",
+      "wd:Q3392" : "Nile",
+      "wd:Q517": "Napoléon",
+      "wd:Q142": "France",
+      "wd:Q937857": "Association football player",
+      "wd:Q191954": "President of the French Republic",
+      "wd:Q2277": "Roman Empire"
+    }
+  },
+  "infos" : 
+  {
+    "homePage" : "http://dataexplorer.hd.free.fr/",
+    "contactUrl": "infos/contact_{lang}.html",
+    "helpUrl" : "infos/help_{lang}.pdf"
+  },
+  "searchAndListDisplayState": 
+  {
+    "node": {
+      "element": {
+        "search": true,
+        "list": true
+      },
+      "data": {
+        "search": true,
+        "list": true
+      }
+    },
+    "edge": {
+      "fixed": {
+        "list": true
+      }
+    }
+  },
+  "edgesValuesByElementNodeType" : {},
+  "icons" : 
+  {
+    "wd:Q5" : "\uf007",
+    "wd:Q515" : "\uf1ad",
+    "wd:Q6256" : "\uf024",
+    "wd:Q41176" : "\uf1ad",
+    "wd:Q11424" : "\uf008",
+    "wd:Q571" : "\uf02d"
+  }
+}
