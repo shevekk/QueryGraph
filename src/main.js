@@ -125,11 +125,6 @@ QueryGraph.Main = class Main
         {
           me.execQuery(false);
         });
-
-        $("#"+QueryGraph.UI.TopUI.EXEC_QUERY_GRAPH_BUTTON_HTML_ID).click(function() 
-        {
-          me.execQuery(true);
-        });
       });       
     });
   }

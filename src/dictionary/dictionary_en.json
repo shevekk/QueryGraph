@@ -140,6 +140,7 @@
   "RESULTS_MAP_BUTTON": "See results in map view",
   "RESULTS_TIMELINE_BUTTON": "See results in timeline",
   "RESULTS_CHART_BUTTON" : "See results in chart",
+  "RESULTS_GRAPH_BUTTON" : "See results in graphe",
 
   "MAP_PROPERTIES_NOT_VALID" : "Properties not valid",
   "MAP_LABEL_DESCRIPTION": "Description",
@@ -157,5 +158,8 @@
   "CHART_TYPE_PIE": "Pie",
   "CHART_TYPE_BAR": "Bar",
   "CHART_LABEL_OK": "OK",
-  "CHART_ELEMENT_NUMBERS": "Number of elements"
+  "CHART_ELEMENT_NUMBERS": "Number of elements",
+
+  "RESULT_GRAPH_ENABLE_PHYSICS" : "Enable forces",
+  "RESULT_GRAPH_DISABLE_PHYSICS" : "Disable forces"
  }

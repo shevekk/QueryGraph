@@ -140,6 +140,7 @@
   "RESULTS_MAP_BUTTON": "Voir résultats sous forme de carte",
   "RESULTS_TIMELINE_BUTTON": "Voir résultats sous forme de frise chronologique",
   "RESULTS_CHART_BUTTON" : "Voir résultats sous forme de diagramme",
+  "RESULTS_GRAPH_BUTTON" : "Voir résultats sous forme de graphe",
 
   "MAP_PROPERTIES_NOT_VALID" : "Propriétés non valides",
   "MAP_LABEL_DESCRIPTION": "Description",
@@ -157,5 +158,8 @@
   "CHART_TYPE_PIE": "Circulaire",
   "CHART_TYPE_BAR": "Barre",
   "CHART_LABEL_OK": "OK",
-  "CHART_ELEMENT_NUMBERS": "Nombre d'éléments"
+  "CHART_ELEMENT_NUMBERS": "Nombre d'éléments",
+
+  "RESULT_GRAPH_ENABLE_PHYSICS" : "Activer les forces",
+  "RESULT_GRAPH_DISABLE_PHYSICS" : "Désactiver les forces"
  }

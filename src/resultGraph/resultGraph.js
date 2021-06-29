@@ -30,6 +30,34 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
     this.network = null;
     this.visNodes = new vis.DataSet([]);
     this.visEdges = new vis.DataSet([]);
+    this.options = {};
+    this.forceEnable = true;
+  }
+
+  /*
+   * Menage stop/start of phisical forces
+   */
+  menageStopForce()
+  {
+    let me = this;
+
+    $("#stopForces").html(QueryGraph.Dictionary.Dictionary.get("RESULT_GRAPH_DISABLE_PHYSICS"));
+
+    $("#stopForces").click(() => {
+
+      if(me.forceEnable)
+      {
+        me.network.setOptions( { physics: false } );
+        $("#stopForces").html(QueryGraph.Dictionary.Dictionary.get("RESULT_GRAPH_ENABLE_PHYSICS"));
+      }
+      else
+      {
+        me.network.setOptions( { physics: true } );
+        $("#stopForces").html(QueryGraph.Dictionary.Dictionary.get("RESULT_GRAPH_DISABLE_PHYSICS"));
+      }
+
+      me.forceEnable = !me.forceEnable;
+    })
   }
 
   /**
@@ -159,7 +187,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
       nodes: me.visNodes,
       edges: me.visEdges
     };
-    let options = {
+    this.options = {
       groups: groups,
       physics : {
         enabled: true,
@@ -173,7 +201,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
       }
     };
 
-    me.network = new vis.Network(container, data, options);
+    me.network = new vis.Network(container, data, this.options);
 
 
     // Reinit labels
@@ -227,6 +255,8 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
 
       $("#contentData").html(content);
     });
+
+    me.menageStopForce();
   }
 
   /**
@@ -380,7 +410,7 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
         group = "|data|";
       }
 
-        let node = {
+      let node = {
         id: id,
         label: label,
         size : 10,
@@ -393,8 +423,20 @@ QueryGraph.ResultGraph.ResultGraph = class ResultGraph
           border: "#000000",
         }
       };
+
       node.baseIds[baseId] = [lineNumber];
       this.visNodes.add(node);
+
+      if(type == QueryGraph.Data.NodeType.DATA)
+      {
+        this.visNodes.update(
+          {
+            id: id,
+            color: { background : "#e99290", border : "#ba4e4b" },
+            size: 15
+          }
+        );
+      }
     }
     else
     {

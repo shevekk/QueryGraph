@@ -33,7 +33,7 @@ body
   background-color: #eeeeee;
 }
 
-#contentData
+#contentDiv
 {
   display: inline-block;
   width: 100%;
@@ -43,4 +43,16 @@ body
 
   padding : 0px;
   padding-top: 3px;
+}
+
+#contentData
+{
+  display: inline;
+}
+
+#stopForces
+{
+  float: right;
+  margin-right: 7px;
+  margin-top: 2px;
 }

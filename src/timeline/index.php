@@ -7,12 +7,11 @@
   <body>
     <link rel="stylesheet" href="style.css" />
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+    <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js "></script>
 
-    <link rel="stylesheet" href="libs/vis.min.css" />
+    <link rel="stylesheet" href="../../node_modules/vis-timeline/dist/vis-timeline-graph2d.min.css "/>
     
-    <script type="text/javascript" src="libs/vis.min.js"></script>
+    <script type="text/javascript" src="../../node_modules/vis-timeline/dist/vis-timeline-graph2d.min.js "></script>
 
     <script type="text/javascript" src="timeLine.js"></script>
     <script type="text/javascript" src="../data/elementType.js"></script>

@@ -1,0 +1,32 @@
+{
+  "name": "querygraph",
+  "version": "1.0.0",
+  "description": "QueryGraph is a web tool for creating queries in SPARQL from graphs.",
+  "main": "src/main.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shevekk/QueryGraph.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shevekk/QueryGraph/issues"
+  },
+  "homepage": "https://github.com/shevekk/QueryGraph#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "chart.js": "^3.4.0",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.6.0",
+    "leaflet": "^1.7.1",
+    "leaflet.markercluster": "^1.5.0",
+    "vis-network": "^9.0.4",
+    "vis-timeline": "^7.4.9"
+  }
+}

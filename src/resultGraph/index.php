@@ -6,13 +6,13 @@
   </head>
   <body>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.min.css" />
     
-    <div id="contentData"></div>
+    <div id="contentDiv"><div id="contentData"></div><button id="stopForces"></button></div>
     <div id="graph"></div>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
+    <script type="text/javascript" src="../../node_modules/vis-network/dist/vis-network.min.js "></script>
+    <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js "></script>
 
     <script type="text/javascript" src="resultGraph.js"></script>
     <script type="text/javascript" src="../data/elementType.js"></script>
