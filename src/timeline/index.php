@@ -13,7 +13,7 @@
     
     <script type="text/javascript" src="../../node_modules/vis-timeline/dist/vis-timeline-graph2d.min.js "></script>
 
-    <script type="text/javascript" src="timeLine.js"></script>
+    <script type="text/javascript" src="timeline.js"></script>
     <script type="text/javascript" src="../data/elementType.js"></script>
     <script type="text/javascript" src="../data/nodeType.js"></script>
     <script type="text/javascript" src="../data/edgeType.js"></script>
