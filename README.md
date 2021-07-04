@@ -6,6 +6,8 @@ The software allows to draw a graph composed of nodes representing a data and of
 
 The tool allows to explore the Wikidata database (english and french), but also the Bibliothèque nationale de France and Persee databases (french).
 
+[Link to test the tool](http://dataexplorer.hd.free.fr/QueryGraph/)
+
 ## Technologies
 Project is created with:
 - vis-network
@@ -26,7 +28,5 @@ $ npm install
 Config file : src/config/config.json
 
 Config Help : doc/Config_QueryGraph_en.pdf and doc/Config_QueryGraph_fr.pdf
-
-[Link to test the tool](http://dataexplorer.hd.free.fr/QueryGraph/)
 
 ![](http://dataexplorer.hd.free.fr/img/querygraph_capture_en.png)
