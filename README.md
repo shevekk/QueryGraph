@@ -22,6 +22,10 @@ Project is created with:
 To run this project, install it locally using npm:
 
 $ npm install
+$ # to run install a http-server
+$ # https://www.npmjs.com/package/http-server
+$ # npm install --global http-server
+$ http-server
 
 ## Configuration
 

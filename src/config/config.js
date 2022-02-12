@@ -6,7 +6,7 @@ if (typeof QueryGraph.Config == 'undefined') {
 /**
  * Class for manage config
  */
-QueryGraph.Config.Config = class Config 
+QueryGraph.Config.Config = class Config
 {
   /**
    * @property {Object}                                      defaultConfigFileURL                Default url and name of the default config file
@@ -20,15 +20,15 @@ QueryGraph.Config.Config = class Config
    * @property {String}                                      homePage                            The home page url (open with clic in home icon)
    * @property {String}                                      endPoint                            The SPARQL EndPoint adresse
    * @property {QueryGraph.Config.TripleStoreType}           tripleStore                         Type of Triplestore
-   * @property {String}                                      dataFileUrl                         Name of the file containing the predefined queries 
+   * @property {String}                                      dataFileUrl                         Name of the file containing the predefined queries
    * @property {Object}                                      queryInEndPointLink                 URL of the endpoint for link of query in the endPoint
-   * @property {String}                                      typeUri                             URI of the type 
-   * @property {String}                                      subclassUri                         URI of the subclass 
+   * @property {String}                                      typeUri                             URI of the type
+   * @property {String}                                      subclassUri                         URI of the subclass
    * @property {Object}                                      nodeFilterDateEnable                Define if the creation of date filter node is possible
    * @property {Number}                                      limit                               Limit of result (null for no limit)
    * @property {String}                                      queryLanguage                       Language of the request (for labels)
    * @property {String}                                      graph                               Graphes informations
-   * @property {String}                                      queryDataType                       DataType of query 
+   * @property {String}                                      queryDataType                       DataType of query
    */
   static main = class Main
   {
@@ -106,7 +106,7 @@ QueryGraph.Config.Config = class Config
   static icons;
   static fileName;
 
-  constructor() 
+  constructor()
   {
 
   }
@@ -143,7 +143,7 @@ QueryGraph.Config.Config = class Config
       QueryGraph.Config.Config.label = content.label;
       QueryGraph.Config.Config.icons = content.icons;
       QueryGraph.Config.Config.views = content.views;
-      
+
 
       if(QueryGraph.Config.Config.lang == null)
       {
@@ -154,7 +154,7 @@ QueryGraph.Config.Config = class Config
     })
     .fail(function(d, textStatus, error)
     {
-      alert("Echec du chargement du fichier de configuration " + fileName);
+      alert("Failed to load configuration file " + fileName);
 
       // Load default config if is not
       if(fileName != QueryGraph.Config.Config.defaultConfigFileURL)

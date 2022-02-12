@@ -1,3 +1,4 @@
 src/log/log.csv
 src/log/.~lock.log.csv#
 node_modules
+package-lock.json
