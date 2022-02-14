@@ -30,7 +30,7 @@ QueryGraph.Data.SaveManager = class SaveManager
 
     $("#" + QueryGraph.Data.SaveManager.SAVE_BUTTON_HTML_ID).click(function() 
     {
-      var newName = prompt("Entrer votre nom du fichier", "");
+      var newName = prompt(QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_CHOISE_NAME") , "");
 
       if (newName != null && newName != "") 
       {
@@ -38,7 +38,7 @@ QueryGraph.Data.SaveManager = class SaveManager
 
         if(Object.keys(localStorage).includes(newName))
         {
-          var r = confirm("Une sauvegarde avec le même nom existe déja, voulez-vous l'écraser");
+          var r = confirm(QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_FILE_ALREADY_EXIST"));
           if (r == true) 
           {
             me.addNewSave(newName, graph);
@@ -67,6 +67,6 @@ QueryGraph.Data.SaveManager = class SaveManager
 
     this.loadManager.load();
 
-    alert("Votre requête a été sauvegardée");
+    alert(QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_OK"));
   }
 }

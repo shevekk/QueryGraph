@@ -80,7 +80,7 @@ QueryGraph.UI.UIParams = class UIParams
     content += '<p><b>'+QueryGraph.Dictionary.Dictionary.get("PARAMS_SORT")+'</b><br/>';
     content += '<input type="checkbox" id="'+QueryGraph.UI.UIParams.CHECKBOX_SORT_ENABLE+'" name="'+QueryGraph.UI.UIParams.CHECKBOX_SORT_ENABLE+'"><label for="'+QueryGraph.UI.UIParams.CHECKBOX_SORT_ENABLE+'">'+QueryGraph.Dictionary.Dictionary.get("PARAMS_SORT_ENABLE")+'</label><br/>';
     content += '<label for="'+QueryGraph.UI.UIParams.SELECT_SORT_VAR+'">'+QueryGraph.Dictionary.Dictionary.get("PARAMS_SORT_VAL")+'</label><select name="'+QueryGraph.UI.UIParams.SELECT_SORT_VAR+'" id="'+QueryGraph.UI.UIParams.SELECT_SORT_VAR+'"></select><br/>';
-    content += '<label for="'+QueryGraph.UI.UIParams.SELECT_SORT_TYPE+'">'+QueryGraph.Dictionary.Dictionary.get("PARAMS_SORT_TYPE")+'</label><select name="'+QueryGraph.UI.UIParams.SELECT_SORT_TYPE+'" id="'+QueryGraph.UI.UIParams.SELECT_SORT_TYPE+'"><option value="'+QueryGraph.Data.ParamsSortType.INCREASING+'">Croissant</option><option value="'+QueryGraph.Data.ParamsSortType.DECREASING+'">Décroissant</option></select></p>';
+    content += '<label for="'+QueryGraph.UI.UIParams.SELECT_SORT_TYPE+'">'+QueryGraph.Dictionary.Dictionary.get("PARAMS_SORT_TYPE")+'</label><select name="'+QueryGraph.UI.UIParams.SELECT_SORT_TYPE+'" id="'+QueryGraph.UI.UIParams.SELECT_SORT_TYPE+'"><option value="'+QueryGraph.Data.ParamsSortType.INCREASING+'">' + QueryGraph.Dictionary.Dictionary.get("PARAMS_SORT_TYPE_CROISSANT") + '</option><option value="'+QueryGraph.Data.ParamsSortType.DECREASING+'">' + QueryGraph.Dictionary.Dictionary.get("PARAMS_SORT_TYPE_DESCREASING") + '</option></select></p>';
 
     // Limit params
     content += '<p><b>'+QueryGraph.Dictionary.Dictionary.get("PARAMS_LIMIT")+'</b><br/>';

@@ -8,6 +8,9 @@
   "SAVE_BUTTON_DESC": "Save the current query",
   "LOADING_BUTTON_NAME": "Load",
   "SAVE_BUTTON_NAME": "Save",
+  "SAVE_BUTTON_CHOISE_NAME": "Enter your file name",
+  "SAVE_BUTTON_FILE_ALREADY_EXIST": "A save with the same name already exists, do you want to overwrite it ?",
+  "SAVE_BUTTON_OK" : "Your query has been saved",
 
   "ADD_NODE_BUTTON_DESC": "Create a new node",
   "ADD_NODE_BUTTON_NAME": "Add node",
@@ -102,6 +105,8 @@
   "PARAMS_LIMIT" : "Limit : ",
   "PARAMS_LIMIT_ENABLE" : "Enable",
   "PARAMS_LIMIT_VAL" : "Limit value : ",
+  "PARAMS_SORT_TYPE_CROISSANT" : "Croissant",
+  "PARAMS_SORT_TYPE_DESCREASING" : "Decreasing",
 
   "VISIBILITY_ELEMENT_ZONE" : "Visibility of elements : ",
   "ICON_VISIBLE_DESC" : "Making it invisible",
@@ -136,6 +141,8 @@
   "LOAD_SPARQL_BIND_NOT_MANAGED" : "BIND not managed",
   "LOAD_SPARQL_UNION_NOT_MANAGED" : "UNION not managed",
   "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY not managed",
+  "CHANGE_TRIPLESTORE" : "Change EndPoint",
+  "CHANGE_TRIPLESTORE_CHOISE" : "Enter the url of the EndPoint",
 
   "RESULTS_MAP_BUTTON": "See results in map view",
   "RESULTS_TIMELINE_BUTTON": "See results in timeline",

@@ -25,6 +25,7 @@ QueryGraph.Data.LoadManager = class LoadManager
   static LOAD_BUTTON_HTML_ID = "loadDataButton";
   static LOAD_SELECT_HTML_ID = "loadingSelect";
   static IMPORT_SPARQL_BUTTON_HTML_ID = "importfromSparqlButton";
+  static CHANGE_TRIPLESTORE_BUTTON_HTML_ID = "changeTriplestore";
 
   /**
    * Init the Loading actions, load select content and menage load button action
@@ -72,8 +73,16 @@ QueryGraph.Data.LoadManager = class LoadManager
     content += '<button name="'+QueryGraph.Data.LoadManager.LOAD_BUTTON_HTML_ID+'" id="'+QueryGraph.Data.LoadManager.LOAD_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("LOADING_BUTTON_NAME")+'</button>';
     content += '<button name="'+QueryGraph.Data.SaveManager.SAVE_BUTTON_HTML_ID+'" id="'+QueryGraph.Data.SaveManager.SAVE_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("SAVE_BUTTON_NAME")+'</button>';
     content += '<button name="'+QueryGraph.Data.LoadManager.IMPORT_SPARQL_BUTTON_HTML_ID+'" id="'+QueryGraph.Data.LoadManager.IMPORT_SPARQL_BUTTON_HTML_ID+'" title="'+QueryGraph.Dictionary.Dictionary.get("IMPORT_SPARQL_BUTTON_DESC")+'">'+QueryGraph.Dictionary.Dictionary.get("IMPORT_SPARQL_BUTTON_NAME")+'</button>';
+    content += '<button id="'+QueryGraph.Data.LoadManager.CHANGE_TRIPLESTORE_BUTTON_HTML_ID+'">'+QueryGraph.Dictionary.Dictionary.get("CHANGE_TRIPLESTORE")+'</button>';
 
     $("#" + QueryGraph.Data.LoadManager.LOAD_BAR_DIV_HTML_ID).html(content);
+
+    $("#" + QueryGraph.Data.LoadManager.CHANGE_TRIPLESTORE_BUTTON_HTML_ID).click(function()
+    {
+      let newTripleStore = window.prompt(QueryGraph.Dictionary.Dictionary.get("CHANGE_TRIPLESTORE_CHOISE"), "");
+      QueryGraph.Config.Config.main.endPoint = newTripleStore;
+      QueryGraph.Config.Config.main.tripleStore = "OTHER";
+    });
   }
 
   /**

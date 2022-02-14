@@ -8,6 +8,9 @@
   "SAVE_BUTTON_DESC": "Sauvegarde de la requête actuelle",
   "LOADING_BUTTON_NAME": "Charger",
   "SAVE_BUTTON_NAME": "Sauvegarder",
+  "SAVE_BUTTON_CHOISE_NAME": "Entrer votre nom du fichier",
+  "SAVE_BUTTON_FILE_ALREADY_EXIST": "Une sauvegarde avec le même nom existe déjà, voulez-vous l'écraser ,",
+  "SAVE_BUTTON_OK" : "Votre requête a été sauvegardée",
 
   "ADD_NODE_BUTTON_DESC": "Création d'un nouveau noeud",
   "ADD_NODE_BUTTON_NAME": "Ajout noeud",
@@ -102,6 +105,8 @@
   "PARAMS_LIMIT" : "Limite : ",
   "PARAMS_LIMIT_ENABLE" : "Activé",
   "PARAMS_LIMIT_VAL" : "Valeur limite : ",
+  "PARAMS_SORT_TYPE_CROISSANT" : "Croissant",
+  "PARAMS_SORT_TYPE_DESCREASING" : "Décroissant",
 
   "VISIBILITY_ELEMENT_ZONE" : "Visibilité des éléments : ",
   "ICON_VISIBLE_DESC" : "Rendre invisible",
@@ -136,6 +141,8 @@
   "LOAD_SPARQL_BIND_NOT_MANAGED" : "BIND non gérer",
   "LOAD_SPARQL_UNION_NOT_MANAGED" : "UNION non gérer",
   "LOAD_SPARQL_GROUPBY_NOT_MANAGED" : "GROUP BY non gérer",
+  "CHANGE_TRIPLESTORE" : "Changer de EndPoint",
+  "CHANGE_TRIPLESTORE_CHOISE" : "Entrer l'url du endPoint",
 
   "RESULTS_MAP_BUTTON": "Voir résultats sous forme de carte",
   "RESULTS_TIMELINE_BUTTON": "Voir résultats sous forme de frise chronologique",
